@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name" translatable="false">SmsBankingAnalitics</string>
+    <string name="sms_banking">SMS-банкинг</string>
+    <string name="operations">Операции с картой</string>
+    <string name="settings">Настройки</string>
+    <string name="unknown">Неизвестно</string>
+    <string name="product_shops">Продуктовые магазины</string>
+    <string name="internet_shops">Интернет магазины</string>
+    <string name="transport">Транспорт</string>
+    <string name="other">Иное</string>
+    <string name="payment">Оплата</string>
+    <string name="available">Доступно</string>
+    <string name="transfer_from">Списание</string>
+    <string name="transfer_to">Зачисление</string>
+</resources>

@@ -1,0 +1,14 @@
+<resources>
+    <string name="sms_banking">SMS-banking</string>
+    <string name="operations">Сard transactions</string>
+    <string name="settings">Settings</string>
+    <string name="unknown">Unknown</string>
+    <string name="product_shops">Product shops</string>
+    <string name="internet_shops">Internet shops</string>
+    <string name="transport">Transport</string>
+    <string name="other">Other</string>
+    <string name="payment">Payment</string>
+    <string name="available">Available</string>
+    <string name="transfer_from">Write-off</string>
+    <string name="transfer_to">Enrollment</string>
+</resources>

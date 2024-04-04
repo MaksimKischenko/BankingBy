@@ -1,0 +1,14 @@
+<resources>
+    <string name="sms_banking">SMS-банкінг</string>
+    <string name="operations">Аперацыі з картай</string>
+    <string name="settings">Наладкі</string>
+    <string name="unknown">Невядома</string>
+    <string name="product_shops">Прадуктовыя крамы</string>
+    <string name="internet_shops">Інтэрнэт крамы</string>
+    <string name="transport">Транспарт</string>
+    <string name="other">Іншае</string>
+    <string name="payment">Аплата</string>
+    <string name="available">Даступна</string>
+    <string name="transfer_from">Спісанне</string>
+    <string name="transfer_to">Залічэнне</string>
+</resources>
