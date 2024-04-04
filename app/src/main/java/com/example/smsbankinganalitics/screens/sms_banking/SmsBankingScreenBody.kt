@@ -1,5 +1,7 @@
 package com.example.smsbankinganalitics.screens.sms_banking
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import com.example.smsbankinganalitics.view_models.SMSReceiverState
 import com.example.smsbankinganalitics.widgets.SmsBodyItem
 
+@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun SmsBankingScreenBody(

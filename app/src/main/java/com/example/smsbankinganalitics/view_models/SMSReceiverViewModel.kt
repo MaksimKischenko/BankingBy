@@ -1,7 +1,10 @@
 package com.example.smsbankinganalitics.view_models
 
 import android.content.Context
+import android.os.Build
 import android.util.Log
+import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.getValue
@@ -47,9 +50,10 @@ class SMSReceiverViewModel @Inject constructor(
         Log.d("MyLog", "INIT SMSReceiverViewModel")
     }
 
-     fun onEvent(event: SMSReceiverEvent) {
-        viewModelScope.launch(Dispatchers.IO) {
-            Log.d("MyLog", "Thread: ${Thread.currentThread().name}")
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun onEvent(event: SMSReceiverEvent) {
+        val startTime = System.currentTimeMillis()
+        viewModelScope.launch(Dispatchers.Default) {
             try {
                 when (event) {
                     is SMSReceiverEvent.SMSReceiverByArgs -> {
@@ -57,18 +61,25 @@ class SMSReceiverViewModel @Inject constructor(
                         stateApp = stateApp.copy(isLoading = true)
                         val noParsedSmsList =
                             smsReceiver.getAllSMSByAddress(event.smsArgs, event.context)
-                        val parsedSmsList =
-                            noParsedSmsList.map { sms -> smsParser.toParsedSMSBody(sms) }
-                                .filter { item -> item.actionCategory != ActionCategory.UNKNOWN }
+                        val parsedSmsList = filterAndSort(noParsedSmsList)
                         Log.d("MyLog", "SMSReceiverViewModel: $parsedSmsList")
                         stateApp = stateApp.copy(isLoading = false, smsReceivedList = parsedSmsList)
                     }
                 }
             } catch (e: Exception) {
                 stateApp = stateApp.copy(isLoading = false, errorMessage = e.message)
-                Log.d("MyLog", "$e")
             }
+            val endTime = System.currentTimeMillis() // Время после выполнения метода
+            val executionTime = endTime - startTime // Вычисление времени выполнения метода
+            Log.d("MyLog", "Method execution time: $executionTime ms")
         }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+     private fun filterAndSort(noParsedSmsList: List<String>) : List<SmsParsedBody> {
+        return noParsedSmsList.map { sms -> smsParser.toParsedSMSBody(sms) }
+            .filter { item -> item.actionCategory != ActionCategory.UNKNOWN }
+            .sortedWith(compareByDescending { it.paymentDate })
     }
 
     fun showErrorSnackBar(

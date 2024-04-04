@@ -4,6 +4,7 @@ import com.example.smsbankinganalitics.R
 
 
 enum class AssociationTerminal(val noAssociatedArray: Array<String>, val resId: Int) {
+
     PRODUCT_SHOPS(
         arrayOf(
             "gippo",
@@ -33,7 +34,6 @@ enum class AssociationTerminal(val noAssociatedArray: Array<String>, val resId: 
             "zapravka",
             "azs"
         ), R.string.transport
-    ),
-
+    );
 }
 

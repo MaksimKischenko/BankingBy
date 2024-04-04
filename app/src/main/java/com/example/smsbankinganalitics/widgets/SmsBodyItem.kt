@@ -1,12 +1,10 @@
 package com.example.smsbankinganalitics.widgets
 
 import android.content.Context
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.height
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
@@ -22,7 +20,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.smsbankinganalitics.R
 import com.example.smsbankinganalitics.models.SmsParsedBody
+import com.example.smsbankinganalitics.utils.DateFormatters
+import java.time.format.DateTimeFormatter
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun SmsBodyItem(
     smsBody: SmsParsedBody?,
@@ -74,7 +75,7 @@ fun SmsBodyItem(
         trailingContent = {
             Text(
                 modifier = Modifier.padding(vertical = 6.dp),
-                text = smsBody?.paymentDate?:"",
+                text = smsBody?.paymentDate?.format(DateFormatters.dateOnly)?:"",
                 style = TextStyle(
                     fontWeight = FontWeight.Medium,
                     color = MaterialTheme.colorScheme.tertiary,

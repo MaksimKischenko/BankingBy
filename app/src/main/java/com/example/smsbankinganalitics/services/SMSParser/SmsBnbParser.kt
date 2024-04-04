@@ -1,16 +1,22 @@
 package com.example.smsbankinganalitics.services.SMSParser
 
 import android.content.Context
-import android.util.Log
+import android.os.Build
+import androidx.annotation.RequiresApi
 import com.example.smsbankinganalitics.R
 import com.example.smsbankinganalitics.models.ActionCategory
 import com.example.smsbankinganalitics.models.AssociationTerminal
+import com.example.smsbankinganalitics.models.Currencies
 import com.example.smsbankinganalitics.models.SmsParsedBody
 import com.example.smsbankinganalitics.models.Terminal
 import com.example.smsbankinganalitics.utils.AppRegex
+import com.example.smsbankinganalitics.utils.DateFormatters
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 class SmsBnbParser @Inject constructor(val context: Context) : SmsParser() {
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun toParsedSMSBody(noParsedSmsBody: String, makeAssociations: Boolean): SmsParsedBody {
         val actionCategory = parseActionCategory(noParsedSmsBody)
         return SmsParsedBody(
@@ -27,7 +33,7 @@ class SmsBnbParser @Inject constructor(val context: Context) : SmsParser() {
         val noAssociatedName = if (actionCategory == ActionCategory.PAYMENT) {
             body.split(';')[1].split('>')[0]
         } else {
-            "Без терминала"
+            context.getString(R.string.unknown)
         }
 
         val associatedName = if (makeAssociations) parseTerminalAssociations(noAssociatedName) else null
@@ -51,42 +57,33 @@ class SmsBnbParser @Inject constructor(val context: Context) : SmsParser() {
         return amount?.toDoubleOrNull() ?: 0.0
     }
 
-    override fun parseDate(body: String): String {
+    @RequiresApi(Build.VERSION_CODES.O)
+    override fun parseDate(body: String): LocalDateTime? {
         val dateMatch = AppRegex.dataRegex.find(body)
-        return dateMatch?.groupValues?.get(1) ?: ""
+        val stringDate = dateMatch?.groupValues?.get(1) ?: ""
+        val dateFormatter = DateFormatters.dateWithTime
+        return if(stringDate.isNotEmpty())
+            LocalDateTime.parse(stringDate, dateFormatter)
+        else null
     }
 
     override fun parseCurrency(body: String): String {
         return when {
-            AppRegex.bynRegex.containsMatchIn(body) -> "BYN"
-            AppRegex.usdRegex.containsMatchIn(body) -> "USD"
-            AppRegex.eurRegex.containsMatchIn(body) -> "EUR"
+            AppRegex.bynRegex.containsMatchIn(body) -> Currencies.BYN.name
+            AppRegex.usdRegex.containsMatchIn(body) -> Currencies.USD.name
+            AppRegex.eurRegex.containsMatchIn(body) -> Currencies.EUR.name
             else -> context.getString(R.string.unknown)
         }
     }
 
     override fun parseTerminalAssociations(noAssociatedName: String): String {
-        val association = AssociationTerminal.entries.find {array-> array.noAssociatedArray.any {it.contains(noAssociatedName, ignoreCase = true) } }
-//        Log.d("MyLog", "associationNAme: $association")
-        return association?.let { context.getString(it.resId) } ?: context.getString(AssociationTerminal.OTHER.resId)
+        for (category in AssociationTerminal.entries) {
+            for (associatedWord in category.noAssociatedArray) {
+                if (noAssociatedName.lowercase().contains(associatedWord.lowercase())) {
+                    return context.getString(category.resId)
+                }
+            }
+        }
+        return  context.getString(AssociationTerminal.OTHER.resId)
     }
-
-
-//    override fun parseTerminalAssociations(noAssociatedName: String): String  {
-//        Log.d("MyLog", "noAssociatedName: $noAssociatedName")
-//        var resultName = ""
-//        AssociationTerminal.entries.forEach {
-//
-//
-//
-//            resultName = if ( it.noAssociatedArray.contains(noAssociatedName)) {
-//                context.getString(it.resId)
-//
-//            } else {
-//                context.getString(AssociationTerminal.OTHER.resId)
-//            }
-//        }
-//
-//        return  resultName
-//    }
 }

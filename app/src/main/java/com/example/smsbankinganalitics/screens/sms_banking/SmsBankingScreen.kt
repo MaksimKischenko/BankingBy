@@ -1,6 +1,9 @@
 package com.example.smsbankinganalitics.screens.sms_banking
 
 import android.content.Context
+import android.os.Build
+import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.MaterialTheme
@@ -23,6 +26,7 @@ import com.example.smsbankinganalitics.view_models.SMSReceiverEvent
 import com.example.smsbankinganalitics.view_models.SMSReceiverViewModel
 
 
+@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun SmsBankingScreen(
@@ -58,30 +62,24 @@ fun SmsBankingScreen(
         }
     }) { padding ->
         SmsBankingScreenBody(padding, viewModelState, pullRefreshState)
-        if (viewModelState.errorMessage != null) viewModel.showErrorSnackBar(
-            scope, snackbarHostState
-        )
+        if (viewModelState.errorMessage != null)
+            Toast.makeText(context, viewModelState.errorMessage, Toast.LENGTH_SHORT).show()
+//            viewModel.showErrorSnackBar(
+//            scope, snackbarHostState
+//        )
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 fun onEventTrigger(
     context: Context,
     smsAddressState: SmsAddress,
     viewModel: SMSReceiverViewModel
 ) {
     when (smsAddressState) {
-        SmsAddress.BNB -> SmsAddress.BNB.labelArray.forEach {
-            viewModel.onEvent(SMSReceiverEvent.SMSReceiverByArgs(SmsArgs(it), context))
-        }
-
-        SmsAddress.BSB -> SmsAddress.BSB.labelArray.forEach {
-            viewModel.onEvent(SMSReceiverEvent.SMSReceiverByArgs(SmsArgs(it), context))
-        }
-
-        SmsAddress.ASB -> SmsAddress.ASB.labelArray.forEach {
-            viewModel.onEvent(SMSReceiverEvent.SMSReceiverByArgs(SmsArgs(it), context))
-        }
+        SmsAddress.BNB -> viewModel.onEvent(SMSReceiverEvent.SMSReceiverByArgs(SmsArgs(SmsAddress.BNB.labelArray), context))
+        SmsAddress.BSB -> viewModel.onEvent(SMSReceiverEvent.SMSReceiverByArgs(SmsArgs(SmsAddress.BSB.labelArray), context))
+        SmsAddress.ASB -> viewModel.onEvent(SMSReceiverEvent.SMSReceiverByArgs(SmsArgs(SmsAddress.ASB.labelArray), context))
     }
-
 }
 

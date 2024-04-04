@@ -43,7 +43,7 @@ fun BottomNavigationBar(
     NavigationBar(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(12.dp)
+            .padding(horizontal =  12.dp)
             .clip(
                 RoundedCornerShape(15)
             )
@@ -70,8 +70,9 @@ fun BottomNavigationBar(
                     indicatorColor = Color.White
                 ),
                 onClick = {
-                    if(item.route != currentRoute)
-                    navController.navigate(item.route)
+                    if(item.route != currentRoute) {
+                        navController.navigate(item.route)
+                    }
                 },
                 icon = {
                     BuildIcon(item = item)
