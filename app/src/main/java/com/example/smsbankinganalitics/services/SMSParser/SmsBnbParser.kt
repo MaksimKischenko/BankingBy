@@ -20,11 +20,11 @@ class SmsBnbParser @Inject constructor(val context: Context) : SmsParser() {
     override fun toParsedSMSBody(noParsedSmsBody: String, makeAssociations: Boolean): SmsParsedBody {
         val actionCategory = parseActionCategory(noParsedSmsBody)
         return SmsParsedBody(
-            paymentCurrency = parseCurrency(noParsedSmsBody),
+            paymentCurrency =  parseCurrency(noParsedSmsBody),
             paymentSum = parseAmount(noParsedSmsBody),
             paymentDate = parseDate(noParsedSmsBody),
-            actionCategory = actionCategory,
-            terminal = terminalParser(noParsedSmsBody, actionCategory, true)
+            actionCategory =  actionCategory,
+            terminal = terminalParser(noParsedSmsBody, actionCategory, false)
 
         )
     }
@@ -33,7 +33,7 @@ class SmsBnbParser @Inject constructor(val context: Context) : SmsParser() {
         val noAssociatedName = if (actionCategory == ActionCategory.PAYMENT) {
             body.split(';')[1].split('>')[0]
         } else {
-            context.getString(R.string.unknown)
+           context.getString(R.string.unknown)
         }
 
         val associatedName = if (makeAssociations) parseTerminalAssociations(noAssociatedName) else null
@@ -58,13 +58,13 @@ class SmsBnbParser @Inject constructor(val context: Context) : SmsParser() {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    override fun parseDate(body: String): LocalDateTime? {
+    override fun parseDate(body: String): String? {
         val dateMatch = AppRegex.dataRegex.find(body)
-        val stringDate = dateMatch?.groupValues?.get(1) ?: ""
-        val dateFormatter = DateFormatters.dateWithTime
-        return if(stringDate.isNotEmpty())
-            LocalDateTime.parse(stringDate, dateFormatter)
-        else null
+        return if(dateMatch !=null) {
+            dateMatch.groupValues[1]
+        } else {
+            null
+        }
     }
 
     override fun parseCurrency(body: String): String {
@@ -80,10 +80,10 @@ class SmsBnbParser @Inject constructor(val context: Context) : SmsParser() {
         for (category in AssociationTerminal.entries) {
             for (associatedWord in category.noAssociatedArray) {
                 if (noAssociatedName.lowercase().contains(associatedWord.lowercase())) {
-                    return context.getString(category.resId)
+                    return  context.getString(category.resId)
                 }
             }
         }
-        return  context.getString(AssociationTerminal.OTHER.resId)
+        return context.getString(AssociationTerminal.OTHER.resId)
     }
 }

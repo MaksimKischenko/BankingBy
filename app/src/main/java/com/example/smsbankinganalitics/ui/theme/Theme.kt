@@ -14,7 +14,7 @@ import com.example.smsbankinganalitics.models.AppTheme
 
 private val DarkColorScheme = darkColorScheme(
     primary = Palette1,
-    onPrimary = Purple40,
+    onPrimary = Coral,
     secondary = Palette2,
     tertiary = Palette3,
     onTertiary = Palette4
@@ -22,7 +22,7 @@ private val DarkColorScheme = darkColorScheme(
 
 private val LightColorScheme = lightColorScheme(
     primary = Palette1,
-    onPrimary = Purple40,
+    onPrimary = Coral,
     secondary = Palette2,
     tertiary = Palette3,
     onTertiary = Palette4

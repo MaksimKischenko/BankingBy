@@ -48,7 +48,7 @@ fun BottomNavigationBar(
                 RoundedCornerShape(15)
             )
             .border(
-                width = 4.dp,
+                width = 2.dp,
                 color = MaterialTheme.colorScheme.primary,
                 shape = RoundedCornerShape(15)
 

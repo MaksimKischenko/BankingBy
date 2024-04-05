@@ -12,10 +12,12 @@ import com.example.smsbankinganalitics.models.BottomNavBarItem
 import com.example.smsbankinganalitics.screens.OperationsItemScreen
 import com.example.smsbankinganalitics.screens.SettingsScreen
 import com.example.smsbankinganalitics.screens.sms_banking.SmsBankingScreen
+import com.example.smsbankinganalitics.view_models.SideEffectsViewModel
 
 @RequiresApi(Build.VERSION_CODES.S)
 @Composable
 fun NavGraphBody(
+    sideEffectsViewModel: SideEffectsViewModel,
     innerPadding: PaddingValues,
     activity: Activity,
     navHostController: NavHostController,
@@ -25,7 +27,7 @@ fun NavGraphBody(
         startDestination = BottomNavBarItem.SmsBankingItem.route,
         builder = {
             composable(BottomNavBarItem.SmsBankingItem.route) {
-                SmsBankingScreen()
+                SmsBankingScreen(sideEffectsViewModel)
             }
             composable(BottomNavBarItem.OperationsItem.route) {
                 OperationsItemScreen()

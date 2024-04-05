@@ -3,15 +3,18 @@ package com.example.smsbankinganalitics.services
 import android.content.Context
 import android.database.Cursor
 import android.net.Uri
+import android.os.Build
 import android.provider.Telephony
 import android.util.Log
+import androidx.annotation.RequiresApi
 import com.example.smsbankinganalitics.models.SmsArgs
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
+import java.time.Instant
+import java.time.LocalDateTime
+import java.time.ZoneId
 
 
 object SMSReceiver {
@@ -22,37 +25,46 @@ object SMSReceiver {
     //В этом оптимизированном коде мы используем  async  для запуска асинхронной задачи для каждого адреса из  addressArray ,
     //а затем используем  awaitAll()  для дожидания завершения всех асинхронных задач.
     //Результаты каждой задачи объединяются в общий список с помощью  flatten() .
-    suspend fun getAllSMSByAddress(smsArgs: SmsArgs, context: Context): List<String> = coroutineScope {
+    @RequiresApi(Build.VERSION_CODES.O)
+    suspend fun getAllSMSByAddress(smsArgs: SmsArgs, context: Context): Map<String, LocalDateTime> = coroutineScope {
         val deferredList = smsArgs.addressArray.map { address ->
             async(Dispatchers.IO) {
-                val tempSmsList: MutableList<String> = mutableListOf()
+                val tempSmsMap: MutableMap<String, LocalDateTime> = mutableMapOf()
                 formCursor(smsArgs, context, address)?.use { inner ->
                     val bodyIndex = inner.getColumnIndex(Telephony.Sms.BODY)
-                    if (bodyIndex != -1) {
+                    val dateIndex = inner.getColumnIndex(Telephony.Sms.DATE_SENT)
+                    if (bodyIndex != -1 && dateIndex != -1) {
                         while (inner.moveToNext()) {
                             val body = inner.getString(bodyIndex)
-                            tempSmsList.add(body)
+                            val dateSentMillis = inner.getLong(dateIndex)
+                            val dateSent = LocalDateTime.ofInstant(Instant.ofEpochMilli(dateSentMillis), ZoneId.systemDefault())
+                            tempSmsMap[body] = dateSent
                         }
                     } else {
                         Log.d("MyLog", "NOTHING")
                     }
                 }
-                tempSmsList
+                tempSmsMap
             }
         }
-        deferredList.awaitAll().flatten()
+        val result = deferredList.awaitAll()
+        result.fold(mutableMapOf()) { acc, map ->
+            acc.putAll(map)
+            acc
+        }
     }
     private fun formCursor(smsArgs: SmsArgs, context: Context, item: String): Cursor? {
         val uriSms = Uri.parse("content://sms/inbox")
         val selection =
             "address=? OR address=?" + if (smsArgs.dateFrom != null) " AND date BETWEEN ${smsArgs.dateFrom} AND ${smsArgs.dateTo}" else ""
-        val projection = arrayOf("address, body", "date_sent")
+        val projection = arrayOf(Telephony.Sms.BODY, Telephony.Sms.DATE_SENT)
+        val sortOrder = "date_sent DESC"
         return context.contentResolver.query(
             uriSms,
             projection,
             selection,
             arrayOf(item),
-            "date DESC"
+            sortOrder
         )
     }
 }
