@@ -1,6 +1,6 @@
 package com.example.smsbankinganalitics.models
 
-data class ErrorArgs(
+
+data class InfoArgs(
     val message:String? = "",
-    val isShowingError: Boolean?= false,
 )

@@ -42,29 +42,29 @@ fun SmsBodyItem(
 ) {
     ListItem(
         modifier = Modifier
-            .padding(vertical = 4.dp, horizontal = 12.dp)
+            .padding(vertical = 1.dp, horizontal = 12.dp)
             .clip(
                 RoundedCornerShape(15)
             )
             .border(
-                width = 1.dp,
-                color = MaterialTheme.colorScheme.tertiary,
+                width = 4.dp,
+                color = MaterialTheme.colorScheme.primary,
                 shape = RoundedCornerShape(15)
 
             ),
-        shadowElevation = 4.dp,
+        shadowElevation = 10.dp,
         colors = ListItemColors(
-            containerColor = MaterialTheme.colorScheme.onTertiary,
-            headlineColor = MaterialTheme.colorScheme.tertiary,
+            containerColor = MaterialTheme.colorScheme.tertiary,
+            headlineColor = MaterialTheme.colorScheme.onTertiary,
             leadingIconColor = MaterialTheme.colorScheme.primary,
-            overlineColor = MaterialTheme.colorScheme.tertiary,
-            supportingTextColor = MaterialTheme.colorScheme.tertiary,
+            overlineColor = MaterialTheme.colorScheme.onTertiary,
+            supportingTextColor = MaterialTheme.colorScheme.onTertiary,
             trailingIconColor = actionCategoryColor(
                 smsBody?.actionCategory ?: ActionCategory.UNKNOWN
             ),
-            disabledHeadlineColor = MaterialTheme.colorScheme.tertiary,
-            disabledLeadingIconColor = MaterialTheme.colorScheme.tertiary,
-            disabledTrailingIconColor = MaterialTheme.colorScheme.tertiary
+            disabledHeadlineColor = MaterialTheme.colorScheme.onTertiary,
+            disabledLeadingIconColor = MaterialTheme.colorScheme.onTertiary,
+            disabledTrailingIconColor = MaterialTheme.colorScheme.onTertiary
         ),
         leadingContent = {
             Icon(

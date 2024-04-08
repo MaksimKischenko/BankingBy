@@ -17,6 +17,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -69,7 +70,6 @@ class MainActivity : ComponentActivity() {
     ) {
         val navController = rememberNavController()
         val isVisibleBottomBar = !(sideEffectsViewModel.stateApp.isUnVisibleBottomBar ?: true)
-
         Scaffold(
             bottomBar = {
                 AnimatedVisibility(

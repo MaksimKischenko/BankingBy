@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.SnackbarData
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -26,13 +27,14 @@ import com.example.smsbankinganalitics.view_models.SMSReceiverEvent
 import com.example.smsbankinganalitics.view_models.SideEffectsEvent
 import com.example.smsbankinganalitics.view_models.SideEffectsViewModel
 import com.example.smsbankinganalitics.view_models.SmsReceiverViewModel
+import com.example.smsbankinganalitics.widgets.SmsAppBar
 import kotlinx.coroutines.CoroutineScope
 
 
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun SmsBankingScreen(
+fun SmsScreen(
     sideEffectsViewModel: SideEffectsViewModel,
     smsReceiverViewModel: SmsReceiverViewModel = hiltViewModel(),
     context: Context = LocalContext.current
@@ -42,7 +44,6 @@ fun SmsBankingScreen(
         mutableStateOf(SmsAddress.BNB)
     }
     val smsReceiverViewModelState = smsReceiverViewModel.stateApp
-    val scope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
     val pullRefreshState =
         rememberPullRefreshState(
@@ -60,14 +61,13 @@ fun SmsBankingScreen(
             onSideEffectsViewModelEventTrigger(
                 ErrorArgs(smsReceiverViewModelState.errorMessage!!, true),
                 sideEffectsViewModel,
-                scope,
                 snackbarHostState
             )
         }
     }
 
     Scaffold(topBar = {
-
+        SmsAppBar(onFilterClick = {})
     }, snackbarHost = {
         SnackbarHost(
             hostState = snackbarHostState
@@ -77,7 +77,13 @@ fun SmsBankingScreen(
             )
         }
     }) { padding ->
-        SmsBankingScreenBody(padding, smsReceiverViewModelState, pullRefreshState, sideEffectsViewModel)
+        SmsBankingScreenBody(
+            padding,
+            smsReceiverViewModelState,
+            pullRefreshState,
+            sideEffectsViewModel,
+            snackbarHostState
+        )
     }
 }
 
@@ -118,12 +124,10 @@ fun onSmsReceiverViewModelEventTrigger(
 fun onSideEffectsViewModelEventTrigger(
     errorArgs: ErrorArgs,
     sideEffectsViewModel: SideEffectsViewModel,
-    scope: CoroutineScope,
     snackbarHostState: SnackbarHostState
 ) {
     sideEffectsViewModel
-        .onEvent(SideEffectsEvent.ShowingErrorEvent(errorArgs))
-        .showErrorSnackBar(scope, snackbarHostState)
+        .onEvent(SideEffectsEvent.ShowingErrorEvent(errorArgs, snackbarHostState))
 }
 
 

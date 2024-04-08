@@ -11,7 +11,7 @@ import androidx.navigation.compose.composable
 import com.example.smsbankinganalitics.models.BottomNavBarItem
 import com.example.smsbankinganalitics.screens.OperationsItemScreen
 import com.example.smsbankinganalitics.screens.SettingsScreen
-import com.example.smsbankinganalitics.screens.sms_banking.SmsBankingScreen
+import com.example.smsbankinganalitics.screens.sms_banking.SmsScreen
 import com.example.smsbankinganalitics.view_models.SideEffectsViewModel
 
 @RequiresApi(Build.VERSION_CODES.S)
@@ -27,7 +27,7 @@ fun NavGraphBody(
         startDestination = BottomNavBarItem.SmsBankingItem.route,
         builder = {
             composable(BottomNavBarItem.SmsBankingItem.route) {
-                SmsBankingScreen(sideEffectsViewModel)
+                SmsScreen(sideEffectsViewModel)
             }
             composable(BottomNavBarItem.OperationsItem.route) {
                 OperationsItemScreen()
