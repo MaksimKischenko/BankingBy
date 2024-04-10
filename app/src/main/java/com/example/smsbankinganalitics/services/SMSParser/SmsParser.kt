@@ -6,7 +6,7 @@ import com.example.smsbankinganalitics.models.Terminal
 import java.time.LocalDateTime
 
 abstract class SmsParser {
-    abstract fun toParsedSMSBody(noParsedSmsBody: String, makeAssociations: Boolean = false) : SmsParsedBody
+    abstract fun toParsedSMSBody(noParsedSmsBody: Map.Entry<String, LocalDateTime>, makeAssociations: Boolean = false) : SmsParsedBody
     protected abstract fun terminalParser(body: String, actionCategory: ActionCategory, makeAssociations: Boolean): Terminal
     protected abstract fun parseActionCategory(body: String): ActionCategory
     protected abstract fun parseAmount(body: String): Double

@@ -11,4 +11,8 @@
     <string name="available">Даступна</string>
     <string name="transfer_from">Спісанне</string>
     <string name="transfer_to">Залічэнне</string>
+    <string name="from">з</string>
+    <string name="select">Выбраць</string>
+    <string name="cancel">Адмяніць</string>
+    <string name="count">Колькасць смс:</string>
 </resources>

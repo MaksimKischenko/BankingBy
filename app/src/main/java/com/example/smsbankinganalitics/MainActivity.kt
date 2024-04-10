@@ -17,20 +17,16 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarHostState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import com.example.smsbankinganalitics.data.PreferencesManager
 import com.example.smsbankinganalitics.navigation.BottomNavigationBar
 import com.example.smsbankinganalitics.navigation.NavGraphBody
 import com.example.smsbankinganalitics.services.PermissionListener
-import com.example.smsbankinganalitics.view_models.SideEffectsViewModel
 import com.example.smsbankinganalitics.view_models.ThemeViewModel
 import com.example.smsbankinganalitics.view_models.ThemeViewModelFactory
+import com.example.smsbankinganalitics.view_models.UiEffectsViewModel
+import com.example.smsbankinganalitics.widgets.SmsFilterDialog
 
 
 import dagger.hilt.android.AndroidEntryPoint
@@ -66,10 +62,10 @@ class MainActivity : ComponentActivity() {
     @Composable
     fun MainActivityBody(
         activity: Activity,
-        sideEffectsViewModel: SideEffectsViewModel = hiltViewModel()
+        uiEffectsViewModel: UiEffectsViewModel = hiltViewModel()
     ) {
         val navController = rememberNavController()
-        val isVisibleBottomBar = !(sideEffectsViewModel.stateApp.isUnVisibleBottomBar ?: true)
+        val isVisibleBottomBar = !(uiEffectsViewModel.stateApp.isUnVisibleBottomBar ?: true)
         Scaffold(
             bottomBar = {
                 AnimatedVisibility(
@@ -81,7 +77,7 @@ class MainActivity : ComponentActivity() {
                 }
             }) { innerPadding ->
             NavGraphBody(
-                sideEffectsViewModel,
+                uiEffectsViewModel,
                 innerPadding,
                 activity,
                 navHostController = navController,

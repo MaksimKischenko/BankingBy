@@ -4,13 +4,17 @@ import android.content.Context
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.SnackbarData
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
+import androidx.compose.material3.DrawerValue
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Snackbar
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.rememberDatePickerState
+import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
@@ -20,114 +24,144 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.smsbankinganalitics.models.ErrorArgs
 import com.example.smsbankinganalitics.models.SmsAddress
 import com.example.smsbankinganalitics.models.SmsArgs
 import com.example.smsbankinganalitics.view_models.SMSReceiverEvent
-import com.example.smsbankinganalitics.view_models.SideEffectsEvent
-import com.example.smsbankinganalitics.view_models.SideEffectsViewModel
+import com.example.smsbankinganalitics.view_models.SMSReceiverState
 import com.example.smsbankinganalitics.view_models.SmsReceiverViewModel
+import com.example.smsbankinganalitics.view_models.UiEffectsEvent
+import com.example.smsbankinganalitics.view_models.UiEffectsViewModel
+import com.example.smsbankinganalitics.widgets.AppDrawer
 import com.example.smsbankinganalitics.widgets.SmsAppBar
-import kotlinx.coroutines.CoroutineScope
+import com.example.smsbankinganalitics.widgets.SmsFilterDialog
+import kotlinx.coroutines.launch
 
 
 @RequiresApi(Build.VERSION_CODES.O)
-@OptIn(ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun SmsScreen(
-    sideEffectsViewModel: SideEffectsViewModel,
+    uiEffectsViewModel: UiEffectsViewModel,
     smsReceiverViewModel: SmsReceiverViewModel = hiltViewModel(),
     context: Context = LocalContext.current
 ) {
-
+    val scope = rememberCoroutineScope()
+    val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+    val dateState = rememberDatePickerState()
+    val openDialog = remember { mutableStateOf(false) }
     val smsAddressState by remember {
         mutableStateOf(SmsAddress.BNB)
     }
-    val smsReceiverViewModelState = smsReceiverViewModel.stateApp
     val snackbarHostState = remember { SnackbarHostState() }
     val pullRefreshState =
         rememberPullRefreshState(
-            refreshing = smsReceiverViewModelState.isLoading,
+            refreshing = smsReceiverViewModel.state.isLoading,
             onRefresh = {
-                onSmsReceiverViewModelEventTrigger(context, smsAddressState, smsReceiverViewModel)
+                onLoad(context, smsAddressState, smsReceiverViewModel)
             })
 
     LaunchedEffect(key1 = true) {
-        onSmsReceiverViewModelEventTrigger(context, smsAddressState, smsReceiverViewModel)
+        onLoad(context, smsAddressState, smsReceiverViewModel)
+
     }
 
     SideEffect {
-        if (smsReceiverViewModelState.errorMessage != null) {
-            onSideEffectsViewModelEventTrigger(
-                ErrorArgs(smsReceiverViewModelState.errorMessage!!, true),
-                sideEffectsViewModel,
-                snackbarHostState
-            )
-        }
-    }
-
-    Scaffold(topBar = {
-        SmsAppBar(onFilterClick = {})
-    }, snackbarHost = {
-        SnackbarHost(
-            hostState = snackbarHostState
-        ) {
-            Snackbar(
-                containerColor = MaterialTheme.colorScheme.onPrimary, snackbarData = it,
-            )
-        }
-    }) { padding ->
-        SmsBankingScreenBody(
-            padding,
-            smsReceiverViewModelState,
-            pullRefreshState,
-            sideEffectsViewModel,
+        onError(
+            uiEffectsViewModel,
+            smsReceiverViewModel.state,
             snackbarHostState
         )
     }
+    AppDrawer(
+        uiEffectsViewModel,
+        scope,
+        drawerState,
+        content = {
+            Scaffold(
+                topBar = {
+                    if (smsReceiverViewModel.state.smsReceivedList?.isNotEmpty() != false)
+                        SmsAppBar(
+                            smsReceiverViewModel.state,
+                            onDrawerClick = {
+                                uiEffectsViewModel.onEvent(UiEffectsEvent.ShowingDrawerEvent(true))
+                                scope.launch {
+                                    drawerState.open()
+                                }
+                            },
+                            onFilterClick = {
+                                openDialog.value = true
+                            })
+                },
+                snackbarHost = {
+                    SnackbarHost(
+                        hostState = snackbarHostState
+                    ) {
+                        Snackbar(
+                            containerColor = MaterialTheme.colorScheme.onPrimary, snackbarData = it,
+                        )
+                    }
+                }) { padding ->
+                SmsBankingScreenBody(
+                    padding,
+                    smsReceiverViewModel.state,
+                    pullRefreshState,
+                    uiEffectsViewModel,
+                    snackbarHostState
+                )
+                SmsFilterDialog(
+                    onSelect = {
+                        onLoad(
+                            context,
+                            smsAddressState,
+                            smsReceiverViewModel,
+                            dateState.selectedDateMillis
+                        )
+                    },
+                    dateState,
+                    openDialog = openDialog
+                )
+            }
+        }
+    )
 }
 
 @RequiresApi(Build.VERSION_CODES.O)
-fun onSmsReceiverViewModelEventTrigger(
+fun onLoad(
     context: Context,
     smsAddressState: SmsAddress,
-    smsReceiverViewModel: SmsReceiverViewModel
+    smsReceiverViewModel: SmsReceiverViewModel,
+    dateFrom: Long? = null,
 ) {
-    when (smsAddressState) {
-        SmsAddress.BNB -> smsReceiverViewModel.onEvent(
-            SMSReceiverEvent.SMSReceiverByArgs(
-                SmsArgs(
-                    SmsAddress.BNB.labelArray
-                ), context
-            )
-        )
-
-        SmsAddress.BSB -> smsReceiverViewModel.onEvent(
-            SMSReceiverEvent.SMSReceiverByArgs(
-                SmsArgs(
-                    SmsAddress.BSB.labelArray
-                ), context
-            )
-        )
-
-        SmsAddress.ASB -> smsReceiverViewModel.onEvent(
-            SMSReceiverEvent.SMSReceiverByArgs(
-                SmsArgs(
-                    SmsAddress.ASB.labelArray
-                ), context
-            )
-        )
+    val labelArray = when (smsAddressState) {
+        SmsAddress.BNB -> SmsAddress.BNB.labelArray
+        SmsAddress.BSB -> SmsAddress.BSB.labelArray
+        SmsAddress.ASB -> SmsAddress.ASB.labelArray
     }
+    smsReceiverViewModel.onEvent(
+        SMSReceiverEvent.SMSReceiverByArgs(
+            SmsArgs(
+                labelArray,
+                dateFrom,
+                System.currentTimeMillis()
+            ), context
+        )
+    )
 }
 
 @RequiresApi(Build.VERSION_CODES.O)
-fun onSideEffectsViewModelEventTrigger(
-    errorArgs: ErrorArgs,
-    sideEffectsViewModel: SideEffectsViewModel,
+fun onError(
+    uiEffectsViewModel: UiEffectsViewModel,
+    smsReceiverViewModelState: SMSReceiverState,
     snackbarHostState: SnackbarHostState
 ) {
-    sideEffectsViewModel
-        .onEvent(SideEffectsEvent.ShowingErrorEvent(errorArgs, snackbarHostState))
-}
 
+    if (smsReceiverViewModelState.errorMessage != null) {
+        val errorArgs = ErrorArgs(smsReceiverViewModelState.errorMessage!!, true)
+        uiEffectsViewModel
+            .onEvent(UiEffectsEvent.ShowingErrorEvent(errorArgs, snackbarHostState))
+    }
+
+}
 

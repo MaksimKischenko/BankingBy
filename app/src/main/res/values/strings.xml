@@ -12,4 +12,8 @@
     <string name="available">Доступно</string>
     <string name="transfer_from">Списание</string>
     <string name="transfer_to">Зачисление</string>
+    <string name="from">c</string>
+    <string name="select">Выбрать</string>
+    <string name="cancel">Отменить</string>
+    <string name="count">Количество смс:</string>
 </resources>

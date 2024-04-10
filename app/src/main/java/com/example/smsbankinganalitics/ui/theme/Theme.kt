@@ -17,7 +17,8 @@ private val DarkColorScheme = darkColorScheme(
     onPrimary = Coral,
     secondary = Palette2,
     tertiary = Palette3,
-    onTertiary = Palette4
+    onTertiary = Palette4,
+
 )
 
 private val LightColorScheme = lightColorScheme(

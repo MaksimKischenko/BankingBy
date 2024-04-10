@@ -11,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.smsbankinganalitics"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -59,10 +59,12 @@ android {
 }
 
 dependencies {
+    implementation(libs.ycharts)
     implementation(libs.androidx.datastore.preferences)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.hilt.android)
     implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.androidx.ui.text.google.fonts)
     kapt(libs.hilt.compiler)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

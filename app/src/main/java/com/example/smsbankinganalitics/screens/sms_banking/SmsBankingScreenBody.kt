@@ -19,19 +19,14 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.SideEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.smsbankinganalitics.models.InfoArgs
 import com.example.smsbankinganalitics.view_models.SMSReceiverState
-import com.example.smsbankinganalitics.view_models.SideEffectsEvent
-import com.example.smsbankinganalitics.view_models.SideEffectsViewModel
+import com.example.smsbankinganalitics.view_models.UiEffectsEvent
+import com.example.smsbankinganalitics.view_models.UiEffectsViewModel
 import com.example.smsbankinganalitics.widgets.SmsBodyItem
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -41,41 +36,26 @@ fun SmsBankingScreenBody(
     innerPadding: PaddingValues,
     smsReceiverViewModelState: SMSReceiverState,
     pullRefreshState: PullRefreshState,
-    sideEffectsViewModel: SideEffectsViewModel,
+    uiEffectsViewModel: UiEffectsViewModel,
     snackbarHostState: SnackbarHostState
 ) {
 
-    val smsList = smsReceiverViewModelState.smsReceivedList ?: emptyList()
 
-    // Определяем состояние прокрутки
     val lazyListState = rememberLazyListState()
-
-    // Переменная для хранения направления прокрутки
-    var isScrollingDown by remember { mutableStateOf(false) }
-
-    // Слушатель прокрутки для LazyColumn
-    LaunchedEffect(lazyListState) {
-       val snapshotFlow = snapshotFlow {
-            lazyListState.firstVisibleItemIndex
-        }.collect { firstVisibleItemIndex ->
-            // Проверяем, изменилось ли положение первого видимого элемента
-            val newIsScrollingDown =
-                firstVisibleItemIndex > 2 //lazyListState.layoutInfo.totalItemsCount / 100
-            if (isScrollingDown != newIsScrollingDown) {
-                isScrollingDown = newIsScrollingDown
-            }
-            sideEffectsViewModel
-                .onEvent(
-                    SideEffectsEvent.ScrollingDownListEvent(
-                        InfoArgs(smsList.size.toString()),
-                        isScrollingDown,
-                        snackbarHostState
-                    )
-                )
-        }
+    val snapshotFlow = snapshotFlow {
+        lazyListState.firstVisibleItemIndex
     }
 
+    val smsList = smsReceiverViewModelState.smsReceivedList ?: emptyList()
 
+    LaunchedEffect(Unit) {
+        Log.d("MyLog", "LaunchedEffect ${smsList.size}")
+        uiEffectsViewModel.onEvent(
+            UiEffectsEvent.ScrollingDownListEvent(
+                snapshotFlow,
+            )
+        )
+    }
 
     Box(
         modifier = Modifier

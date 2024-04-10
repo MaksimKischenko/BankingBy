@@ -11,4 +11,8 @@
     <string name="available">Available</string>
     <string name="transfer_from">Write-off</string>
     <string name="transfer_to">Enrollment</string>
+    <string name="from">from</string>
+    <string name="select">Select</string>
+    <string name="cancel">Cancel</string>
+    <string name="count">Count sms:</string>
 </resources>

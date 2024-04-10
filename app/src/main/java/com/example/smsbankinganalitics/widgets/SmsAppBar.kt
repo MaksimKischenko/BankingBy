@@ -1,40 +1,35 @@
 package com.example.smsbankinganalitics.widgets
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AddCircle
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.DatePickerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.example.smsbankinganalitics.R
+import com.example.smsbankinganalitics.view_models.SMSReceiverState
 
 
+@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SmsAppBar(
+    smsReceiverViewModelState: SMSReceiverState,
     onFilterClick: () -> Unit,
+    onDrawerClick: () -> Unit,
 ) {
     CenterAlignedTopAppBar(modifier = Modifier
         .fillMaxWidth()
@@ -43,30 +38,35 @@ fun SmsAppBar(
         )
         .border(
             width = 2.dp,
-            color = Color.Transparent,
+            color = MaterialTheme.colorScheme.primary,
             shape = RoundedCornerShape(0, 0, 15, 15)
-
-        ), colors = TopAppBarDefaults.topAppBarColors(
-        containerColor =  Color.Transparent
-    ), title = {
-        Text(
-            "Фильтр", maxLines = 1, overflow = TextOverflow.Ellipsis, style = TextStyle(
-                fontSize = 24.sp,
-                color = MaterialTheme.colorScheme.tertiary,
-                fontWeight = FontWeight.Medium
+        ),
+        colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.primary),
+        navigationIcon = {
+            Icon(
+                modifier = Modifier
+                    .clickable {
+                        onDrawerClick.invoke()
+                    }
+                    .size(32.dp),
+                imageVector = ImageVector.vectorResource(id = R.drawable.baseline_dehaze),
+                contentDescription = "bluetoothSearching"
             )
-        )
-    }, actions = {
-        Icon(
-            modifier = Modifier
-                .clickable {
-
-                }
-                .size(32.dp),
-            imageVector = ImageVector.vectorResource(id = R.drawable.filter),
-            contentDescription = "bluetoothSearching",
-
+        },
+        title = {
+            SmsAppBarTitle(smsReceiverViewModelState)
+        },
+        actions = {
+            Icon(
+                modifier = Modifier
+                    .clickable {
+                        onFilterClick.invoke()
+                    }
+                    .size(32.dp),
+                imageVector = ImageVector.vectorResource(id = R.drawable.calendar_month),
+                contentDescription = "bluetoothSearching"
             )
-    })
+        }
+    )
 }
 

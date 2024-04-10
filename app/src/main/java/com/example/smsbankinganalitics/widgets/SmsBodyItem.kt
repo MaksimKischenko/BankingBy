@@ -11,7 +11,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.ListItemColors
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -31,8 +30,7 @@ import com.example.smsbankinganalitics.ui.theme.Coral
 import com.example.smsbankinganalitics.ui.theme.Palette1
 import com.example.smsbankinganalitics.ui.theme.Palette3
 import com.example.smsbankinganalitics.ui.theme.SageGreen
-import com.example.smsbankinganalitics.utils.DateFormatters
-import java.time.format.DateTimeFormatter
+import com.example.smsbankinganalitics.utils.DateUtils
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -71,17 +69,15 @@ fun SmsBodyItem(
                 modifier = Modifier.size(32.dp),
                 imageVector = ImageVector.vectorResource(id = R.drawable.sms_read),
                 contentDescription = R.drawable.sms_read.toString(),
-//                tint = MaterialTheme.colorScheme.tertiary
             )
         },
         overlineContent = {
             Text(
                 modifier = Modifier.padding(vertical = 6.dp),
                 text = smsBody?.terminal?.noAssociatedName?.trim()
-                    ?: "",  //smsBody?.paymentCurrency?:"",
+                    ?: "",
                 style = TextStyle(
                     fontWeight = FontWeight.Medium,
-//                    color = MaterialTheme.colorScheme.tertiary
                 ),
                 fontSize = 14.sp,
             )
@@ -90,10 +86,9 @@ fun SmsBodyItem(
         headlineContent = {
             Text(
                 modifier = Modifier.padding(vertical = 6.dp),
-                text = smsBody?.paymentDate ?: "",
+                text = smsBody?.paymentDate?.let { DateUtils.fromLocalDateTimeToStringDate(it) }?:"",
                 style = TextStyle(
                     fontWeight = FontWeight.Medium,
-//                    color = MaterialTheme.colorScheme.tertiary,
                 ),
                 fontSize = 12.sp,
             )
@@ -103,7 +98,6 @@ fun SmsBodyItem(
                 modifier = Modifier.padding(vertical = 6.dp),
                 text = smsBody?.paymentSum.toString() + " " + smsBody?.paymentCurrency,
                 style = TextStyle(
-//                    color = actionCategoryColor(smsBody?.actionCategory ?: ActionCategory.UNKNOWN),
                 ),
                 fontWeight = FontWeight.Bold,
                 fontSize = 16.sp,

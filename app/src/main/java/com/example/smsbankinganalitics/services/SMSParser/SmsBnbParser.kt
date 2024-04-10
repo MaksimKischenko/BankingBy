@@ -10,21 +10,19 @@ import com.example.smsbankinganalitics.models.Currencies
 import com.example.smsbankinganalitics.models.SmsParsedBody
 import com.example.smsbankinganalitics.models.Terminal
 import com.example.smsbankinganalitics.utils.AppRegex
-import com.example.smsbankinganalitics.utils.DateFormatters
+import com.example.smsbankinganalitics.utils.DateUtils
 import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 class SmsBnbParser @Inject constructor(val context: Context) : SmsParser() {
-    @RequiresApi(Build.VERSION_CODES.O)
-    override fun toParsedSMSBody(noParsedSmsBody: String, makeAssociations: Boolean): SmsParsedBody {
-        val actionCategory = parseActionCategory(noParsedSmsBody)
+    override fun toParsedSMSBody(noParsedSmsBody: Map.Entry<String, LocalDateTime>, makeAssociations: Boolean): SmsParsedBody {
+        val actionCategory = parseActionCategory(noParsedSmsBody.key)
         return SmsParsedBody(
-            paymentCurrency =  parseCurrency(noParsedSmsBody),
-            paymentSum = parseAmount(noParsedSmsBody),
-            paymentDate = parseDate(noParsedSmsBody),
+            paymentCurrency =  parseCurrency(noParsedSmsBody.key),
+            paymentSum = parseAmount(noParsedSmsBody.key),
+            paymentDate = noParsedSmsBody.value, //format(DateUtils.dateOnly),
             actionCategory =  actionCategory,
-            terminal = terminalParser(noParsedSmsBody, actionCategory, false)
+            terminal = terminalParser(noParsedSmsBody.key, actionCategory, false)
 
         )
     }
@@ -57,7 +55,6 @@ class SmsBnbParser @Inject constructor(val context: Context) : SmsParser() {
         return amount?.toDoubleOrNull() ?: 0.0
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun parseDate(body: String): String? {
         val dateMatch = AppRegex.dataRegex.find(body)
         return if(dateMatch !=null) {

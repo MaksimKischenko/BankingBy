@@ -8,6 +8,7 @@ import android.provider.Telephony
 import android.util.Log
 import androidx.annotation.RequiresApi
 import com.example.smsbankinganalitics.models.SmsArgs
+import com.example.smsbankinganalitics.utils.DateUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -37,7 +38,7 @@ object SMSReceiver {
                         while (inner.moveToNext()) {
                             val body = inner.getString(bodyIndex)
                             val dateSentMillis = inner.getLong(dateIndex)
-                            val dateSent = LocalDateTime.ofInstant(Instant.ofEpochMilli(dateSentMillis), ZoneId.systemDefault())
+                            val dateSent = DateUtils.fromMilliToLocalDateTime(dateSentMillis)
                             tempSmsMap[body] = dateSent
                         }
                     } else {
@@ -56,7 +57,8 @@ object SMSReceiver {
     private fun formCursor(smsArgs: SmsArgs, context: Context, item: String): Cursor? {
         val uriSms = Uri.parse("content://sms/inbox")
         val selection =
-            "address=? OR address=?" + if (smsArgs.dateFrom != null) " AND date BETWEEN ${smsArgs.dateFrom} AND ${smsArgs.dateTo}" else ""
+            "address=?" + if (smsArgs.dateFrom != null) "AND date BETWEEN ${smsArgs.dateFrom} AND ${smsArgs.dateTo}" else ""
+        Log.d("MyLog", "selection: $selection")
         val projection = arrayOf(Telephony.Sms.BODY, Telephony.Sms.DATE_SENT)
         val sortOrder = "date_sent DESC"
         return context.contentResolver.query(
