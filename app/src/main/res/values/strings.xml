@@ -11,6 +11,8 @@
     <string name="payment">Оплата</string>
     <string name="available">Доступно</string>
     <string name="transfer_from">Списание</string>
+    <string name="debiting">Списание с карты</string>
+    <string name="enrollment">Зачисление на карту</string>
     <string name="transfer_to">Зачисление</string>
     <string name="from">c</string>
     <string name="select">Выбрать</string>

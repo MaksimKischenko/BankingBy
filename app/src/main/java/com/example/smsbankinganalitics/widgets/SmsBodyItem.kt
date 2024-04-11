@@ -26,10 +26,10 @@ import androidx.compose.ui.unit.sp
 import com.example.smsbankinganalitics.R
 import com.example.smsbankinganalitics.models.ActionCategory
 import com.example.smsbankinganalitics.models.SmsParsedBody
-import com.example.smsbankinganalitics.ui.theme.Coral
+import com.example.smsbankinganalitics.ui.theme.Palette7
 import com.example.smsbankinganalitics.ui.theme.Palette1
 import com.example.smsbankinganalitics.ui.theme.Palette3
-import com.example.smsbankinganalitics.ui.theme.SageGreen
+import com.example.smsbankinganalitics.ui.theme.Palette6
 import com.example.smsbankinganalitics.utils.DateUtils
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -118,10 +118,10 @@ fun SmsBodyItem(
 
 fun actionCategoryColor(actionCategory: ActionCategory): Color {
     return when (actionCategory) {
-        ActionCategory.PAYMENT -> Coral
+        ActionCategory.PAYMENT -> Palette7
         ActionCategory.AVAILABLE -> Palette1
-        ActionCategory.TRANSFER_FROM -> Coral
+        ActionCategory.TRANSFER_FROM -> Palette7
         ActionCategory.UNKNOWN -> Palette3
-        ActionCategory.TRANSFER_TO -> SageGreen
+        ActionCategory.TRANSFER_TO -> Palette6
     }
 }

@@ -15,27 +15,44 @@ import java.time.LocalDateTime
 import javax.inject.Inject
 
 class SmsBnbParser @Inject constructor(val context: Context) : SmsParser() {
-    override fun toParsedSMSBody(noParsedSmsBody: Map.Entry<String, LocalDateTime>, makeAssociations: Boolean): SmsParsedBody {
+    override fun toParsedSMSBody(
+        noParsedSmsBody: Map.Entry<String, LocalDateTime>,
+        makeAssociations: Boolean
+    ): SmsParsedBody {
         val actionCategory = parseActionCategory(noParsedSmsBody.key)
         return SmsParsedBody(
-            paymentCurrency =  parseCurrency(noParsedSmsBody.key),
+            paymentCurrency = parseCurrency(noParsedSmsBody.key),
             paymentSum = parseAmount(noParsedSmsBody.key),
             paymentDate = noParsedSmsBody.value, //format(DateUtils.dateOnly),
-            actionCategory =  actionCategory,
-            terminal = terminalParser(noParsedSmsBody.key, actionCategory, false)
+            actionCategory = actionCategory,
+            terminal = terminalParser(noParsedSmsBody.key, actionCategory, makeAssociations)
 
         )
     }
 
-    override fun terminalParser(body: String, actionCategory: ActionCategory, makeAssociations: Boolean): Terminal {
+    override fun terminalParser(
+        body: String,
+        actionCategory: ActionCategory,
+        makeAssociations: Boolean
+    ): Terminal {
         val noAssociatedName = if (actionCategory == ActionCategory.PAYMENT) {
             body.split(';')[1].split('>')[0]
         } else {
-           context.getString(R.string.unknown)
+            context.getString(R.string.unknown)
         }
 
-        val associatedName = if (makeAssociations) parseTerminalAssociations(noAssociatedName) else null
-        return Terminal(associatedName = associatedName?:"", isAssociated = makeAssociations, noAssociatedName = noAssociatedName)
+        val associatedName = when {
+            actionCategory == ActionCategory.TRANSFER_FROM -> context.getString(R.string.debiting)
+            actionCategory == ActionCategory.TRANSFER_TO -> context.getString(R.string.enrollment)
+            makeAssociations -> parseTerminalAssociations(noAssociatedName)
+            else -> null
+        }
+
+        return Terminal(
+            associatedName = associatedName ?: "",
+            isAssociated = makeAssociations,
+            noAssociatedName = noAssociatedName
+        )
     }
 
 
@@ -57,7 +74,7 @@ class SmsBnbParser @Inject constructor(val context: Context) : SmsParser() {
 
     override fun parseDate(body: String): String? {
         val dateMatch = AppRegex.dataRegex.find(body)
-        return if(dateMatch !=null) {
+        return if (dateMatch != null) {
             dateMatch.groupValues[1]
         } else {
             null
@@ -77,7 +94,7 @@ class SmsBnbParser @Inject constructor(val context: Context) : SmsParser() {
         for (category in AssociationTerminal.entries) {
             for (associatedWord in category.noAssociatedArray) {
                 if (noAssociatedName.lowercase().contains(associatedWord.lowercase())) {
-                    return  context.getString(category.resId)
+                    return context.getString(category.resId)
                 }
             }
         }

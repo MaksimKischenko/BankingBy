@@ -1,8 +1,6 @@
 package com.example.smsbankinganalitics.screens.sms_banking
 
-import android.os.Build
 import android.util.Log
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -23,13 +21,11 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.smsbankinganalitics.models.InfoArgs
 import com.example.smsbankinganalitics.view_models.SMSReceiverState
 import com.example.smsbankinganalitics.view_models.UiEffectsEvent
 import com.example.smsbankinganalitics.view_models.UiEffectsViewModel
 import com.example.smsbankinganalitics.widgets.SmsBodyItem
 
-@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun SmsBankingScreenBody(
@@ -51,7 +47,7 @@ fun SmsBankingScreenBody(
     LaunchedEffect(Unit) {
         Log.d("MyLog", "LaunchedEffect ${smsList.size}")
         uiEffectsViewModel.onEvent(
-            UiEffectsEvent.ScrollingDownListEvent(
+            UiEffectsEvent.ScrollingDownList(
                 snapshotFlow,
             )
         )
@@ -67,7 +63,7 @@ fun SmsBankingScreenBody(
 
         ) {
         LazyColumn(
-            modifier = Modifier.padding(vertical = 2.dp),
+            modifier = Modifier.padding(vertical = 4.dp),
             state = lazyListState
         ) {
             itemsIndexed(smsList) { _, sms ->

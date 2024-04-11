@@ -1,6 +1,5 @@
 package com.example.smsbankinganalitics.widgets
 
-
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -10,37 +9,38 @@ import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.example.smsbankinganalitics.R
-import com.example.smsbankinganalitics.view_models.SMSReceiverState
-
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SmsAppBar(
-    smsReceiverViewModelState: SMSReceiverState,
-    onFilterClick: () -> Unit,
-    onDrawerClick: () -> Unit,
+fun AnalyticsAppBar(
+    appBarTitleName: MutableState<String>,
+    navController: NavHostController
 ) {
-
     CenterAlignedTopAppBar(
         modifier = Modifier
-        .fillMaxWidth()
-        .clip(
-            RoundedCornerShape(0, 0, 15, 15)
-        )
-        .border(
-            width = 2.dp,
-            color = MaterialTheme.colorScheme.primary,
-            shape = RoundedCornerShape(0, 0, 15, 15)
-        ),
+            .fillMaxWidth()
+            .clip(
+                RoundedCornerShape(0, 0, 15, 15)
+            )
+            .border(
+                width = 2.dp,
+                color = MaterialTheme.colorScheme.primary,
+                shape = RoundedCornerShape(0, 0, 15, 15)
+            ),
+        title = {
+            Text(text = appBarTitleName.value)
+        },
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = MaterialTheme.colorScheme.primary
         ),
@@ -48,27 +48,12 @@ fun SmsAppBar(
             Icon(
                 modifier = Modifier
                     .clickable {
-                        onDrawerClick.invoke()
+                        navController.popBackStack()
                     }
                     .size(32.dp),
-                imageVector = ImageVector.vectorResource(id = R.drawable.baseline_dehaze),
+                imageVector = ImageVector.vectorResource(id = R.drawable.arrow_back),
                 contentDescription = "bluetoothSearching"
             )
         },
-        title = {
-            SmsAppBarTitle(smsReceiverViewModelState)
-        },
-        actions = {
-            Icon(
-                modifier = Modifier
-                    .clickable {
-                        onFilterClick.invoke()
-                    }
-                    .size(32.dp),
-                imageVector = ImageVector.vectorResource(id = R.drawable.calendar_month),
-                contentDescription = "bluetoothSearching"
-            )
-        }
     )
 }
-

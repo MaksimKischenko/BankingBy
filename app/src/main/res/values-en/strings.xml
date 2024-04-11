@@ -10,6 +10,8 @@
     <string name="payment">Payment</string>
     <string name="available">Available</string>
     <string name="transfer_from">Write-off</string>
+    <string name="debiting">Debiting from the card</string>
+    <string name="enrollment">Enrollment on the card</string>
     <string name="transfer_to">Enrollment</string>
     <string name="from">from</string>
     <string name="select">Select</string>

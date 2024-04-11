@@ -2,6 +2,7 @@ package com.example.smsbankinganalitics.di
 
 import android.content.Context
 import com.example.smsbankinganalitics.data.PreferencesManager
+import com.example.smsbankinganalitics.data.repositories.SmsRepository
 import com.example.smsbankinganalitics.services.SMSParser.SmsBnbParser
 import dagger.Module
 import dagger.Provides
@@ -23,6 +24,12 @@ object AppDiModule {
     @Singleton
     fun providePreferences(context: Context): PreferencesManager {
         return PreferencesManager(context)
+    }
+
+    @Provides
+    @Singleton
+    fun provideSmsRepository(): SmsRepository {
+        return SmsRepository()
     }
 
     @Provides

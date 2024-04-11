@@ -10,6 +10,8 @@
     <string name="payment">Аплата</string>
     <string name="available">Даступна</string>
     <string name="transfer_from">Спісанне</string>
+    <string name="debiting">Спісанне з карты</string>
+    <string name="enrollment">Залічэнне на карту</string>
     <string name="transfer_to">Залічэнне</string>
     <string name="from">з</string>
     <string name="select">Выбраць</string>

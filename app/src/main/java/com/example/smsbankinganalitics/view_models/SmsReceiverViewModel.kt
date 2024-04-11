@@ -1,23 +1,21 @@
 package com.example.smsbankinganalitics.view_models
 
 import android.content.Context
-import android.os.Build
 import android.util.Log
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.smsbankinganalitics.R
+import com.example.smsbankinganalitics.data.repositories.SmsRepository
 import com.example.smsbankinganalitics.models.ActionCategory
 import com.example.smsbankinganalitics.models.SmsArgs
 import com.example.smsbankinganalitics.models.SmsParsedBody
 import com.example.smsbankinganalitics.services.SMSParser.SmsBnbParser
 import com.example.smsbankinganalitics.services.SMSReceiver
 import dagger.hilt.android.lifecycle.HiltViewModel
-
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
@@ -28,6 +26,7 @@ import kotlin.system.measureTimeMillis
 @HiltViewModel
 class SmsReceiverViewModel @Inject constructor(
     private val smsParser: SmsBnbParser,
+    private val smsRepository: SmsRepository,
 ) : ViewModel() {
     var state by mutableStateOf(SMSReceiverState())
 
@@ -40,17 +39,18 @@ class SmsReceiverViewModel @Inject constructor(
             val executionTime = measureTimeMillis {
                 try {
                     when (event) {
-                        is SMSReceiverEvent.SMSReceiverByArgs -> {
+                        is SMSReceiverEvent.ByArgs -> {
                             if ((event.smsArgs.dateFrom ?: 0) < System.currentTimeMillis()) {
                                 val smsReceiver = SMSReceiver
                                 state = state.copy(isLoading = true)
                                 val noParsedSmsMap =
                                     smsReceiver.getAllSMSByAddress(event.smsArgs, event.context)
+                                smsRepository.addSmsMap(noParsedSmsMap)
                                 val sortedNoParsedSmsMapSmsMap = noParsedSmsMap.toList()
                                     .sortedByDescending { it.second }
                                     .toMap()
-                                val parsedSmsList = filterAndParse(sortedNoParsedSmsMapSmsMap)
-                                state = state.copy(isLoading = false, smsReceivedList = parsedSmsList)
+                                val parsedSmsBodies = filterAndParse(sortedNoParsedSmsMapSmsMap)
+                                state = state.copy(isLoading = false, smsReceivedList = parsedSmsBodies)
                                 showInfoToast(event.context)
                             }
                         }
@@ -73,7 +73,6 @@ class SmsReceiverViewModel @Inject constructor(
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun filterAndParse(noParsedSmsMap: Map<String, LocalDateTime>): List<SmsParsedBody> {
         return noParsedSmsMap.map { smsEntry -> smsParser.toParsedSMSBody(smsEntry) }
             .filter { item -> item.actionCategory != ActionCategory.UNKNOWN }
@@ -81,7 +80,7 @@ class SmsReceiverViewModel @Inject constructor(
 }
 
 sealed class SMSReceiverEvent {
-    data class SMSReceiverByArgs(val smsArgs: SmsArgs, val context: Context) : SMSReceiverEvent()
+    data class ByArgs(val smsArgs: SmsArgs, val context: Context) : SMSReceiverEvent()
 }
 
 

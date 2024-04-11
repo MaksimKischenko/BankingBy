@@ -3,19 +3,15 @@ package com.example.smsbankinganalitics.services
 import android.content.Context
 import android.database.Cursor
 import android.net.Uri
-import android.os.Build
 import android.provider.Telephony
 import android.util.Log
-import androidx.annotation.RequiresApi
 import com.example.smsbankinganalitics.models.SmsArgs
 import com.example.smsbankinganalitics.utils.DateUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
-import java.time.Instant
 import java.time.LocalDateTime
-import java.time.ZoneId
 
 
 object SMSReceiver {
@@ -26,7 +22,6 @@ object SMSReceiver {
     //В этом оптимизированном коде мы используем  async  для запуска асинхронной задачи для каждого адреса из  addressArray ,
     //а затем используем  awaitAll()  для дожидания завершения всех асинхронных задач.
     //Результаты каждой задачи объединяются в общий список с помощью  flatten() .
-    @RequiresApi(Build.VERSION_CODES.O)
     suspend fun getAllSMSByAddress(smsArgs: SmsArgs, context: Context): Map<String, LocalDateTime> = coroutineScope {
         val deferredList = smsArgs.addressArray.map { address ->
             async(Dispatchers.IO) {

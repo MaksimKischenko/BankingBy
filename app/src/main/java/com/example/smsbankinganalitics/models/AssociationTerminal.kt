@@ -8,6 +8,7 @@ enum class AssociationTerminal(val noAssociatedArray: Array<String>, val resId: 
     PRODUCT_SHOPS(
         arrayOf(
             "gippo",
+            "belvillesden",
             "santa",
             "evroopt",
             "sosedy",

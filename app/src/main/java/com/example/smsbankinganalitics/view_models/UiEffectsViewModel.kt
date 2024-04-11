@@ -10,7 +10,6 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.smsbankinganalitics.models.ErrorArgs
-import com.example.smsbankinganalitics.models.InfoArgs
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -28,7 +27,7 @@ class UiEffectsViewModel @Inject constructor() : ViewModel() {
     fun onEvent(event: UiEffectsEvent) {
 
         when (event) {
-            is UiEffectsEvent.ShowingErrorEvent -> {
+            is UiEffectsEvent.ShowingError -> {
                 stateApp = stateApp.copy(
                     isUnVisibleBottomBar = event.errorArgs.isShowingError,
                     errorMessage = event.errorArgs.message
@@ -37,14 +36,14 @@ class UiEffectsViewModel @Inject constructor() : ViewModel() {
                 showErrorSnackBar(event.snackbarHostState)
             }
 
-            is UiEffectsEvent.ScrollingDownListEvent -> {
+            is UiEffectsEvent.ScrollingDownList -> {
                 val isScrollingDownState = MutableStateFlow(false)
                 publishScrollingDownState(isScrollingDownState, event)
                 subscribeScrollingDownState(isScrollingDownState, event)
             }
 
-            is UiEffectsEvent.ShowingDrawerEvent -> {
-                stateApp = if(event.showDrawer) {
+            is UiEffectsEvent.HideBottomBar -> {
+                stateApp = if(event.hideBottomBar) {
                     stateApp.copy(
                         isUnVisibleBottomBar = true
                     )
@@ -63,7 +62,7 @@ class UiEffectsViewModel @Inject constructor() : ViewModel() {
     // для отслеживания изменений переменной  isScrollingDown
     private fun publishScrollingDownState(
         isScrollingDownState: MutableStateFlow<Boolean>,
-        event: UiEffectsEvent.ScrollingDownListEvent
+        event: UiEffectsEvent.ScrollingDownList
     ) {
         viewModelScope.launch(Dispatchers.Unconfined) {
             event.snapshotFlow.collect { firstVisibleItemIndex ->
@@ -79,7 +78,7 @@ class UiEffectsViewModel @Inject constructor() : ViewModel() {
 
     private fun subscribeScrollingDownState(
         isScrollingDownState: MutableStateFlow<Boolean>,
-        event: UiEffectsEvent.ScrollingDownListEvent
+        event: UiEffectsEvent.ScrollingDownList
     ) {
         viewModelScope.launch(Dispatchers.Unconfined) {
             isScrollingDownState.collect { isScrollingDown ->
@@ -126,17 +125,17 @@ class UiEffectsViewModel @Inject constructor() : ViewModel() {
 }
 
 sealed class UiEffectsEvent {
-    data class ShowingErrorEvent(
+    data class ShowingError(
         val errorArgs: ErrorArgs,
         val snackbarHostState: SnackbarHostState
     ) : UiEffectsEvent()
 
-    data class ScrollingDownListEvent(
+    data class ScrollingDownList(
         val snapshotFlow: Flow<Int>,
     ) : UiEffectsEvent()
 
-    data class ShowingDrawerEvent(
-        val showDrawer: Boolean,
+    data class HideBottomBar(
+        val hideBottomBar: Boolean,
     ) : UiEffectsEvent()
 }
 
