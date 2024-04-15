@@ -19,7 +19,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -27,6 +26,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.smsbankinganalitics.models.BottomNavBarItem
+import com.example.smsbankinganalitics.utils.Localization
 
 
 @Composable
@@ -45,12 +45,12 @@ fun BottomNavigationBar(
             .fillMaxWidth()
             .padding(horizontal =  12.dp)
             .clip(
-                RoundedCornerShape(15)
+                RoundedCornerShape(16)
             )
             .border(
                 width = 2.dp,
                 color = MaterialTheme.colorScheme.primary,
-                shape = RoundedCornerShape(15)
+                shape = RoundedCornerShape(16)
 
             ),
         containerColor = MaterialTheme.colorScheme.tertiary,
@@ -97,7 +97,7 @@ private fun BuildIcon(item: BottomNavBarItem) {
 @Composable
 private fun BuildText(item: BottomNavBarItem) {
     return Text(
-        text = stringResource(id = item.stringId),
+        Localization.withComposable(item.resId),
         fontSize = 12.sp,
         textAlign = TextAlign.Center,
     )

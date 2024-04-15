@@ -3,7 +3,7 @@
     <string name="operations">Сard transactions</string>
     <string name="settings">Settings</string>
     <string name="unknown">Unknown</string>
-    <string name="product_shops">Product shops</string>
+    <string name="product_shops">Supermarkets</string>
     <string name="internet_shops">Internet shops</string>
     <string name="transport">Transport</string>
     <string name="other">Other</string>
@@ -17,4 +17,7 @@
     <string name="select">Select</string>
     <string name="cancel">Cancel</string>
     <string name="count">Count sms:</string>
+    <string name="expenses">Expenses by category</string>
+    <string name="writeOff_credits">Write-offs and credits</string>
+    <string name="month_stat">Expenses by month</string>
 </resources>

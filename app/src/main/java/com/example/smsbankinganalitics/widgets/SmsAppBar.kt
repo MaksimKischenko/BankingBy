@@ -34,12 +34,12 @@ fun SmsAppBar(
         modifier = Modifier
         .fillMaxWidth()
         .clip(
-            RoundedCornerShape(0, 0, 15, 15)
+            RoundedCornerShape(0, 0, 16, 16)
         )
         .border(
             width = 2.dp,
             color = MaterialTheme.colorScheme.primary,
-            shape = RoundedCornerShape(0, 0, 15, 15)
+            shape = RoundedCornerShape(0, 0, 16, 16)
         ),
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = MaterialTheme.colorScheme.primary

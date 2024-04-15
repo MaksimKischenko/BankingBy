@@ -1,7 +1,10 @@
 package com.example.smsbankinganalitics.widgets
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ModalNavigationDrawer
@@ -36,34 +39,37 @@ fun AppDrawer(
                 modifier = Modifier
                     .padding(end = 48.dp)
             ) {
+                Column(
+                 modifier = Modifier
+                     .fillMaxSize()
+                     .background(MaterialTheme.colorScheme.onTertiary)
 
-//                Image(
-//                    painter = painterResource(id = R.drawable.img),
-//                    contentDescription = "Jedi",
-//                    modifier = Modifier
-//                        .fillMaxWidth()
-//                        .height(150.dp),
-//                    contentScale = ContentScale.Crop
-//                )
-                Spacer(modifier = Modifier.height(15.dp))
-                NavigationDrawerItem(
-                    colors = NavigationDrawerItemDefaults.colors(
-                        selectedContainerColor = MaterialTheme.colorScheme.onTertiary,
-                    ),
-                    label = {
+                ) {
+                    DrawerHeader()
+                    Spacer(modifier = Modifier
+                        .height(15.dp)
+                    )
+                    DrawerElement()
+                    NavigationDrawerItem(
+                        colors = NavigationDrawerItemDefaults.colors(
+                            selectedContainerColor = MaterialTheme.colorScheme.onTertiary,
+                        ),
+                        label = {
 
-                    },
-                    selected = true,
-                    icon = {
+                        },
+                        selected = true,
+                        icon = {
 
-                    },
-                    onClick = {
-                        uiEffectsViewModel.onEvent(UiEffectsEvent.HideBottomBar(false))
-                        scope.launch {
-                            drawerState.close()
+                        },
+                        onClick = {
+                            uiEffectsViewModel.onEvent(UiEffectsEvent.HideBottomBar(false))
+                            scope.launch {
+                                drawerState.close()
+                            }
                         }
-                    }
-                )
+                    )
+                }
+
             }
         },
         content = content

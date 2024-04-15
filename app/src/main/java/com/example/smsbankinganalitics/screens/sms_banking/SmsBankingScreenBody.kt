@@ -1,6 +1,5 @@
 package com.example.smsbankinganalitics.screens.sms_banking
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -14,7 +13,6 @@ import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.PullRefreshState
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.snapshotFlow
@@ -33,19 +31,15 @@ fun SmsBankingScreenBody(
     smsReceiverViewModelState: SMSReceiverState,
     pullRefreshState: PullRefreshState,
     uiEffectsViewModel: UiEffectsViewModel,
-    snackbarHostState: SnackbarHostState
 ) {
-
 
     val lazyListState = rememberLazyListState()
     val snapshotFlow = snapshotFlow {
         lazyListState.firstVisibleItemIndex
     }
-
     val smsList = smsReceiverViewModelState.smsReceivedList ?: emptyList()
 
     LaunchedEffect(Unit) {
-        Log.d("MyLog", "LaunchedEffect ${smsList.size}")
         uiEffectsViewModel.onEvent(
             UiEffectsEvent.ScrollingDownList(
                 snapshotFlow,

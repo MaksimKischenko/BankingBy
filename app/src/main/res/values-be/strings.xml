@@ -3,7 +3,7 @@
     <string name="operations">Аперацыі з картай</string>
     <string name="settings">Наладкі</string>
     <string name="unknown">Невядома</string>
-    <string name="product_shops">Прадуктовыя крамы</string>
+    <string name="product_shops">Супермаркеты</string>
     <string name="internet_shops">Інтэрнэт крамы</string>
     <string name="transport">Транспарт</string>
     <string name="other">Іншае</string>
@@ -17,4 +17,7 @@
     <string name="select">Выбраць</string>
     <string name="cancel">Адмяніць</string>
     <string name="count">Колькасць смс:</string>
+    <string name="expenses">Выдаткі па катэгорыях</string>
+    <string name="writeOff_credits">Спісанні і залічэнні</string>
+    <string name="month_stat">Выдаткі па месяцах</string>
 </resources>

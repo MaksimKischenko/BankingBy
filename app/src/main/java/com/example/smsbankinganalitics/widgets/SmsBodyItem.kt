@@ -1,12 +1,11 @@
 package com.example.smsbankinganalitics.widgets
 
-import android.content.Context
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.ListItemColors
@@ -17,7 +16,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -31,89 +29,99 @@ import com.example.smsbankinganalitics.ui.theme.Palette1
 import com.example.smsbankinganalitics.ui.theme.Palette3
 import com.example.smsbankinganalitics.ui.theme.Palette6
 import com.example.smsbankinganalitics.utils.DateUtils
+import com.example.smsbankinganalitics.utils.Localization
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun SmsBodyItem(
     smsBody: SmsParsedBody?,
-    context: Context = LocalContext.current,
 ) {
-    ListItem(
-        modifier = Modifier
-            .padding(vertical = 1.dp, horizontal = 12.dp)
-            .clip(
-                RoundedCornerShape(15)
-            )
-            .border(
-                width = 4.dp,
-                color = MaterialTheme.colorScheme.primary,
-                shape = RoundedCornerShape(15)
-
-            ),
-        shadowElevation = 10.dp,
-        colors = ListItemColors(
-            containerColor = MaterialTheme.colorScheme.tertiary,
-            headlineColor = MaterialTheme.colorScheme.onTertiary,
-            leadingIconColor = MaterialTheme.colorScheme.primary,
-            overlineColor = MaterialTheme.colorScheme.onTertiary,
-            supportingTextColor = MaterialTheme.colorScheme.onTertiary,
-            trailingIconColor = actionCategoryColor(
-                smsBody?.actionCategory ?: ActionCategory.UNKNOWN
-            ),
-            disabledHeadlineColor = MaterialTheme.colorScheme.onTertiary,
-            disabledLeadingIconColor = MaterialTheme.colorScheme.onTertiary,
-            disabledTrailingIconColor = MaterialTheme.colorScheme.onTertiary
+    ElevatedCard(
+        modifier = Modifier.padding(vertical = 2.dp, horizontal = 12.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.primary,
         ),
-        leadingContent = {
-            Icon(
-                modifier = Modifier.size(32.dp),
-                imageVector = ImageVector.vectorResource(id = R.drawable.sms_read),
-                contentDescription = R.drawable.sms_read.toString(),
-            )
-        },
-        overlineContent = {
-            Text(
-                modifier = Modifier.padding(vertical = 6.dp),
-                text = smsBody?.terminal?.noAssociatedName?.trim()
-                    ?: "",
-                style = TextStyle(
-                    fontWeight = FontWeight.Medium,
-                ),
-                fontSize = 14.sp,
-            )
+        elevation = CardDefaults.cardElevation(
+            defaultElevation = 6.dp,
+        ),
+        shape = RoundedCornerShape(16.dp),
+    ) {
+        ListItem(
+            modifier = Modifier
+                .clip(
+                    RoundedCornerShape(16)
+                )
+                .border(
+                    width = 4.dp,
+                    color = MaterialTheme.colorScheme.primary,
+                    shape = RoundedCornerShape(16)
 
-        },
-        headlineContent = {
-            Text(
-                modifier = Modifier.padding(vertical = 6.dp),
-                text = smsBody?.paymentDate?.let { DateUtils.fromLocalDateTimeToStringDate(it) }?:"",
-                style = TextStyle(
-                    fontWeight = FontWeight.Medium,
                 ),
-                fontSize = 12.sp,
-            )
-        },
-        supportingContent = {
-            Text(
-                modifier = Modifier.padding(vertical = 6.dp),
-                text = smsBody?.paymentSum.toString() + " " + smsBody?.paymentCurrency,
-                style = TextStyle(
+            shadowElevation = 10.dp,
+            colors = ListItemColors(
+                containerColor = MaterialTheme.colorScheme.tertiary,
+                headlineColor = MaterialTheme.colorScheme.onTertiary,
+                leadingIconColor = MaterialTheme.colorScheme.primary,
+                overlineColor = MaterialTheme.colorScheme.onTertiary,
+                supportingTextColor = MaterialTheme.colorScheme.onTertiary,
+                trailingIconColor = actionCategoryColor(
+                    smsBody?.actionCategory ?: ActionCategory.UNKNOWN
                 ),
-                fontWeight = FontWeight.Bold,
-                fontSize = 16.sp,
-            )
-        },
-        trailingContent = {
-            Text(
-                text = context.getString(smsBody?.actionCategory?.resId ?: 0),
-                style = TextStyle(
-                    color = actionCategoryColor(smsBody?.actionCategory ?: ActionCategory.UNKNOWN),
+                disabledHeadlineColor = MaterialTheme.colorScheme.onTertiary,
+                disabledLeadingIconColor = MaterialTheme.colorScheme.onTertiary,
+                disabledTrailingIconColor = MaterialTheme.colorScheme.onTertiary
+            ),
+            leadingContent = {
+                Icon(
+                    modifier = Modifier.size(32.dp),
+                    imageVector = ImageVector.vectorResource(id = R.drawable.sms_read),
+                    contentDescription = R.drawable.sms_read.toString(),
+                )
+            },
+            overlineContent = {
+                Text(
+                    modifier = Modifier.padding(vertical = 6.dp),
+                    text = smsBody?.terminal?.noAssociatedName?.trim()
+                        ?: "",
+                    style = TextStyle(
+                        fontWeight = FontWeight.Medium,
+                    ),
+                    fontSize = 14.sp,
+                )
+
+            },
+            headlineContent = {
+                Text(
+                    modifier = Modifier.padding(vertical = 6.dp),
+                    text = smsBody?.paymentDate?.let { DateUtils.fromLocalDateTimeToStringDate(it) }?:"",
+                    style = TextStyle(
+                        fontWeight = FontWeight.Medium,
+                    ),
+                    fontSize = 12.sp,
+                )
+            },
+            supportingContent = {
+                Text(
+                    modifier = Modifier.padding(vertical = 6.dp),
+                    text = smsBody?.paymentSum.toString() + " " + smsBody?.paymentCurrency,
+                    style = TextStyle(
+                    ),
                     fontWeight = FontWeight.Bold,
-                ),
-                fontSize = 16.sp,
-            )
-        },
-    )
+                    fontSize = 16.sp,
+                )
+            },
+            trailingContent = {
+                Text(
+                    Localization.withComposable(smsBody?.actionCategory?.resId ?: 0),
+                    style = TextStyle(
+                        color = actionCategoryColor(smsBody?.actionCategory ?: ActionCategory.UNKNOWN),
+                        fontWeight = FontWeight.Bold,
+                    ),
+                    fontSize = 16.sp,
+                )
+            },
+        )
+    }
+
 }
 
 fun actionCategoryColor(actionCategory: ActionCategory): Color {

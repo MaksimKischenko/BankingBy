@@ -1,6 +1,5 @@
 package com.example.smsbankinganalitics.widgets
 
-import android.content.Context
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.DatePicker
@@ -11,10 +10,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.smsbankinganalitics.R
+import com.example.smsbankinganalitics.utils.Localization
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -45,7 +43,7 @@ fun SmsFilterDialog(
                             disabledContentColor = MaterialTheme.colorScheme.tertiary,
                         )
                     ) {
-                        Text(text = stringResource(id = R.string.select))
+                        Text(Localization.withComposable(R.string.select))
                     }
                 },
                 dismissButton = {
@@ -58,7 +56,7 @@ fun SmsFilterDialog(
                             disabledContentColor = MaterialTheme.colorScheme.tertiary,
                         )
                     ) {
-                        Text(text = stringResource(id = R.string.cancel))
+                        Text(Localization.withComposable(R.string.cancel))
                     }
                 }
             ) {

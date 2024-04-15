@@ -10,6 +10,7 @@ abstract class SmsParser {
     protected abstract fun terminalParser(body: String, actionCategory: ActionCategory, makeAssociations: Boolean): Terminal
     protected abstract fun parseActionCategory(body: String): ActionCategory
     protected abstract fun parseAmount(body: String): Double
+    abstract fun parseAvailableAmount(body: String): Double
     protected abstract fun parseDate(body: String): String?
     protected abstract fun parseCurrency(body: String): String
     protected abstract fun parseTerminalAssociations(noAssociatedName: String): String

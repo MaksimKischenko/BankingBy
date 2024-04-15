@@ -1,8 +1,7 @@
 package com.example.smsbankinganalitics.services.SMSParser
 
 import android.content.Context
-import android.os.Build
-import androidx.annotation.RequiresApi
+import android.util.Log
 import com.example.smsbankinganalitics.R
 import com.example.smsbankinganalitics.models.ActionCategory
 import com.example.smsbankinganalitics.models.AssociationTerminal
@@ -10,7 +9,7 @@ import com.example.smsbankinganalitics.models.Currencies
 import com.example.smsbankinganalitics.models.SmsParsedBody
 import com.example.smsbankinganalitics.models.Terminal
 import com.example.smsbankinganalitics.utils.AppRegex
-import com.example.smsbankinganalitics.utils.DateUtils
+import com.example.smsbankinganalitics.utils.Localization
 import java.time.LocalDateTime
 import javax.inject.Inject
 
@@ -23,10 +22,9 @@ class SmsBnbParser @Inject constructor(val context: Context) : SmsParser() {
         return SmsParsedBody(
             paymentCurrency = parseCurrency(noParsedSmsBody.key),
             paymentSum = parseAmount(noParsedSmsBody.key),
-            paymentDate = noParsedSmsBody.value, //format(DateUtils.dateOnly),
+            paymentDate = noParsedSmsBody.value,
             actionCategory = actionCategory,
             terminal = terminalParser(noParsedSmsBody.key, actionCategory, makeAssociations)
-
         )
     }
 
@@ -38,12 +36,12 @@ class SmsBnbParser @Inject constructor(val context: Context) : SmsParser() {
         val noAssociatedName = if (actionCategory == ActionCategory.PAYMENT) {
             body.split(';')[1].split('>')[0]
         } else {
-            context.getString(R.string.unknown)
+            Localization.withContext(context, R.string.unknown)
         }
 
         val associatedName = when {
-            actionCategory == ActionCategory.TRANSFER_FROM -> context.getString(R.string.debiting)
-            actionCategory == ActionCategory.TRANSFER_TO -> context.getString(R.string.enrollment)
+            actionCategory == ActionCategory.TRANSFER_FROM -> Localization.withContext(context, R.string.debiting)
+            actionCategory == ActionCategory.TRANSFER_TO -> Localization.withContext(context, R.string.enrollment)
             makeAssociations -> parseTerminalAssociations(noAssociatedName)
             else -> null
         }
@@ -72,6 +70,15 @@ class SmsBnbParser @Inject constructor(val context: Context) : SmsParser() {
         return amount?.toDoubleOrNull() ?: 0.0
     }
 
+    override fun parseAvailableAmount(body: String): Double {
+        var sum = 0.0
+        val amountLine = AppRegex.availableLineRegex.find(body)?.value
+        if (amountLine != null) {
+            sum =  AppRegex.availableSumRegex.replace(amountLine, "").toDoubleOrNull() ?: 0.0
+        }
+        return sum
+    }
+
     override fun parseDate(body: String): String? {
         val dateMatch = AppRegex.dataRegex.find(body)
         return if (dateMatch != null) {
@@ -86,7 +93,7 @@ class SmsBnbParser @Inject constructor(val context: Context) : SmsParser() {
             AppRegex.bynRegex.containsMatchIn(body) -> Currencies.BYN.name
             AppRegex.usdRegex.containsMatchIn(body) -> Currencies.USD.name
             AppRegex.eurRegex.containsMatchIn(body) -> Currencies.EUR.name
-            else -> context.getString(R.string.unknown)
+            else -> Localization.withContext(context, R.string.unknown)
         }
     }
 
@@ -94,10 +101,10 @@ class SmsBnbParser @Inject constructor(val context: Context) : SmsParser() {
         for (category in AssociationTerminal.entries) {
             for (associatedWord in category.noAssociatedArray) {
                 if (noAssociatedName.lowercase().contains(associatedWord.lowercase())) {
-                    return context.getString(category.resId)
+                    return Localization.withContext(context, category.resId)
                 }
             }
         }
-        return context.getString(AssociationTerminal.OTHER.resId)
+        return Localization.withContext(context, AssociationTerminal.OTHER.resId)
     }
 }

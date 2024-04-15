@@ -4,12 +4,17 @@ import java.time.LocalDateTime
 import javax.inject.Inject
 
 class SmsRepository  @Inject constructor() {
-    private var smsMap: Map<String, LocalDateTime> = mapOf()
-    fun getSmsMap(): Map<String, LocalDateTime> {
-        return smsMap
+
+    private var dynamicSmsMap: MutableMap<String, LocalDateTime> = mutableMapOf()
+
+    fun getAll(): MutableMap<String, LocalDateTime> {
+        return dynamicSmsMap
+    }
+    fun addAll(smsMap: MutableMap<String, LocalDateTime>) {
+        this.dynamicSmsMap = smsMap
     }
 
-    fun addSmsMap(smsMap: Map<String, LocalDateTime>) {
-        this.smsMap = smsMap
+    fun addSms(smsEntry: Pair<String, LocalDateTime>) {
+        dynamicSmsMap[smsEntry.first] = smsEntry.second
     }
 }

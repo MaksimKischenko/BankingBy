@@ -31,12 +31,12 @@ fun AnalyticsAppBar(
         modifier = Modifier
             .fillMaxWidth()
             .clip(
-                RoundedCornerShape(0, 0, 15, 15)
+                RoundedCornerShape(0, 0, 16, 16)
             )
             .border(
                 width = 2.dp,
                 color = MaterialTheme.colorScheme.primary,
-                shape = RoundedCornerShape(0, 0, 15, 15)
+                shape = RoundedCornerShape(0, 0, 16, 16)
             ),
         title = {
             Text(text = appBarTitleName.value)
@@ -50,7 +50,7 @@ fun AnalyticsAppBar(
                     .clickable {
                         navController.popBackStack()
                     }
-                    .size(32.dp),
+                    .size(24.dp),
                 imageVector = ImageVector.vectorResource(id = R.drawable.arrow_back),
                 contentDescription = "bluetoothSearching"
             )

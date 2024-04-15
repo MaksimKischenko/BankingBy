@@ -1,6 +1,7 @@
 package com.example.smsbankinganalitics.view_models
 
 
+import android.util.Log
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult
@@ -32,8 +33,10 @@ class UiEffectsViewModel @Inject constructor() : ViewModel() {
                     isUnVisibleBottomBar = event.errorArgs.isShowingError,
                     errorMessage = event.errorArgs.message
                 )
+                if(lastState != stateApp) {
+                    showErrorSnackBar(event.snackbarHostState)
+                }
                 lastState = stateApp
-                showErrorSnackBar(event.snackbarHostState)
             }
 
             is UiEffectsEvent.ScrollingDownList -> {
@@ -103,6 +106,7 @@ class UiEffectsViewModel @Inject constructor() : ViewModel() {
                 }
 
                 SnackbarResult.Dismissed -> {
+                    Log.d("MyLog", "DISMISS")
                     stateApp = stateApp.copy(
                         isUnVisibleBottomBar = false,
                         errorMessage = null

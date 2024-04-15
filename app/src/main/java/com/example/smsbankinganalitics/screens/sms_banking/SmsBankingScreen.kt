@@ -1,6 +1,9 @@
 package com.example.smsbankinganalitics.screens.sms_banking
 
 import android.content.Context
+import android.os.Build
+import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInHorizontally
@@ -39,6 +42,7 @@ import com.example.smsbankinganalitics.widgets.SmsFilterDialog
 import kotlinx.coroutines.launch
 
 
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun SmsBankingScreen(
@@ -46,6 +50,8 @@ fun SmsBankingScreen(
     smsReceiverViewModel: SmsReceiverViewModel = hiltViewModel(),
     context: Context = LocalContext.current
 ) {
+
+
     val scope = rememberCoroutineScope()
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val dateState = rememberDatePickerState()
@@ -104,7 +110,6 @@ fun SmsBankingScreen(
                 smsReceiverViewModel.state,
                 pullRefreshState,
                 uiEffectsViewModel,
-                snackbarHostState
             )
             SmsFilterDialog(
                 onSelect = {
@@ -120,6 +125,7 @@ fun SmsBankingScreen(
     })
 }
 
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 fun onLoad(
     context: Context,
     smsAddressState: SmsAddress,
@@ -145,8 +151,8 @@ fun onError(
     smsReceiverViewModelState: SMSReceiverState,
     snackbarHostState: SnackbarHostState
 ) {
-
     if (smsReceiverViewModelState.errorMessage != null) {
+        Log.d("MyLog", "${smsReceiverViewModelState.errorMessage}")
         val errorArgs = ErrorArgs(smsReceiverViewModelState.errorMessage!!, true)
         uiEffectsViewModel.onEvent(UiEffectsEvent.ShowingError(errorArgs, snackbarHostState))
     }

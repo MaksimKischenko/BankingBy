@@ -1,8 +1,11 @@
 package com.example.smsbankinganalitics
 
 import android.app.Activity
+import android.bluetooth.BluetoothDevice
+import android.content.IntentFilter
 import android.os.Build
 import android.os.Bundle
+import android.provider.Telephony
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -44,6 +47,10 @@ class MainActivity : ComponentActivity() {
     @RequiresApi(Build.VERSION_CODES.S)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+//        val smsListener = SmsListener()
+//        val intentFilter = IntentFilter()
+//        intentFilter.addAction(Telephony.Sms.Intents.SMS_RECEIVED_ACTION)
+//        registerReceiver(smsListener, intentFilter)
         PermissionListener.onRequestPermissionsResult(this@MainActivity)
         setContent {
             SmsBankingAnalyticsTheme(
@@ -66,6 +73,8 @@ class MainActivity : ComponentActivity() {
     ) {
         val navController = rememberNavController()
         val isVisibleBottomBar = !(uiEffectsViewModel.stateApp.isUnVisibleBottomBar ?: true)
+
+
         Scaffold(
             bottomBar = {
                 AnimatedVisibility(

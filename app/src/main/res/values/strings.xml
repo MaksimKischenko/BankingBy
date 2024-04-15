@@ -4,7 +4,7 @@
     <string name="operations">Операции с картой</string>
     <string name="settings">Настройки</string>
     <string name="unknown">Неизвестно</string>
-    <string name="product_shops">Продуктовые магазины</string>
+    <string name="product_shops">Супермаркеты</string>
     <string name="internet_shops">Интернет магазины</string>
     <string name="transport">Транспорт</string>
     <string name="other">Иное</string>
@@ -18,4 +18,7 @@
     <string name="select">Выбрать</string>
     <string name="cancel">Отменить</string>
     <string name="count">Количество смс:</string>
+    <string name="expenses">Затраты по категориям</string>
+    <string name="writeOff_credits">Списания и зачисления</string>
+    <string name="month_stat">Затраты по месяцам</string>
 </resources>

@@ -11,11 +11,22 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 
-
-object PermissionListener  {
+object PermissionListener {
     fun onRequestPermissionsResult(context: Context) {
-        if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_SMS) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(context as Activity, arrayOf(Manifest.permission.READ_SMS), 1)
+        if (ContextCompat.checkSelfPermission(
+                context,
+                Manifest.permission.READ_SMS
+            ) != PackageManager.PERMISSION_GRANTED
+            && (ContextCompat.checkSelfPermission(
+                context,
+                Manifest.permission.RECEIVE_SMS
+            ) != PackageManager.PERMISSION_GRANTED)
+        ) {
+            ActivityCompat.requestPermissions(
+                context as Activity,
+                arrayOf(Manifest.permission.READ_SMS, Manifest.permission.RECEIVE_SMS),
+                1
+            )
         }
     }
 }

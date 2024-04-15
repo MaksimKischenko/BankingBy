@@ -15,10 +15,6 @@ import java.time.LocalDateTime
 
 
 object SMSReceiver {
-    init {
-        Log.d("MyLog", "INIT SMSReceiver")
-    }
-
     //В этом оптимизированном коде мы используем  async  для запуска асинхронной задачи для каждого адреса из  addressArray ,
     //а затем используем  awaitAll()  для дожидания завершения всех асинхронных задач.
     //Результаты каждой задачи объединяются в общий список с помощью  flatten() .

@@ -1,7 +1,6 @@
 package com.example.smsbankinganalitics.widgets
 
-import android.os.Build
-import androidx.annotation.RequiresApi
+
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.MaterialTheme
@@ -15,9 +14,9 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.sp
 import com.example.smsbankinganalitics.R
 import com.example.smsbankinganalitics.utils.DateUtils
+import com.example.smsbankinganalitics.utils.Localization
 import com.example.smsbankinganalitics.view_models.SMSReceiverState
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun SmsAppBarTitle(
     smsReceiverViewModelState: SMSReceiverState
@@ -34,7 +33,9 @@ fun SmsAppBarTitle(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                stringResource(id = R.string.from) + " $formattedDate ", maxLines = 1, overflow = TextOverflow.Ellipsis,
+                Localization.withComposable(R.string.from) + " $formattedDate ",
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
                 style = TextStyle(
                     fontSize = 20.sp,
                     color = MaterialTheme.colorScheme.tertiary,
