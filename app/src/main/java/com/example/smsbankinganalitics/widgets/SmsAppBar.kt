@@ -18,14 +18,13 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import com.example.smsbankinganalitics.R
-import com.example.smsbankinganalitics.view_models.SMSReceiverState
-
+import com.example.smsbankinganalitics.view_models.SmsReceiverState
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SmsAppBar(
-    smsReceiverViewModelState: SMSReceiverState,
+    smsReceiverViewModelState: SmsReceiverState,
     onFilterClick: () -> Unit,
     onDrawerClick: () -> Unit,
 ) {

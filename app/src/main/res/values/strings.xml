@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">SmsBankingAnalitics</string>
+    <string name="app_name" translatable="false">BankingBuy</string>
     <string name="sms_banking">SMS-банкинг</string>
     <string name="operations">Операции с картой</string>
     <string name="settings">Настройки</string>
@@ -21,4 +21,8 @@
     <string name="expenses">Затраты по категориям</string>
     <string name="writeOff_credits">Списания и зачисления</string>
     <string name="month_stat">Затраты по месяцам</string>
+    <string name="your_bank">Ваш банк:</string>
+    <string name="sms_count">СМС в отборе:</string>
+    <string name="currency">Валюта:</string>
+    <string name="on_card">На карте:</string>
 </resources>

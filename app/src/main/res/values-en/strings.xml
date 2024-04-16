@@ -20,4 +20,8 @@
     <string name="expenses">Expenses by category</string>
     <string name="writeOff_credits">Write-offs and credits</string>
     <string name="month_stat">Expenses by month</string>
+    <string name="your_bank">Your bank:</string>
+    <string name="sms_count">SMS in selection:</string>
+    <string name="currency">Currency:</string>
+    <string name="on_card">On card:</string>
 </resources>

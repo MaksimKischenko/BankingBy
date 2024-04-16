@@ -87,7 +87,6 @@ fun SmsBodyItem(
                     ),
                     fontSize = 14.sp,
                 )
-
             },
             headlineContent = {
                 Text(

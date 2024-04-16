@@ -20,4 +20,8 @@
     <string name="expenses">Выдаткі па катэгорыях</string>
     <string name="writeOff_credits">Спісанні і залічэнні</string>
     <string name="month_stat">Выдаткі па месяцах</string>
+    <string name="your_bank">Ваш банк:</string>
+    <string name="sms_count">СМС у адборы:</string>
+    <string name="currency">Валюта:</string>
+    <string name="on_card">На мале:</string>
 </resources>

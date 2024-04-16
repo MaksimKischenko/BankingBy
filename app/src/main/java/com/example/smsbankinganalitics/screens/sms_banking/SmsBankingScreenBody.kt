@@ -19,7 +19,7 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.smsbankinganalitics.view_models.SMSReceiverState
+import com.example.smsbankinganalitics.view_models.SmsReceiverState
 import com.example.smsbankinganalitics.view_models.UiEffectsEvent
 import com.example.smsbankinganalitics.view_models.UiEffectsViewModel
 import com.example.smsbankinganalitics.widgets.SmsBodyItem
@@ -28,7 +28,7 @@ import com.example.smsbankinganalitics.widgets.SmsBodyItem
 @Composable
 fun SmsBankingScreenBody(
     innerPadding: PaddingValues,
-    smsReceiverViewModelState: SMSReceiverState,
+    smsReceiverViewModelState: SmsReceiverState,
     pullRefreshState: PullRefreshState,
     uiEffectsViewModel: UiEffectsViewModel,
 ) {

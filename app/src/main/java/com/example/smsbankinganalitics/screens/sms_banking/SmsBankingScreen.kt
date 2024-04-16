@@ -31,8 +31,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.smsbankinganalitics.models.ErrorArgs
 import com.example.smsbankinganalitics.models.SmsAddress
 import com.example.smsbankinganalitics.models.SmsArgs
-import com.example.smsbankinganalitics.view_models.SMSReceiverEvent
-import com.example.smsbankinganalitics.view_models.SMSReceiverState
+import com.example.smsbankinganalitics.view_models.SmsReceiverEvent
+import com.example.smsbankinganalitics.view_models.SmsReceiverState
 import com.example.smsbankinganalitics.view_models.SmsReceiverViewModel
 import com.example.smsbankinganalitics.view_models.UiEffectsEvent
 import com.example.smsbankinganalitics.view_models.UiEffectsViewModel
@@ -57,7 +57,7 @@ fun SmsBankingScreen(
     val dateState = rememberDatePickerState()
     val openDialog = remember { mutableStateOf(false) }
     val smsAddressState by remember {
-        mutableStateOf(SmsAddress.BNB)
+        mutableStateOf(SmsAddress.BNB_BANK)
     }
     val snackbarHostState = remember { SnackbarHostState() }
     val pullRefreshState =
@@ -75,54 +75,65 @@ fun SmsBankingScreen(
             uiEffectsViewModel, smsReceiverViewModel.state, snackbarHostState
         )
     }
-    AppDrawer(uiEffectsViewModel, scope, drawerState, content = {
-        Scaffold(topBar = {
-            if (smsReceiverViewModel.state.smsReceivedList?.isNotEmpty() != false)
-                AnimatedVisibility(
-                    visible = isVisibleAppBar,
-                    enter = slideInHorizontally(
-                        initialOffsetX = { it }, animationSpec = tween()
-                    ),
-                    exit = slideOutHorizontally(
-                        targetOffsetX = { it }, animationSpec = tween()
-                    )
+    AppDrawer(
+        smsReceiverViewModel.state,
+        uiEffectsViewModel,
+        scope,
+        drawerState,
+        content = {
+            Scaffold(
+                topBar = {
+                if (smsReceiverViewModel.state.smsReceivedList?.isNotEmpty() != false)
+                    AnimatedVisibility(
+                        visible = isVisibleAppBar,
+                        enter = slideInHorizontally(
+                            initialOffsetX = { it }, animationSpec = tween()
+                        ),
+                        exit = slideOutHorizontally(
+                            targetOffsetX = { it }, animationSpec = tween()
+                        )
+                    ) {
+                        SmsAppBar(
+                            smsReceiverViewModel.state,
+                            onDrawerClick = {
+                                uiEffectsViewModel.onEvent(UiEffectsEvent.HideBottomBar(true))
+                                scope.launch {
+                                    drawerState.open()
+                                }
+                            },
+                            onFilterClick = {
+                                openDialog.value = true
+                            }
+                        )
+                    }
+            }, snackbarHost = {
+                SnackbarHost(
+                    hostState = snackbarHostState
                 ) {
-                    SmsAppBar(smsReceiverViewModel.state, onDrawerClick = {
-                        uiEffectsViewModel.onEvent(UiEffectsEvent.HideBottomBar(true))
-                        scope.launch {
-                            drawerState.open()
-                        }
-                    }, onFilterClick = {
-                        openDialog.value = true
-                    })
+                    Snackbar(
+                        containerColor = MaterialTheme.colorScheme.onPrimary, snackbarData = it,
+                    )
                 }
-        }, snackbarHost = {
-            SnackbarHost(
-                hostState = snackbarHostState
-            ) {
-                Snackbar(
-                    containerColor = MaterialTheme.colorScheme.onPrimary, snackbarData = it,
+            }) { padding ->
+                SmsBankingScreenBody(
+                    padding,
+                    smsReceiverViewModel.state,
+                    pullRefreshState,
+                    uiEffectsViewModel,
+                )
+                SmsFilterDialog(
+                    onSelect = {
+                        onLoad(
+                            context,
+                            smsAddressState,
+                            smsReceiverViewModel,
+                            dateState.selectedDateMillis
+                        )
+                    }, dateState, openDialog = openDialog
                 )
             }
-        }) { padding ->
-            SmsBankingScreenBody(
-                padding,
-                smsReceiverViewModel.state,
-                pullRefreshState,
-                uiEffectsViewModel,
-            )
-            SmsFilterDialog(
-                onSelect = {
-                    onLoad(
-                        context,
-                        smsAddressState,
-                        smsReceiverViewModel,
-                        dateState.selectedDateMillis
-                    )
-                }, dateState, openDialog = openDialog
-            )
         }
-    })
+    )
 }
 
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
@@ -133,12 +144,12 @@ fun onLoad(
     dateFrom: Long? = null,
 ) {
     val labelArray = when (smsAddressState) {
-        SmsAddress.BNB -> SmsAddress.BNB.labelArray
-        SmsAddress.BSB -> SmsAddress.BSB.labelArray
-        SmsAddress.ASB -> SmsAddress.ASB.labelArray
+        SmsAddress.BNB_BANK -> SmsAddress.BNB_BANK.labelArray
+        SmsAddress.BSB_BANK -> SmsAddress.BSB_BANK.labelArray
+        SmsAddress.ASB_BANK -> SmsAddress.ASB_BANK.labelArray
     }
     smsReceiverViewModel.onEvent(
-        SMSReceiverEvent.ByArgs(
+        SmsReceiverEvent.ByArgs(
             SmsArgs(
                 labelArray, dateFrom, System.currentTimeMillis()
             ), context
@@ -148,11 +159,10 @@ fun onLoad(
 
 fun onError(
     uiEffectsViewModel: UiEffectsViewModel,
-    smsReceiverViewModelState: SMSReceiverState,
+    smsReceiverViewModelState: SmsReceiverState,
     snackbarHostState: SnackbarHostState
 ) {
     if (smsReceiverViewModelState.errorMessage != null) {
-        Log.d("MyLog", "${smsReceiverViewModelState.errorMessage}")
         val errorArgs = ErrorArgs(smsReceiverViewModelState.errorMessage!!, true)
         uiEffectsViewModel.onEvent(UiEffectsEvent.ShowingError(errorArgs, snackbarHostState))
     }

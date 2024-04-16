@@ -1,7 +1,6 @@
 package com.example.smsbankinganalitics.view_models
 
 import android.content.Context
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -87,7 +86,7 @@ class AnalyticsViewModel @Inject constructor(
     }
 
     private fun filterAndParse(noParsedSmsMap: Map<String, LocalDateTime>): List<SmsParsedBody> {
-        return noParsedSmsMap.map { smsEntry -> smsParser.toParsedSMSBody(smsEntry, true) }
+        return noParsedSmsMap.map { smsEntry -> smsParser.toParsedSmsBody(smsEntry, true) }
     }
 }
 

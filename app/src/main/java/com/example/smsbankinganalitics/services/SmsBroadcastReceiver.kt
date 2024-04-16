@@ -8,7 +8,7 @@ import android.os.Build
 import android.provider.Telephony
 import androidx.annotation.RequiresApi
 import com.example.smsbankinganalitics.models.SmsAddress
-import com.example.smsbankinganalitics.view_models.SMSReceiverEvent
+import com.example.smsbankinganalitics.view_models.SmsReceiverEvent
 import com.example.smsbankinganalitics.view_models.SmsReceiverViewModel
 import javax.inject.Inject
 
@@ -35,7 +35,7 @@ class SmsBroadcastReceiver @Inject constructor(val context: Context) {
                     val sender = smsMessage.displayOriginatingAddress
                     checkSmsAddress(sender) {
                         val messageBody = smsMessage.messageBody
-                        smsReceiverViewModel?.onEvent(SMSReceiverEvent.ByBroadcast(messageBody))
+                        smsReceiverViewModel?.onEvent(SmsReceiverEvent.ByBroadcast(messageBody))
                     }
                 }
             }

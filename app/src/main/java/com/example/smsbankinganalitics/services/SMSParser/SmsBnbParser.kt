@@ -6,6 +6,7 @@ import com.example.smsbankinganalitics.R
 import com.example.smsbankinganalitics.models.ActionCategory
 import com.example.smsbankinganalitics.models.AssociationTerminal
 import com.example.smsbankinganalitics.models.Currencies
+import com.example.smsbankinganalitics.models.SmsCommonInfo
 import com.example.smsbankinganalitics.models.SmsParsedBody
 import com.example.smsbankinganalitics.models.Terminal
 import com.example.smsbankinganalitics.utils.AppRegex
@@ -14,7 +15,7 @@ import java.time.LocalDateTime
 import javax.inject.Inject
 
 class SmsBnbParser @Inject constructor(val context: Context) : SmsParser() {
-    override fun toParsedSMSBody(
+    override fun toParsedSmsBody(
         noParsedSmsBody: Map.Entry<String, LocalDateTime>,
         makeAssociations: Boolean
     ): SmsParsedBody {
@@ -25,6 +26,13 @@ class SmsBnbParser @Inject constructor(val context: Context) : SmsParser() {
             paymentDate = noParsedSmsBody.value,
             actionCategory = actionCategory,
             terminal = terminalParser(noParsedSmsBody.key, actionCategory, makeAssociations)
+        )
+    }
+
+    override fun toSmsCommonInfo(body: String): SmsCommonInfo {
+        return SmsCommonInfo(
+            cardMask = parseCardMask(body),
+            availableAmount = parseAvailableAmount(body),
         )
     }
 
@@ -68,6 +76,10 @@ class SmsBnbParser @Inject constructor(val context: Context) : SmsParser() {
     override fun parseAmount(body: String): Double {
         val amount = AppRegex.sumRegex.find(body)?.value
         return amount?.toDoubleOrNull() ?: 0.0
+    }
+
+    override fun parseCardMask(body: String): String {
+        return AppRegex.cardMask.find(body)?.value?:""
     }
 
     override fun parseAvailableAmount(body: String): Double {
