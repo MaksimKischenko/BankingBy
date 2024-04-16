@@ -88,8 +88,8 @@ fun AnalyticsScreenBody(
     }
 }
 
-fun dateFromAnalyzer(state: AnalyticsState, index: Int) : String {
-    return if(index == 1) {
+fun dateFromAnalyzer(state: AnalyticsState, pageIndex: Int) : String {
+    return if(pageIndex == 1) {
         return LocalDateTime.now().year.toString()
     } else {
         state.dateFrom?:""

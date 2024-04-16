@@ -65,13 +65,10 @@ class ChartsMaker @Inject constructor() {
     }
 
 
-   private fun makeSumByMonthsMap(parsedSmsBodies: List<SmsParsedBody>) : Map<String, Double>{
+    private fun makeSumByMonthsMap(parsedSmsBodies: List<SmsParsedBody>): Map<String, Double> {
         return parsedSmsBodies.filter {
-            it.actionCategory == ActionCategory.PAYMENT
-                    && it.paymentDate.year == LocalDateTime.now().year
-                    && it.paymentCurrency == Currencies.BYN.name
-        }
-            .groupBy { getMonthNameByNumber(it.paymentDate.month.value)}
+            it.actionCategory == ActionCategory.PAYMENT && it.paymentDate.year == LocalDateTime.now().year && it.paymentCurrency == Currencies.BYN.name
+        }.groupBy { getMonthNameByNumber(it.paymentDate.month.value) }
             .mapValues { entry -> entry.value.sumOf { it.paymentSum } }
     }
 
@@ -79,16 +76,19 @@ class ChartsMaker @Inject constructor() {
         val monthNames = DateFormatSymbols().shortMonths
         return monthNames[monthNumber - 1].uppercase()
     }
-    suspend fun makePieChartDataByMonth(parsedSmsBodies: List<SmsParsedBody>): PieChartData = coroutineScope {
-        val deferredSlices = CompletableDeferred<List<PieChartData.Slice>>()
-        launch(Dispatchers.Default) {
-            val mapMonth = makeSumByMonthsMap(parsedSmsBodies)
-            val slices = makeSlicesByMonth(mapMonth, colorsPalette)
-            deferredSlices.complete(slices)
+
+    suspend fun makePieChartDataByMonth(parsedSmsBodies: List<SmsParsedBody>): PieChartData? =
+        coroutineScope {
+            val deferredSlices = CompletableDeferred<List<PieChartData.Slice>>()
+            launch(Dispatchers.Default) {
+                val mapMonth = makeSumByMonthsMap(parsedSmsBodies)
+                val slices = makeSlicesByMonth(mapMonth, colorsPalette)
+                deferredSlices.complete(slices)
+            }
+            val slices = deferredSlices.await()
+            return@coroutineScope if (slices.isEmpty()) null
+            else PieChartData(slices = slices, plotType = PlotType.Donut)
         }
-        val slices = deferredSlices.await()
-        return@coroutineScope PieChartData(slices = slices, plotType = PlotType.Donut)
-    }
 
     private fun makeSlicesByMonth(
         mapCategories: Map<String, Double>, colors: List<Color>
@@ -104,7 +104,7 @@ class ChartsMaker @Inject constructor() {
 
     suspend fun makePieChartDataByActionCategories(
         parsedSmsBodies: List<SmsParsedBody>, actionCategories: List<ActionCategory>
-    ): PieChartData = coroutineScope {
+    ): PieChartData? = coroutineScope {
         val deferredSlices = CompletableDeferred<List<PieChartData.Slice>>()
         launch(Dispatchers.Default) {
             val mapCategories = makeSumByActionCategoriesMap(parsedSmsBodies, actionCategories)
@@ -112,7 +112,8 @@ class ChartsMaker @Inject constructor() {
             deferredSlices.complete(slices)
         }
         val slices = deferredSlices.await()
-        return@coroutineScope PieChartData(slices = slices, plotType = PlotType.Donut)
+        return@coroutineScope if (slices.isEmpty()) null
+        else PieChartData(slices = slices, plotType = PlotType.Donut)
     }
 
     private fun makeSlicesByActionCategories(

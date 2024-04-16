@@ -26,7 +26,6 @@ import com.example.smsbankinganalitics.view_models.UiEffectsViewModel
 import com.example.smsbankinganalitics.widgets.AnalyticsAppBar
 
 
-
 @Composable
 fun AnalyticsScreen(
     navController: NavHostController,

@@ -1,6 +1,7 @@
 package com.example.smsbankinganalitics.view_models
 
 import android.content.Context
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -55,15 +56,18 @@ class AnalyticsViewModel @Inject constructor(
                         )
                         val monthStatisticPieChartData = chartsMaker.makePieChartDataByMonth(parsedSmsBodies)
 
+                        val paymentPieChartDataMap = makePaymentPieChartDataMap(
+                            paymentPieChartData,
+                            transfersPieChartData,
+                            monthStatisticPieChartData,
+                            event
+                        )
+
                         state = state.copy(
                             isLoading = false,
                             donutChartConfig = chartsMaker.donutChartConfig,
                             dateFrom = dateFrom,
-                            paymentPieChartDataMap = mapOf(
-                                withContext(event.context, R.string.expenses) to paymentPieChartData,
-                                withContext(event.context, R.string.month_stat) to monthStatisticPieChartData,
-                                withContext(event.context, R.string.writeOff_credits) to transfersPieChartData,
-                            )
+                            paymentPieChartDataMap = paymentPieChartDataMap
                         )
                     }
                 }
@@ -72,6 +76,27 @@ class AnalyticsViewModel @Inject constructor(
                 state = state.copy(isLoading = false, errorMessage = e.message)
             }
         }
+    }
+
+
+    private fun makePaymentPieChartDataMap(
+        paymentPieChartData: PieChartData?,
+        transfersPieChartData: PieChartData?,
+        monthStatisticPieChartData: PieChartData?,
+        event: AnalyticsEvent.ByActionCategories
+    ): MutableMap<String, PieChartData?> {
+        val paymentPieChartDataMap = mutableMapOf<String, PieChartData?>()
+
+        paymentPieChartData?.let {
+            paymentPieChartDataMap[withContext(event.context, R.string.expenses)] = it
+        }
+        transfersPieChartData?.let {
+            paymentPieChartDataMap[withContext(event.context, R.string.writeOff_credits)] = it
+        }
+        monthStatisticPieChartData?.let {
+            paymentPieChartDataMap[withContext(event.context, R.string.month_stat)] = it
+        }
+        return paymentPieChartDataMap
     }
 
     private fun findOldestDate(parsedSmsBodies: List<SmsParsedBody>): String? {
