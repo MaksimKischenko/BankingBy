@@ -39,13 +39,10 @@ class ChartsMaker @Inject constructor() {
     val donutChartConfig by lazy {
         PieChartConfig(
             labelVisible = true,
-            labelColor = Palette4,
             labelType = PieChartConfig.LabelType.VALUE,
             labelFontSize = 24.sp,
             isSumVisible = true,
             sumUnit = Currencies.BYN.name,
-            backgroundColor = Palette3,
-            sliceLabelTextColor = Palette4,
             sliceLabelTextSize = 24.sp,
             sliceLabelTypeface = Typeface.DEFAULT_BOLD,
             isAnimationEnable = true,

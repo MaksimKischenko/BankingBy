@@ -1,6 +1,5 @@
 package com.example.smsbankinganalitics.di
 
-import android.app.Activity
 import android.content.Context
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -9,7 +8,6 @@ import com.example.smsbankinganalitics.data.repositories.SmsRepository
 import com.example.smsbankinganalitics.services.ChartsMaker
 import com.example.smsbankinganalitics.services.SMSParser.SmsBnbParser
 import com.example.smsbankinganalitics.services.SmsBroadcastReceiver
-import com.example.smsbankinganalitics.view_models.SmsReceiverViewModel
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -25,7 +23,6 @@ object AppDiModule {
     fun provideContextPreferencesModule(@ApplicationContext appContext: Context): Context {
         return appContext
     }
-
 
     @Provides
     @Singleton
@@ -52,7 +49,6 @@ object AppDiModule {
         return SmsBroadcastReceiver(context)
     }
 
-
     @Provides
     @Singleton
     fun provideChartsMaker(context: Context): ChartsMaker {
@@ -60,12 +56,3 @@ object AppDiModule {
     }
 }
 
-//@Module
-//@InstallIn(ActivityComponent::class)
-//abstract class SmsParserModule {
-//
-//    @Binds
-//    abstract fun bindSmsParserBnb(
-//        smsBnbParser: SmsBnbParser
-//    ): SmsParser
-//}

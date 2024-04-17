@@ -17,7 +17,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
@@ -25,7 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.example.smsbankinganalitics.models.BottomNavBarItem
+import com.example.smsbankinganalitics.models.NavBarItem
 import com.example.smsbankinganalitics.utils.Localization
 
 
@@ -35,9 +34,9 @@ fun BottomNavigationBar(
 ) {
     val items = remember {
         listOf(
-            BottomNavBarItem.SmsBankingItem,
-            BottomNavBarItem.OperationsItem,
-            BottomNavBarItem.SettingsItem,
+            NavBarItem.SmsBankingItem,
+            NavBarItem.OperationsItem,
+            NavBarItem.SettingsItem,
         )
     }
     NavigationBar(
@@ -49,7 +48,7 @@ fun BottomNavigationBar(
             )
             .border(
                 width = 2.dp,
-                color = MaterialTheme.colorScheme.primary,
+                color = MaterialTheme.colorScheme.tertiary,
                 shape = RoundedCornerShape(16)
 
             ),
@@ -67,7 +66,7 @@ fun BottomNavigationBar(
                     unselectedIconColor = MaterialTheme.colorScheme.secondary,
                     selectedTextColor = MaterialTheme.colorScheme.primary,
                     unselectedTextColor = MaterialTheme.colorScheme.secondary,
-                    indicatorColor = Color.White
+                    indicatorColor = MaterialTheme.colorScheme.secondary,
                 ),
                 onClick = {
                     if(item.route != currentRoute) {
@@ -86,7 +85,7 @@ fun BottomNavigationBar(
 }
 
 @Composable
-private fun BuildIcon(item: BottomNavBarItem) {
+private fun BuildIcon(item: NavBarItem) {
     return Icon(
         modifier = Modifier.size(32.dp),
         imageVector = ImageVector.vectorResource(id = item.iconId),
@@ -95,7 +94,7 @@ private fun BuildIcon(item: BottomNavBarItem) {
 }
 
 @Composable
-private fun BuildText(item: BottomNavBarItem) {
+private fun BuildText(item: NavBarItem) {
     return Text(
         Localization.withComposable(item.resId),
         fontSize = 12.sp,

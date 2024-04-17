@@ -4,24 +4,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import com.example.smsbankinganalitics.data.PreferencesManager
 import com.example.smsbankinganalitics.data.PrefsKeys
 import com.example.smsbankinganalitics.models.AppTheme
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
-
-
-class ThemeViewModelFactory @Inject constructor(
-    private val prefs: PreferencesManager
-) : ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(ThemeViewModel::class.java)) {
-            return ThemeViewModel(prefs) as T
-        }
-        throw IllegalArgumentException("Unknown ViewModel class")
-    }
-}
 
 @HiltViewModel
 class ThemeViewModel @Inject constructor(
@@ -31,7 +18,7 @@ class ThemeViewModel @Inject constructor(
 
     fun onEvent(event: ThemeEvent) {
         when(event) {
-            is ThemeEvent.ThemeChange -> {
+            is ThemeEvent.Change -> {
                 prefs.write(PrefsKeys.selectedAppTheme, event.theme.name)
                 stateApp = stateApp.copy(theme = event.theme)
             }
@@ -50,7 +37,7 @@ class ThemeViewModel @Inject constructor(
 }
 
 sealed class ThemeEvent {
-    data class ThemeChange(val theme: AppTheme): ThemeEvent()
+    data class Change(val theme: AppTheme): ThemeEvent()
 }
 
 data class ThemeState(

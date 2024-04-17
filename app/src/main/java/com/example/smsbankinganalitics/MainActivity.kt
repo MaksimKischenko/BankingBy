@@ -1,14 +1,10 @@
 package com.example.smsbankinganalitics
 
 import android.app.Activity
-import android.bluetooth.BluetoothDevice
-import android.content.IntentFilter
 import android.os.Build
 import android.os.Bundle
-import android.provider.Telephony
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -22,45 +18,39 @@ import androidx.compose.animation.slideOutVertically
 import androidx.compose.material3.Scaffold
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
-import com.example.smsbankinganalitics.data.PreferencesManager
 import com.example.smsbankinganalitics.navigation.BottomNavigationBar
 import com.example.smsbankinganalitics.navigation.NavGraphBody
 import com.example.smsbankinganalitics.services.PermissionListener
 import com.example.smsbankinganalitics.view_models.ThemeViewModel
-import com.example.smsbankinganalitics.view_models.ThemeViewModelFactory
 import com.example.smsbankinganalitics.view_models.UiEffectsViewModel
-import com.example.smsbankinganalitics.widgets.SmsFilterDialog
-
-
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
+
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-
-    @Inject
-    lateinit var prefs: PreferencesManager
-    private val themeViewModel: ThemeViewModel by viewModels {
-        ThemeViewModelFactory(prefs)
-    }
-
     @RequiresApi(Build.VERSION_CODES.S)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        val smsListener = SmsListener()
-//        val intentFilter = IntentFilter()
-//        intentFilter.addAction(Telephony.Sms.Intents.SMS_RECEIVED_ACTION)
-//        registerReceiver(smsListener, intentFilter)
-        PermissionListener.onRequestPermissionsResult(this@MainActivity)
+        PermissionListener.onRequestPermissionsResult(this)
         setContent {
-            SmsBankingAnalyticsTheme(
-                appTheme = themeViewModel.stateApp.theme
+            AppWrapper()
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.S)
+    @Composable
+    fun AppWrapper(
+        themeViewModel: ThemeViewModel = hiltViewModel()
+    ) {
+        SmsBankingAnalyticsTheme(
+            appTheme = themeViewModel.stateApp.theme
+        ) {
+            Surface(
+                modifier = Modifier.fillMaxSize(),
             ) {
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                ) {
-                    MainActivityBody(this@MainActivity)
-                }
+                MainActivityBody(
+                    this, themeViewModel
+                )
             }
         }
     }
@@ -69,12 +59,11 @@ class MainActivity : ComponentActivity() {
     @Composable
     fun MainActivityBody(
         activity: Activity,
+        themeViewModel: ThemeViewModel,
         uiEffectsViewModel: UiEffectsViewModel = hiltViewModel()
     ) {
         val navController = rememberNavController()
         val isVisibleBottomBar = !(uiEffectsViewModel.stateApp.isUnVisibleBottomBar ?: true)
-
-
         Scaffold(
             bottomBar = {
                 AnimatedVisibility(
@@ -84,11 +73,12 @@ class MainActivity : ComponentActivity() {
                 ) {
                     BottomNavigationBar(navController = navController)
                 }
-            }) { innerPadding ->
+            }
+        ) { innerPadding ->
             NavGraphBody(
+                themeViewModel,
                 uiEffectsViewModel,
                 innerPadding,
-                activity,
                 navHostController = navController,
             )
         }

@@ -31,7 +31,7 @@ fun AnalyticsScreen(
     navController: NavHostController,
     uiEffectsViewModel: UiEffectsViewModel,
     analyticsViewModel: AnalyticsViewModel = hiltViewModel(),
-    context: Context =  LocalContext.current
+    context: Context = LocalContext.current
 ) {
     LaunchedEffect(Unit) {
         uiEffectsViewModel.onEvent(UiEffectsEvent.HideBottomBar(true))
@@ -42,9 +42,14 @@ fun AnalyticsScreen(
         mutableStateOf("")
     }
 
-    Scaffold(topBar = {
-        AnalyticsAppBar(appBarTitleName, navController)
-    }) { padding ->
+    Scaffold(
+        topBar = {
+            AnalyticsAppBar(
+                uiEffectsViewModel,
+                appBarTitleName,
+                navController
+            )
+        }) { padding ->
         AnalyticsScreenBody(
             padding,
             analyticsViewModel,

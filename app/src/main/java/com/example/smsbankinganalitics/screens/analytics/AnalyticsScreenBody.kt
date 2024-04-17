@@ -70,7 +70,10 @@ fun AnalyticsScreenBody(
                     DonutPiePage(
                         pieChartData = data,
                         dateFrom = dateFromAnalyzer(analyticsViewModel.state, pageIndex),
-                        donutChartConfig = config,
+                        donutChartConfig = config.copy(
+                            labelColor = MaterialTheme.colorScheme.primary,
+                            backgroundColor = MaterialTheme.colorScheme.tertiary
+                        ),
                         graphicsLayer = {
                             val pageOffset =
                                 ((pagerState.currentPage - pageIndex) + pagerState.currentPageOffsetFraction).absoluteValue

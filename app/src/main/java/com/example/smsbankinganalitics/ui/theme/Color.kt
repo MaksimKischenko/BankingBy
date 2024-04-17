@@ -16,3 +16,9 @@ val Palette10 = Color(0xFF7D5260)
 val Palette11 = Color(0xFFD0BCFF)
 val Palette12 = Color(0xFFCCC2DC)
 val Palette13 = Color(0xFFEFB8C8)
+
+
+
+val Palette14 = Color(0xFF0C6170)
+val Palette15 = Color(0xFF37BEB0)
+val Palette16 = Color(0xFFCBD0F6)

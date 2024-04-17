@@ -20,10 +20,14 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.smsbankinganalitics.R
+import com.example.smsbankinganalitics.models.NavBarItem
+import com.example.smsbankinganalitics.view_models.UiEffectsEvent
+import com.example.smsbankinganalitics.view_models.UiEffectsViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AnalyticsAppBar(
+    uiEffectsViewModel: UiEffectsViewModel,
     appBarTitleName: MutableState<String>,
     navController: NavHostController
 ) {
@@ -55,5 +59,17 @@ fun AnalyticsAppBar(
                 contentDescription = "bluetoothSearching"
             )
         },
+        actions = {
+            Icon(
+                modifier = Modifier
+                    .clickable {
+                        uiEffectsViewModel.onEvent(UiEffectsEvent.HideBottomBar(false))
+                        navController.navigate(NavBarItem.SettingsItem.route)
+                    }
+                    .size(24.dp),
+                imageVector = ImageVector.vectorResource(id = R.drawable.settings_gear),
+                contentDescription = "bluetoothSearching"
+            )
+        }
     )
 }

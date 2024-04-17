@@ -114,9 +114,9 @@ fun SmsBankingScreen(
                         containerColor = MaterialTheme.colorScheme.onPrimary, snackbarData = it,
                     )
                 }
-            }) { padding ->
+            }) {
                 SmsBankingScreenBody(
-                    padding,
+                    it,
                     smsReceiverViewModel.state,
                     pullRefreshState,
                     uiEffectsViewModel,

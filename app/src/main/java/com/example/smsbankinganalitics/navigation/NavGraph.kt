@@ -1,6 +1,5 @@
 package com.example.smsbankinganalitics.navigation
 
-import android.app.Activity
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.PaddingValues
@@ -8,32 +7,33 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.smsbankinganalitics.models.BottomNavBarItem
+import com.example.smsbankinganalitics.models.NavBarItem
 import com.example.smsbankinganalitics.screens.analytics.AnalyticsScreen
-import com.example.smsbankinganalitics.screens.SettingsScreen
+import com.example.smsbankinganalitics.screens.settings.SettingsScreen
 import com.example.smsbankinganalitics.screens.sms_banking.SmsBankingScreen
+import com.example.smsbankinganalitics.view_models.ThemeViewModel
 import com.example.smsbankinganalitics.view_models.UiEffectsViewModel
 
 @RequiresApi(Build.VERSION_CODES.S)
 @Composable
 fun NavGraphBody(
+    themeViewModel: ThemeViewModel,
     uiEffectsViewModel: UiEffectsViewModel,
     innerPadding: PaddingValues,
-    activity: Activity,
     navHostController: NavHostController,
 ) {
     NavHost(
         navController = navHostController,
-        startDestination = BottomNavBarItem.SmsBankingItem.route,
+        startDestination = NavBarItem.SmsBankingItem.route,
         builder = {
-            composable(BottomNavBarItem.SmsBankingItem.route) {
+            composable(NavBarItem.SmsBankingItem.route) {
                 SmsBankingScreen(uiEffectsViewModel)
             }
-            composable(BottomNavBarItem.OperationsItem.route) {
+            composable(NavBarItem.OperationsItem.route) {
                 AnalyticsScreen(navHostController, uiEffectsViewModel)
             }
-            composable(BottomNavBarItem.SettingsItem.route) {
-                SettingsScreen()
+            composable(NavBarItem.SettingsItem.route) {
+                SettingsScreen(navHostController, themeViewModel)
             }
         }
     )

@@ -12,14 +12,7 @@ import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 import com.example.smsbankinganalitics.models.AppTheme
 
-private val DarkColorScheme = darkColorScheme(
-    primary = Palette1,
-    onPrimary = Palette7,
-    secondary = Palette2,
-    tertiary = Palette3,
-    onTertiary = Palette4,
 
-)
 
 private val LightColorScheme = lightColorScheme(
     primary = Palette1,
@@ -37,6 +30,15 @@ private val LightColorScheme = lightColorScheme(
     onBackground = Color(0xFF1C1B1F),
     onSurface = Color(0xFF1C1B1F),
     */
+)
+
+private val DarkColorScheme = darkColorScheme(
+    primary = Palette3,
+    onPrimary = Palette7,
+    secondary = Palette4,
+    tertiary = Palette2,
+    onTertiary = Palette3,
+
 )
 
 @Composable

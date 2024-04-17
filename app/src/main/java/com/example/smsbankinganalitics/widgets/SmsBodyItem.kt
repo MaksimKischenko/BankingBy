@@ -52,7 +52,7 @@ fun SmsBodyItem(
                 )
                 .border(
                     width = 4.dp,
-                    color = MaterialTheme.colorScheme.primary,
+                    color = MaterialTheme.colorScheme.tertiary,
                     shape = RoundedCornerShape(16)
 
                 ),
