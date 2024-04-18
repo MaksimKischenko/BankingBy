@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name" translatable="false">BankingBuy</string>
     <string name="sms_banking">SMS-банкинг</string>
-    <string name="operations">Операции с картой</string>
+    <string name="operations">Анализ затрат</string>
     <string name="settings">Настройки</string>
     <string name="unknown">Неизвестно</string>
     <string name="product_shops">Супермаркеты</string>

@@ -89,11 +89,11 @@ class AnalyticsViewModel @Inject constructor(
         paymentPieChartData?.let {
             paymentPieChartDataMap[withContext(event.context, R.string.expenses)] = it
         }
-        transfersPieChartData?.let {
-            paymentPieChartDataMap[withContext(event.context, R.string.writeOff_credits)] = it
-        }
         monthStatisticPieChartData?.let {
             paymentPieChartDataMap[withContext(event.context, R.string.month_stat)] = it
+        }
+        transfersPieChartData?.let {
+            paymentPieChartDataMap[withContext(event.context, R.string.writeOff_credits)] = it
         }
         return paymentPieChartDataMap
     }

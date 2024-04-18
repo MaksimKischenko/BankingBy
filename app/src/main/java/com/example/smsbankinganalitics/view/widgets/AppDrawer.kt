@@ -59,21 +59,6 @@ fun AppDrawer(
                         modifier = Modifier
                             .height(6.dp)
                     )
-                    DrawerElement(
-                        imageId = R.drawable.bars,
-                        header = SmsAddress.BNB_BANK.name,
-                        content = "${smsReceiverState.smsCommonInfo?.cardMask}"
-                    )
-                    DrawerElement(
-                        imageId = R.drawable.calendar,
-                        header = "${Localization.withComposable(resId = R.string.from)} ${smsReceiverState.smsCommonInfo?.dateFrom}",
-                        content = "${Localization.withComposable(resId = R.string.sms_count)} ${smsReceiverState.smsReceivedList?.size}"
-                    )
-                    DrawerElement(
-                        imageId = R.drawable.bars2,
-                        header = "${Localization.withComposable(resId = R.string.currency)} ${Currencies.BYN.name}",
-                        content = "${Localization.withComposable(resId = R.string.on_card)} ${smsReceiverState.smsCommonInfo?.availableAmount} ${Currencies.BYN.name}"
-                    )
                 }
 
             }

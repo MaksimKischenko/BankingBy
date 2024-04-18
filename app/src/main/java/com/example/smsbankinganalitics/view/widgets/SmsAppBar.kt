@@ -1,9 +1,9 @@
 package com.example.smsbankinganalitics.view.widgets
 
 
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -30,10 +30,10 @@ fun SmsAppBar(
 ) {
     CenterAlignedTopAppBar(
         modifier = Modifier
-        .fillMaxWidth()
-        .clip(
-            RoundedCornerShape(0, 0, 10, 10)
-        ),
+            .fillMaxWidth()
+            .clip(
+                RoundedCornerShape(0, 0, 10, 10)
+            ),
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = MaterialTheme.colorScheme.primary
         ),
@@ -43,11 +43,13 @@ fun SmsAppBar(
                     .clickable {
                         onDrawerClick.invoke()
                     }
-                    .size(38.dp),
+                    .padding(8.dp)
+                    .size(24.dp),
                 imageVector = ImageVector.vectorResource(id = R.drawable.baseline_dehaze),
                 contentDescription = "bluetoothSearching",
-                tint = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.8f)
+                tint = MaterialTheme.colorScheme.tertiary
             )
+
         },
         title = {
             SmsAppBarTitle(smsReceiverViewModelState)
@@ -58,10 +60,11 @@ fun SmsAppBar(
                     .clickable {
                         onFilterClick.invoke()
                     }
-                    .size(38.dp),
-                imageVector = ImageVector.vectorResource(id = R.drawable.calendar_month),
+                    .padding(8.dp)
+                    .size(24.dp),
+                imageVector = ImageVector.vectorResource(id = R.drawable.filter),
                 contentDescription = "bluetoothSearching",
-                tint = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.8f)
+                tint = MaterialTheme.colorScheme.tertiary
             )
         }
     )

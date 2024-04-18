@@ -2,6 +2,7 @@ package com.example.smsbankinganalitics.view.screens.sms_banking
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -19,10 +20,12 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import co.yml.charts.common.extensions.isNotNull
 import com.example.smsbankinganalitics.view_models.SmsReceiverState
 import com.example.smsbankinganalitics.view_models.UiEffectsEvent
 import com.example.smsbankinganalitics.view_models.UiEffectsViewModel
 import com.example.smsbankinganalitics.view.widgets.SmsBodyItem
+import com.example.smsbankinganalitics.view.widgets.SmsHeaderItem
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -46,7 +49,6 @@ fun SmsBankingScreenBody(
             )
         )
     }
-
     Box(
         modifier = Modifier
             .background(color = MaterialTheme.colorScheme.onTertiary)
@@ -54,14 +56,19 @@ fun SmsBankingScreenBody(
             .fillMaxSize()
             .pullRefresh(pullRefreshState),
         contentAlignment = Alignment.TopCenter,
-
         ) {
-        LazyColumn(
+        Column(
             modifier = Modifier.padding(vertical = 4.dp),
-            state = lazyListState
         ) {
-            itemsIndexed(smsList) { _, sms ->
-                SmsBodyItem(sms)
+            if(smsReceiverViewModelState.smsCommonInfo.isNotNull()) {
+                SmsHeaderItem(smsReceiverViewModelState)
+            }
+            LazyColumn(
+                state = lazyListState
+            ) {
+                itemsIndexed(smsList) { _, sms ->
+                    SmsBodyItem(sms)
+                }
             }
         }
         PullRefreshIndicator(
@@ -71,5 +78,6 @@ fun SmsBankingScreenBody(
             backgroundColor = MaterialTheme.colorScheme.tertiary,
             contentColor = MaterialTheme.colorScheme.primary
         )
+
     }
 }

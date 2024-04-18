@@ -46,12 +46,10 @@ class SmsReceiverViewModel @Inject constructor(
     fun onEvent(event: SmsReceiverEvent) {
         viewModelScope.launch(Dispatchers.IO) {
             val executionTime = measureTimeMillis {
-
-                val smsReceiver = SMSReceiver
-
                 try {
                     when (event) {
                         is SmsReceiverEvent.ByArgs -> {
+                            val smsReceiver = SMSReceiver
                             if ((event.smsArgs.dateFrom ?: 0) < System.currentTimeMillis()) {
                                 state = state.copy(isLoading = true)
                                 val noParsedSmsMap = smsReceiver.getAllSMSByAddress(event.smsArgs, event.context)

@@ -1,6 +1,6 @@
 <resources>
     <string name="sms_banking">SMS-банкінг</string>
-    <string name="operations">Аперацыі з картай</string>
+    <string name="operations">Аналіз выдаткаў</string>
     <string name="settings">Наладкі</string>
     <string name="unknown">Невядома</string>
     <string name="product_shops">Супермаркеты</string>

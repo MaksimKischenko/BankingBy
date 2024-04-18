@@ -46,11 +46,16 @@ fun AnalyticsAppBar(
             Icon(
                 modifier = Modifier
                     .clickable {
-                        navController.popBackStack()
+                        navController.navigate(NavBarItem.SmsBankingItem.route) {
+                            popUpTo(NavBarItem.SmsBankingItem.route) {
+                                inclusive = true
+                            }
+                        }
                     }
                     .size(24.dp),
                 imageVector = ImageVector.vectorResource(id = R.drawable.arrow_back),
-                contentDescription = "bluetoothSearching"
+                contentDescription = "arrow_back",
+                tint = MaterialTheme.colorScheme.tertiary
             )
         },
         actions = {
@@ -58,11 +63,16 @@ fun AnalyticsAppBar(
                 modifier = Modifier
                     .clickable {
                         uiEffectsViewModel.onEvent(UiEffectsEvent.HideBottomBar(false))
-                        navController.navigate(NavBarItem.SettingsItem.route)
+                        navController.navigate(NavBarItem.SettingsItem.route) {
+                            popUpTo(NavBarItem.SettingsItem.route) {
+                                inclusive = true
+                            }
+                        }
                     }
                     .size(24.dp),
                 imageVector = ImageVector.vectorResource(id = R.drawable.settings_gear),
-                contentDescription = "bluetoothSearching"
+                contentDescription = "settings_gear",
+                tint = MaterialTheme.colorScheme.tertiary
             )
         }
     )

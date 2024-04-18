@@ -48,13 +48,13 @@ fun DrawerElement(
                 disabledTrailingIconColor = MaterialTheme.colorScheme.onTertiary
             ),
             leadingContent = {
-                Image(
-                    painterResource(id = imageId),
-                    contentDescription = null,
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier
-                        .size(36.dp)
-                )
+//                Image(
+//                    painterResource(id = imageId),
+//                    contentDescription = null,
+//                    contentScale = ContentScale.Crop,
+//                    modifier = Modifier
+//                        .size(36.dp)
+//                )
             },
             overlineContent = {
 
@@ -69,26 +69,6 @@ fun DrawerElement(
                     fontSize = 16.sp,
                 )
             },
-//            supportingContent = {
-//                Text(
-//                    modifier = Modifier.padding(vertical = 6.dp),
-//                    text = "Остаток: 2400 BYN",
-//                    style = TextStyle(
-//                        fontWeight = FontWeight.Medium,
-//                    ),
-//                    fontSize = 16.sp,
-//                )
-//            },
-//            trailingContent = {
-//                Text(
-//                    modifier = Modifier.padding(vertical = 6.dp),
-//                    text = "BYN",
-//                    style = TextStyle(
-//                        fontWeight = FontWeight.Medium,
-//                    ),
-//                    fontSize = 16.sp,
-//                )
-//            },
         )
     }
 }
