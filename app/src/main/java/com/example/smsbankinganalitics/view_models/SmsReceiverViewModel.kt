@@ -11,16 +11,16 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.smsbankinganalitics.R
-import com.example.smsbankinganalitics.data.repositories.SmsRepository
-import com.example.smsbankinganalitics.models.ActionCategory
-import com.example.smsbankinganalitics.models.SmsArgs
-import com.example.smsbankinganalitics.models.SmsCommonInfo
-import com.example.smsbankinganalitics.models.SmsParsedBody
-import com.example.smsbankinganalitics.services.SMSParser.SmsBnbParser
-import com.example.smsbankinganalitics.services.SMSReceiver
-import com.example.smsbankinganalitics.services.SmsBroadcastReceiver
-import com.example.smsbankinganalitics.utils.DateUtils
-import com.example.smsbankinganalitics.utils.Localization
+import com.example.smsbankinganalitics.view_models.data.repositories.SmsRepository
+import com.example.smsbankinganalitics.model.ActionCategory
+import com.example.smsbankinganalitics.model.SmsArgs
+import com.example.smsbankinganalitics.model.SmsCommonInfo
+import com.example.smsbankinganalitics.model.SmsParsedBody
+import com.example.smsbankinganalitics.view_models.services.SMSParser.SmsBnbParser
+import com.example.smsbankinganalitics.view_models.services.SMSReceiver
+import com.example.smsbankinganalitics.view_models.services.SmsBroadcastReceiver
+import com.example.smsbankinganalitics.view_models.utils.DateUtils
+import com.example.smsbankinganalitics.view_models.utils.Localization
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -73,7 +73,7 @@ class SmsReceiverViewModel @Inject constructor(
                                     smsReceivedList = parsedSmsBodies.toMutableList(),
                                     smsCommonInfo = smsCommonInfo
                                 )
-//                                showInfoToast(event.context)
+                                showInfoToast(event.context)
                             }
                         }
 

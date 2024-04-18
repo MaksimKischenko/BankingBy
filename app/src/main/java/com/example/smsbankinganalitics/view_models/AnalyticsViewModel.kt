@@ -1,7 +1,6 @@
 package com.example.smsbankinganalitics.view_models
 
 import android.content.Context
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -10,13 +9,13 @@ import androidx.lifecycle.viewModelScope
 import co.yml.charts.ui.piechart.models.PieChartConfig
 import co.yml.charts.ui.piechart.models.PieChartData
 import com.example.smsbankinganalitics.R
-import com.example.smsbankinganalitics.data.repositories.SmsRepository
-import com.example.smsbankinganalitics.models.ActionCategory
-import com.example.smsbankinganalitics.models.SmsParsedBody
-import com.example.smsbankinganalitics.services.ChartsMaker
-import com.example.smsbankinganalitics.services.SMSParser.SmsBnbParser
-import com.example.smsbankinganalitics.utils.DateUtils
-import com.example.smsbankinganalitics.utils.Localization.withContext
+import com.example.smsbankinganalitics.view_models.data.repositories.SmsRepository
+import com.example.smsbankinganalitics.model.ActionCategory
+import com.example.smsbankinganalitics.model.SmsParsedBody
+import com.example.smsbankinganalitics.view_models.services.ChartsMaker
+import com.example.smsbankinganalitics.view_models.services.SMSParser.SmsBnbParser
+import com.example.smsbankinganalitics.view_models.utils.DateUtils
+import com.example.smsbankinganalitics.view_models.utils.Localization.withContext
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

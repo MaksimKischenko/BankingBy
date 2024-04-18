@@ -9,7 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.example.smsbankinganalitics.ui.theme.SmsBankingAnalyticsTheme
+import com.example.smsbankinganalitics.view.theme.SmsBankingAnalyticsTheme
 import androidx.annotation.RequiresApi
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
@@ -18,9 +18,8 @@ import androidx.compose.animation.slideOutVertically
 import androidx.compose.material3.Scaffold
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
-import com.example.smsbankinganalitics.navigation.BottomNavigationBar
-import com.example.smsbankinganalitics.navigation.NavGraphBody
-import com.example.smsbankinganalitics.services.PermissionListener
+import com.example.smsbankinganalitics.view.widgets.BottomNavigationBar
+import com.example.smsbankinganalitics.view_models.services.PermissionListener
 import com.example.smsbankinganalitics.view_models.ThemeViewModel
 import com.example.smsbankinganalitics.view_models.UiEffectsViewModel
 import dagger.hilt.android.AndroidEntryPoint
