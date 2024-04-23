@@ -25,7 +25,6 @@ import com.example.smsbankinganalitics.R
 
 @Composable
 fun DrawerHeader() {
-
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.Start,
@@ -37,7 +36,7 @@ fun DrawerHeader() {
     ) {
         Image(
             painterResource(id = R.drawable.banking),
-            contentDescription = null,
+            contentDescription = "banking",
             contentScale = ContentScale.Crop,
             modifier = Modifier
                 .size(120.dp)

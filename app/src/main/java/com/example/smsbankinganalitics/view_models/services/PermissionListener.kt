@@ -3,16 +3,21 @@ package com.example.smsbankinganalitics.view_models.services
 import android.Manifest
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.navigation.NavHostController
+import com.example.smsbankinganalitics.model.BottomNavBarItem
 import com.example.smsbankinganalitics.view_models.utils.PermissionGrantedResultCallback
-import javax.inject.Inject
-import javax.inject.Singleton
 
 
 object PermissionListener {
-    fun onRequestPermissionsResult(context: Context) {
+    fun onRequestPermissionsResult(
+        context: Context,
+        callBack:PermissionGrantedResultCallback
+    ) {
         if (ContextCompat.checkSelfPermission(
                 context,
                 Manifest.permission.READ_SMS
@@ -27,6 +32,9 @@ object PermissionListener {
                 arrayOf(Manifest.permission.READ_SMS, Manifest.permission.RECEIVE_SMS),
                 1
             )
+        } else {
+            callBack.invoke()
         }
     }
 }
+

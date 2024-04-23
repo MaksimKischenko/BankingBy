@@ -45,8 +45,7 @@ fun AnalyticsScreenBody(
     LaunchedEffect(pagerState.targetPage) {
         withContext(Dispatchers.Default) {
             if (analyticsViewModel.state.paymentPieChartDataMap.keys.isNotEmpty()) {
-                val result =
-                    analyticsViewModel.state.paymentPieChartDataMap.keys.toList()[pagerState.targetPage]
+                val result = analyticsViewModel.state.paymentPieChartDataMap.keys.toList()[pagerState.targetPage]
                 appBarTitleName.value = result
             }
         }

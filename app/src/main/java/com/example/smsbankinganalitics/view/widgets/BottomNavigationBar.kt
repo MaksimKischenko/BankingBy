@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.example.smsbankinganalitics.model.NavBarItem
+import com.example.smsbankinganalitics.model.BottomNavBarItem
 import com.example.smsbankinganalitics.view_models.utils.Localization
 
 
@@ -33,9 +33,9 @@ fun BottomNavigationBar(
 ) {
     val items = remember {
         listOf(
-            NavBarItem.SmsBankingItem,
-            NavBarItem.OperationsItem,
-            NavBarItem.SettingsItem,
+            BottomNavBarItem.SmsBankingItem,
+            BottomNavBarItem.OperationsItem,
+            BottomNavBarItem.SettingsItem,
         )
     }
     NavigationBar(
@@ -79,7 +79,7 @@ fun BottomNavigationBar(
 }
 
 @Composable
-private fun BuildIcon(item: NavBarItem) {
+private fun BuildIcon(item: BottomNavBarItem) {
     return Icon(
         modifier = Modifier.size(32.dp),
         imageVector = ImageVector.vectorResource(id = item.iconId),
@@ -88,7 +88,7 @@ private fun BuildIcon(item: NavBarItem) {
 }
 
 @Composable
-private fun BuildText(item: NavBarItem) {
+private fun BuildText(item: BottomNavBarItem) {
     return Text(
         Localization.withComposable(item.resId),
         fontSize = 12.sp,

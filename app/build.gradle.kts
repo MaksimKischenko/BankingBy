@@ -60,6 +60,7 @@ android {
 
 dependencies {
     implementation("androidx.compose.ui:ui-graphics")
+    implementation (libs.androidx.constraintlayout.compose)
     implementation(libs.ycharts)
     implementation(libs.androidx.datastore.preferences)
     implementation(libs.androidx.navigation.compose)

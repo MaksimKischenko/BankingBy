@@ -14,10 +14,6 @@ import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.smsbankinganalitics.R
-import com.example.smsbankinganalitics.model.Currencies
-import com.example.smsbankinganalitics.model.SmsAddress
-import com.example.smsbankinganalitics.view_models.utils.Localization
 import com.example.smsbankinganalitics.view_models.SmsReceiverState
 import com.example.smsbankinganalitics.view_models.UiEffectsEvent
 import com.example.smsbankinganalitics.view_models.UiEffectsViewModel

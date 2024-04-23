@@ -17,12 +17,24 @@
     <string name="from">c</string>
     <string name="select">Выбрать</string>
     <string name="cancel">Отменить</string>
-    <string name="count">Количество смс:</string>
+    <string name="count">Количество SMS:</string>
     <string name="expenses">Затраты по категориям</string>
     <string name="writeOff_credits">Списания и зачисления</string>
     <string name="month_stat">Затраты по месяцам</string>
     <string name="your_bank">Ваш банк:</string>
-    <string name="sms_count">СМС в отборе:</string>
+    <string name="sms_count">SMS в отборе:</string>
     <string name="currency">Валюта:</string>
     <string name="on_card">На карте:</string>
+    <string name="wait">Пожалуйста подождите</string>
+    <string name="isDart">Темная тема</string>
+    <string name="next_button">Далее</string>
+    <string name="scip_button">Пропустить</string>
+    <string name="start_button">Начать</string>
+    <string name="introHeader_1">Выбор вашего банка</string>
+    <string name="introDesc_1">Выберете банк от которого вы получаете SMS-рассылку по текущим затратам и поступлениям с карты</string>
+    <string name="introHeader_2">Отображение полезной информации</string>
+    <string name="introDesc_2">Приложение будет отображать только полезную информацию из SMS-рассылки вашего банка</string>
+    <string name="introHeader_3">Анализ затрат и поступлений</string>
+    <string name="introDesc_3">Исходя из открытой и доступной информации из SMS-рассылки будет выведен отчет по вашим операциям с карты</string>
+
 </resources>

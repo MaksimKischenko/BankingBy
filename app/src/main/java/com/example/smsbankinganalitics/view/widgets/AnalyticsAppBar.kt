@@ -19,7 +19,7 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.smsbankinganalitics.R
-import com.example.smsbankinganalitics.model.NavBarItem
+import com.example.smsbankinganalitics.model.BottomNavBarItem
 import com.example.smsbankinganalitics.view_models.UiEffectsEvent
 import com.example.smsbankinganalitics.view_models.UiEffectsViewModel
 
@@ -46,8 +46,8 @@ fun AnalyticsAppBar(
             Icon(
                 modifier = Modifier
                     .clickable {
-                        navController.navigate(NavBarItem.SmsBankingItem.route) {
-                            popUpTo(NavBarItem.SmsBankingItem.route) {
+                        navController.navigate(BottomNavBarItem.SmsBankingItem.route) {
+                            popUpTo(BottomNavBarItem.SmsBankingItem.route) {
                                 inclusive = true
                             }
                         }
@@ -63,8 +63,8 @@ fun AnalyticsAppBar(
                 modifier = Modifier
                     .clickable {
                         uiEffectsViewModel.onEvent(UiEffectsEvent.HideBottomBar(false))
-                        navController.navigate(NavBarItem.SettingsItem.route) {
-                            popUpTo(NavBarItem.SettingsItem.route) {
+                        navController.navigate(BottomNavBarItem.SettingsItem.route) {
+                            popUpTo(BottomNavBarItem.SettingsItem.route) {
                                 inclusive = true
                             }
                         }

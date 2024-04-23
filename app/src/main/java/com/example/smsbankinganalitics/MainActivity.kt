@@ -1,10 +1,10 @@
 package com.example.smsbankinganalitics
 
-import android.app.Activity
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -19,7 +19,6 @@ import androidx.compose.material3.Scaffold
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import com.example.smsbankinganalitics.view.widgets.BottomNavigationBar
-import com.example.smsbankinganalitics.view_models.services.PermissionListener
 import com.example.smsbankinganalitics.view_models.ThemeViewModel
 import com.example.smsbankinganalitics.view_models.UiEffectsViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -30,11 +29,11 @@ class MainActivity : ComponentActivity() {
     @RequiresApi(Build.VERSION_CODES.S)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        PermissionListener.onRequestPermissionsResult(this)
         setContent {
             AppWrapper()
         }
     }
+
 
     @RequiresApi(Build.VERSION_CODES.S)
     @Composable
@@ -47,17 +46,17 @@ class MainActivity : ComponentActivity() {
             Surface(
                 modifier = Modifier.fillMaxSize(),
             ) {
-                MainActivityBody(
-                    this, themeViewModel
-                )
+                MainActivityBody(themeViewModel)
             }
         }
     }
 
+
+
+
     @RequiresApi(Build.VERSION_CODES.S)
     @Composable
     fun MainActivityBody(
-        activity: Activity,
         themeViewModel: ThemeViewModel,
         uiEffectsViewModel: UiEffectsViewModel = hiltViewModel()
     ) {
@@ -74,12 +73,13 @@ class MainActivity : ComponentActivity() {
                 }
             }
         ) { innerPadding ->
-            NavGraphBody(
+            MainNavHost(
                 themeViewModel,
                 uiEffectsViewModel,
                 innerPadding,
                 navHostController = navController,
             )
+
         }
     }
 }

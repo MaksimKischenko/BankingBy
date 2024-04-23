@@ -60,7 +60,9 @@ fun SmsBankingScreen(
     }
     val snackbarHostState = remember { SnackbarHostState() }
     val pullRefreshState =
-        rememberPullRefreshState(refreshing = smsReceiverViewModel.state.isLoading, onRefresh = {
+        rememberPullRefreshState(
+            refreshing = smsReceiverViewModel.state.isLoading,
+            onRefresh = {
             onLoad(context, smsAddressState, smsReceiverViewModel)
         })
     val isVisibleAppBar = !(uiEffectsViewModel.stateApp.isUnVisibleBottomBar ?: true)

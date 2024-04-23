@@ -24,4 +24,17 @@
     <string name="sms_count">SMS in selection:</string>
     <string name="currency">Currency:</string>
     <string name="on_card">On card:</string>
+    <string name="wait">Please wait</string>
+    <string name="isDart">Dark theme</string>
+    <string name="next_button">Next</string>
+    <string name="scip_button">Skip</string>
+    <string name="start_button">Get started</string>
+    <string name="introHeader_1">Choose Your Bank</string>
+    <string name="introDesc_1">Select the bank from which you receive SMS notifications on current expenses and card receipts</string>
+    <string name="introHeader_2">Display Useful Information</string>
+    <string name="introDesc_2">The app will only display useful information from your bank\'s SMS notifications</string>
+    <string name="introHeader_3">Expense and Income Analysis</string>
+    <string name="introDesc_3">Based on the open and accessible information from the SMS newsletter, a report on your card transactions will be displayed</string>
+
+
 </resources>

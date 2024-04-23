@@ -146,5 +146,5 @@ sealed class UiEffectsEvent {
 data class SideEffectsState(
     val errorMessage: String? = null,
     val infoMessage: String? = null,
-    val isUnVisibleBottomBar: Boolean? = false,
+    val isUnVisibleBottomBar: Boolean? = true,
 )

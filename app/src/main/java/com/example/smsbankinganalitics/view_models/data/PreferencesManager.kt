@@ -23,11 +23,11 @@ class PreferencesManager @Inject constructor(
 
     fun <T> read(typedStoreKey: TypeStoreKey<T>) : Any? {
         @Suppress("UNCHECKED_CAST")
-        return when (typedStoreKey.key as T) {
+        return when (typedStoreKey.defaultValue as T) {
             is Int ->  sharedPreferences.getInt(typedStoreKey.key, typedStoreKey.defaultValue as Int)
             is Long -> sharedPreferences.getLong(typedStoreKey.key, typedStoreKey.defaultValue as Long)
             is String -> sharedPreferences.getString(typedStoreKey.key, typedStoreKey.defaultValue as String)
-            is Float ->sharedPreferences.getFloat(typedStoreKey.key, typedStoreKey.defaultValue as Float)
+            is Float -> sharedPreferences.getFloat(typedStoreKey.key, typedStoreKey.defaultValue as Float)
             is Boolean -> sharedPreferences.getBoolean(typedStoreKey.key, typedStoreKey.defaultValue as Boolean)
             is List<*> -> {
                 @Suppress("UNCHECKED_CAST")
@@ -64,6 +64,7 @@ data class TypeStoreKey<T>(val key:String, var defaultValue: T?) {}
 
 class PrefsKeys {
     companion object {
+        val firstLoad = TypeStoreKey("firstLoad", defaultValue = true)
         val selectedAppTheme = TypeStoreKey("appTheme", defaultValue = AppTheme.Default.name)
     }
 }

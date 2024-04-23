@@ -17,16 +17,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import com.example.smsbankinganalitics.R
 import com.example.smsbankinganalitics.model.AppTheme
 import com.example.smsbankinganalitics.view_models.ThemeEvent
 import com.example.smsbankinganalitics.view_models.ThemeViewModel
+import com.example.smsbankinganalitics.view_models.utils.Localization
 
 @Composable
 fun SettingsThemeItem(
     themeViewModel: ThemeViewModel
 ) {
 
-    var checked by remember { mutableStateOf(themeViewModel.stateApp.theme != AppTheme.Light) }
+    var checked by remember { mutableStateOf(themeViewModel.stateApp.theme == AppTheme.Dark) }
 
     Row(
         modifier = Modifier.fillMaxWidth(),
@@ -34,7 +36,7 @@ fun SettingsThemeItem(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
-            text = "Темный фон",
+            Localization.withComposable(R.string.isDart),
             style = TextStyle(
                 fontWeight = FontWeight.Medium,
             ),
@@ -44,11 +46,11 @@ fun SettingsThemeItem(
             checked = checked,
             colors = SwitchDefaults.colors().copy(
                 uncheckedThumbColor = MaterialTheme.colorScheme.onTertiary,
-                uncheckedTrackColor = MaterialTheme.colorScheme.tertiary,
+                uncheckedTrackColor = MaterialTheme.colorScheme.tertiary.copy(0.7f),
                 uncheckedBorderColor = MaterialTheme.colorScheme.primary,
                 uncheckedIconColor = MaterialTheme.colorScheme.onTertiary,
                 checkedThumbColor = MaterialTheme.colorScheme.onTertiary,
-                checkedTrackColor = MaterialTheme.colorScheme.tertiary,
+                checkedTrackColor = MaterialTheme.colorScheme.tertiary.copy(0.7f),
                 checkedBorderColor = MaterialTheme.colorScheme.primary,
                 checkedIconColor = MaterialTheme.colorScheme.onTertiary,
             ),
