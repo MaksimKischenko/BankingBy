@@ -13,7 +13,7 @@ import com.example.smsbankinganalitics.view_models.data.repositories.SmsReposito
 import com.example.smsbankinganalitics.model.ActionCategory
 import com.example.smsbankinganalitics.model.SmsParsedBody
 import com.example.smsbankinganalitics.view_models.services.ChartsMaker
-import com.example.smsbankinganalitics.view_models.services.SMSParser.SmsBnbParser
+import com.example.smsbankinganalitics.view_models.services.SmsParsers.SmsBnbParser
 import com.example.smsbankinganalitics.view_models.utils.DateUtils
 import com.example.smsbankinganalitics.view_models.utils.Localization.withContext
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -28,7 +28,8 @@ import javax.inject.Inject
 class AnalyticsViewModel @Inject constructor(
     private val smsParser: SmsBnbParser,
     private val smsRepository: SmsRepository,
-    private val chartsMaker: ChartsMaker
+    private val chartsMaker: ChartsMaker,
+
 ) : ViewModel() {
 
     var state by mutableStateOf(AnalyticsState())

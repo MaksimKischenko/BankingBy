@@ -16,7 +16,7 @@ import com.example.smsbankinganalitics.model.ActionCategory
 import com.example.smsbankinganalitics.model.SmsArgs
 import com.example.smsbankinganalitics.model.SmsCommonInfo
 import com.example.smsbankinganalitics.model.SmsParsedBody
-import com.example.smsbankinganalitics.view_models.services.SMSParser.SmsBnbParser
+import com.example.smsbankinganalitics.view_models.services.SmsParsers.SmsBnbParser
 import com.example.smsbankinganalitics.view_models.services.SMSReceiver
 import com.example.smsbankinganalitics.view_models.services.SmsBroadcastReceiver
 import com.example.smsbankinganalitics.view_models.utils.DateUtils

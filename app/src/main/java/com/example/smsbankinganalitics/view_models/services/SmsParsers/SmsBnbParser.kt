@@ -1,4 +1,4 @@
-package com.example.smsbankinganalitics.view_models.services.SMSParser
+package com.example.smsbankinganalitics.view_models.services.SmsParsers
 
 import android.content.Context
 import com.example.smsbankinganalitics.R

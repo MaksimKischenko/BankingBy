@@ -1,6 +1,5 @@
 package com.example.smsbankinganalitics.view.screens.analytics
 
-import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -10,7 +9,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -18,7 +16,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
 import com.example.smsbankinganalitics.view_models.AnalyticsState
@@ -38,11 +35,9 @@ fun AnalyticsScreenBody(
     analyticsViewModel: AnalyticsViewModel,
     appBarTitleName: MutableState<String>,
 ) {
-    Log.d("MyLog", "AnalyticsScreenBody")
     val pagerState = rememberPagerState(pageCount = {
         analyticsViewModel.state.paymentPieChartDataMap.size
     })
-
 
     LaunchedEffect(pagerState.targetPage) {
         withContext(Dispatchers.Default) {

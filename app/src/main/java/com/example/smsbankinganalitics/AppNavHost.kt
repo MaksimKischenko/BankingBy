@@ -28,9 +28,9 @@ fun AppNavHost(
 ) {
     NavHost(
         navController = navHostController,
-        startDestination = Navigation.Intro.route,
+        startDestination = Navigation.Splash.route,
         builder = {
-            Log.d("MyLog", "${navHostController.currentDestination}")
+
             composable(Navigation.Splash.route) {
                 SplashScreen(navHostController)
             }

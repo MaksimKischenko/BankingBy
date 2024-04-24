@@ -6,7 +6,7 @@ import androidx.annotation.RequiresApi
 import com.example.smsbankinganalitics.view_models.data.PreferencesManager
 import com.example.smsbankinganalitics.view_models.data.repositories.SmsRepository
 import com.example.smsbankinganalitics.view_models.services.ChartsMaker
-import com.example.smsbankinganalitics.view_models.services.SMSParser.SmsBnbParser
+import com.example.smsbankinganalitics.view_models.services.SmsParsers.SmsBnbParser
 import com.example.smsbankinganalitics.view_models.services.SmsBroadcastReceiver
 import dagger.Module
 import dagger.Provides

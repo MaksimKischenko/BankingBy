@@ -20,9 +20,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -38,11 +35,8 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavHostController
 import com.example.smsbankinganalitics.R
 import com.example.smsbankinganalitics.view_models.utils.Navigation
-import com.example.smsbankinganalitics.view.theme.Palette14
 import com.example.smsbankinganalitics.view_models.utils.Localization
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -50,21 +44,11 @@ fun IntroScreenPage(
     navHostController: NavHostController,
     pagerState: PagerState,
     iconResId: Int,
-    headerId: Int,
-    descriptionId: Int,
+    header: String,
+    description: String,
 ) {
     val scope = rememberCoroutineScope()
     val targetPage = pagerState.targetPage
-    val isLastPage = remember {
-        mutableStateOf(false)
-    }
-    LaunchedEffect(pagerState.targetPage) {
-        withContext(Dispatchers.Default) {
-            if(targetPage != pagerState.pageCount -1) {
-                isLastPage.value = true
-            }
-        }
-    }
 
     ElevatedCard(
         modifier = Modifier
@@ -87,7 +71,7 @@ fun IntroScreenPage(
                 modifier = Modifier
                     .fillMaxWidth()
             ) {
-                val (icon, header, description, pageIndicator, nextButton, skipButton) = createRefs()
+                val (icon, headerEl, descriptionEl, pageIndicator, nextButton, skipButton) = createRefs()
                 val bottomGuideLine = createGuidelineFromBottom(0.5F)
                 Box(
                     modifier = Modifier
@@ -113,8 +97,8 @@ fun IntroScreenPage(
                     )
                 }
                 Text(
-                    Localization.withComposable(headerId),
-                    modifier = Modifier.constrainAs(header) {
+                    header,
+                    modifier = Modifier.constrainAs(headerEl) {
                         top.linkTo(icon.bottom, (16).dp)
                         start.linkTo(icon.start)
                         end.linkTo(icon.end)
@@ -127,12 +111,12 @@ fun IntroScreenPage(
                     fontSize = 28.sp,
                 )
                 Text(
-                    Localization.withComposable(descriptionId),
+                    description,
                     modifier = Modifier
-                        .constrainAs(description) {
-                            top.linkTo(header.bottom, (16).dp)
-                            start.linkTo(header.start)
-                            end.linkTo(header.end)
+                        .constrainAs(descriptionEl) {
+                            top.linkTo(headerEl.bottom, (16).dp)
+                            start.linkTo(headerEl.start)
+                            end.linkTo(headerEl.end)
                         },
                     style = TextStyle(
                         color = MaterialTheme.colorScheme.tertiary.copy(0.5f),
@@ -144,17 +128,17 @@ fun IntroScreenPage(
                 Box(
                     modifier = Modifier
                         .constrainAs(pageIndicator) {
-                            top.linkTo(description.bottom, (16).dp)
-                            start.linkTo(description.start)
-                            end.linkTo(description.end)
+                            top.linkTo(descriptionEl.bottom, (16).dp)
+                            start.linkTo(descriptionEl.start)
+                            end.linkTo(descriptionEl.end)
                         },
                 ) {
                     PageIndicator(pagerState, this, 12)
                 }
-                if (isLastPage.value) {
+                if (targetPage != 2) {
                     Button(
                         onClick = {
-                            scope.launch(Dispatchers.IO) {
+                            scope.launch {
                                 pagerState.animateScrollToPage(pagerState.currentPage + 1)
                             }
                         },

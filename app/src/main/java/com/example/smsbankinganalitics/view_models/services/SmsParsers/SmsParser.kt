@@ -1,4 +1,4 @@
-package com.example.smsbankinganalitics.view_models.services.SMSParser
+package com.example.smsbankinganalitics.view_models.services.SmsParsers
 
 import com.example.smsbankinganalitics.model.ActionCategory
 import com.example.smsbankinganalitics.model.SmsCommonInfo
