@@ -5,15 +5,11 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
-import com.example.smsbankinganalitics.model.IntroPageItem
-import com.example.smsbankinganalitics.model.Navigation
+import com.example.smsbankinganalitics.view_models.utils.Navigation
 import com.example.smsbankinganalitics.view_models.data.PreferencesManager
 import com.example.smsbankinganalitics.view_models.data.PrefsKeys
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
@@ -23,9 +19,8 @@ class SplashViewModel @Inject constructor(
 ) : ViewModel() {
 
 
-
     @Composable
-    fun initLauncherAndCheckFirstLoad(navHostController: NavHostController)
+    fun initPermissionsLauncherAndCheckFirstLoad(navHostController: NavHostController)
             : ManagedActivityResultLauncher<Array<String>, Map<String, @JvmSuppressWildcards Boolean>> {
         return rememberLauncherForActivityResult(
             ActivityResultContracts.RequestMultiplePermissions()
@@ -33,41 +28,25 @@ class SplashViewModel @Inject constructor(
             if (result.all { it.value }) {
                 onFirstLoad(navHostController)
             } else {
-//            navHostController.navigate("/") {
-//                popUpTo("/") {
-//                    inclusive = true
-//                }
-//            }
+
             }
         }
     }
-    private fun onFirstLoad(navHostController: NavHostController,) {
-        viewModelScope.launch(Dispatchers.Main) {
-            (prefs.read(PrefsKeys.firstLoad) as Boolean).let { firstLoad ->
-                when (firstLoad) {
-                    true -> {
-                        navHostController.navigate(Navigation.Intro.route) {
-                            popUpTo(Navigation.Intro.route) {
-                                inclusive = true
-                            }
-                        }
-                        prefs.write(PrefsKeys.firstLoad, false)
-                    }
-                    false -> {
-                        navHostController.navigate(Navigation.SmsBanking.route) {
-                            popUpTo(Navigation.SmsBanking.route) {
-                                inclusive = true
-                            }
-                        }
-                    }
+
+    private fun onFirstLoad(navHostController: NavHostController) {
+        (prefs.read(PrefsKeys.firstLoad) as Boolean).let { firstLoad ->
+            when (firstLoad) {
+                true -> {
+                    Navigation.goToIntro(navHostController)
+                    prefs.write(PrefsKeys.firstLoad, false)
+                }
+
+                false -> {
+                    Navigation.goToSmsBanking(navHostController, isFirstLoad = true)
                 }
             }
         }
-
     }
 }
 
 
-data class IntroState(
-    val introItems: List<IntroPageItem>
-)

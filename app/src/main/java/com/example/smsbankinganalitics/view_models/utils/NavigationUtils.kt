@@ -1,0 +1,73 @@
+package com.example.smsbankinganalitics.view_models.utils
+
+import androidx.navigation.NavHostController
+import com.example.smsbankinganalitics.R
+
+
+
+
+sealed class Navigation(val route: String) {
+    data object Splash: Navigation( "/")
+    data object Intro: Navigation( "/intro")
+    data object SmsBanking: Navigation( "/sms_banking")
+    data object Analytics: Navigation( "/analytics")
+    data object Settings: Navigation( "/settings")
+    companion object {
+
+        fun goToSplash(navHostController: NavHostController) {
+            navHostController.navigate(Splash.route) {
+                popUpTo(0) {
+                    inclusive = true
+                }
+                launchSingleTop = true
+            }
+        }
+
+        fun goToIntro(navHostController: NavHostController) {
+            navHostController.navigate(Intro.route) {
+                popUpTo(0) {
+                    inclusive = true
+                }
+            }
+        }
+
+        fun goToSmsBanking(navHostController: NavHostController, isFirstLoad: Boolean) {
+            navHostController.navigate(SmsBanking.route) {
+                if (isFirstLoad) {
+                    popUpTo(0) {
+                        inclusive = true
+                    }
+                } else {
+                    popUpTo(SmsBanking.route) {
+                        inclusive = true
+                    }
+                    launchSingleTop = true
+                }
+            }
+        }
+        fun goToAnalytics(navHostController: NavHostController) {
+            navHostController.navigate(Analytics.route) {
+                popUpTo(Analytics.route) {
+                    inclusive = true
+                }
+            }
+        }
+        fun goToSettings(navHostController: NavHostController) {
+            navHostController.navigate(Settings.route) {
+                popUpTo(Settings.route) {
+                    inclusive = true
+                }
+            }
+        }
+    }
+}
+
+
+
+
+sealed class BottomNavBarItem(val resId: Int, val iconId:Int, val route: String) {
+    data object SmsBankingItem: BottomNavBarItem(R.string.sms_banking, R.drawable.sms, Navigation.SmsBanking.route)
+    data object OperationsItem: BottomNavBarItem(R.string.operations, R.drawable.money_cash, Navigation.Analytics.route)
+    data object SettingsItem: BottomNavBarItem(R.string.settings, R.drawable.settings_gear, Navigation.Settings.route)
+}
+

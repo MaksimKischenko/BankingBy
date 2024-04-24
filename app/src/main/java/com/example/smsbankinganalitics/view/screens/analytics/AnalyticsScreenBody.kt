@@ -1,5 +1,6 @@
 package com.example.smsbankinganalitics.view.screens.analytics
 
+import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -37,6 +38,7 @@ fun AnalyticsScreenBody(
     analyticsViewModel: AnalyticsViewModel,
     appBarTitleName: MutableState<String>,
 ) {
+    Log.d("MyLog", "AnalyticsScreenBody")
     val pagerState = rememberPagerState(pageCount = {
         analyticsViewModel.state.paymentPieChartDataMap.size
     })

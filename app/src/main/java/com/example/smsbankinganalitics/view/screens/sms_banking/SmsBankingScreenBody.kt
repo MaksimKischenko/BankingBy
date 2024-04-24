@@ -75,7 +75,7 @@ fun SmsBankingScreenBody(
             refreshing = smsReceiverViewModelState.isLoading,
             state = pullRefreshState,
             modifier = Modifier.align(Alignment.TopCenter),
-            backgroundColor = MaterialTheme.colorScheme.tertiary,
+            backgroundColor = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.9f),
             contentColor = MaterialTheme.colorScheme.primary
         )
 

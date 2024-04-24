@@ -42,14 +42,13 @@ import kotlinx.coroutines.launch
 
 
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
-@OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
 @Composable
 fun SmsBankingScreen(
     uiEffectsViewModel: UiEffectsViewModel,
     smsReceiverViewModel: SmsReceiverViewModel = hiltViewModel(),
     context: Context = LocalContext.current
 ) {
-
 
     val scope = rememberCoroutineScope()
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)

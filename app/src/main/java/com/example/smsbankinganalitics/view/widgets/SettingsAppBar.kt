@@ -38,7 +38,7 @@ fun SettingsAppBar(
                 shape = RoundedCornerShape(0, 0, 16, 16)
             ),
         title = {
-            Text(text = "")
+            Text(text = "Настройки")
         },
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = MaterialTheme.colorScheme.primary

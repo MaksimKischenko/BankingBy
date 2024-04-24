@@ -1,6 +1,7 @@
 package com.example.smsbankinganalitics.view.screens
 
 import android.Manifest
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -33,7 +34,7 @@ fun SplashScreen(
     splashViewModel: SplashViewModel = hiltViewModel()
 ) {
 
-    val launcher = splashViewModel.initLauncherAndCheckFirstLoad(navHostController)
+    val launcher = splashViewModel.initPermissionsLauncherAndCheckFirstLoad(navHostController)
 
     LaunchedEffect(Unit) {
         launcher.launch(arrayOf(Manifest.permission.READ_SMS, Manifest.permission.RECEIVE_SMS))

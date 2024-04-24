@@ -3,13 +3,9 @@ package com.example.smsbankinganalitics.view_models.services
 import android.Manifest
 import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.content.pm.PackageManager
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.navigation.NavHostController
-import com.example.smsbankinganalitics.model.BottomNavBarItem
 import com.example.smsbankinganalitics.view_models.utils.PermissionGrantedResultCallback
 
 

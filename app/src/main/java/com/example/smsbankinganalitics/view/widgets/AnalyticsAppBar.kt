@@ -19,16 +19,16 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.smsbankinganalitics.R
-import com.example.smsbankinganalitics.model.BottomNavBarItem
 import com.example.smsbankinganalitics.view_models.UiEffectsEvent
 import com.example.smsbankinganalitics.view_models.UiEffectsViewModel
+import com.example.smsbankinganalitics.view_models.utils.Navigation
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AnalyticsAppBar(
     uiEffectsViewModel: UiEffectsViewModel,
     appBarTitleName: MutableState<String>,
-    navController: NavHostController
+    navHostController: NavHostController
 ) {
     CenterAlignedTopAppBar(
         modifier = Modifier
@@ -46,11 +46,7 @@ fun AnalyticsAppBar(
             Icon(
                 modifier = Modifier
                     .clickable {
-                        navController.navigate(BottomNavBarItem.SmsBankingItem.route) {
-                            popUpTo(BottomNavBarItem.SmsBankingItem.route) {
-                                inclusive = true
-                            }
-                        }
+                        Navigation.goToSmsBanking(navHostController, isFirstLoad = false)
                     }
                     .size(24.dp),
                 imageVector = ImageVector.vectorResource(id = R.drawable.arrow_back),
@@ -63,11 +59,7 @@ fun AnalyticsAppBar(
                 modifier = Modifier
                     .clickable {
                         uiEffectsViewModel.onEvent(UiEffectsEvent.HideBottomBar(false))
-                        navController.navigate(BottomNavBarItem.SettingsItem.route) {
-                            popUpTo(BottomNavBarItem.SettingsItem.route) {
-                                inclusive = true
-                            }
-                        }
+                        Navigation.goToSettings(navHostController)
                     }
                     .size(24.dp),
                 imageVector = ImageVector.vectorResource(id = R.drawable.settings_gear),

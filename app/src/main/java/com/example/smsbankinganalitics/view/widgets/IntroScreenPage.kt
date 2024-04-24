@@ -21,11 +21,9 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -39,7 +37,7 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavHostController
 import com.example.smsbankinganalitics.R
-import com.example.smsbankinganalitics.model.Navigation
+import com.example.smsbankinganalitics.view_models.utils.Navigation
 import com.example.smsbankinganalitics.view.theme.Palette14
 import com.example.smsbankinganalitics.view_models.utils.Localization
 import kotlinx.coroutines.Dispatchers
@@ -57,13 +55,14 @@ fun IntroScreenPage(
 ) {
     val scope = rememberCoroutineScope()
     val targetPage = pagerState.targetPage
-    var isLastPage by remember {
+    val isLastPage = remember {
         mutableStateOf(false)
     }
     LaunchedEffect(pagerState.targetPage) {
         withContext(Dispatchers.Default) {
-            if(targetPage != pagerState.pageCount-1)
-                isLastPage = true
+            if(targetPage != pagerState.pageCount -1) {
+                isLastPage.value = true
+            }
         }
     }
 
@@ -102,7 +101,7 @@ fun IntroScreenPage(
                             RoundedCornerShape(10.dp)
                         )
                         .background(
-                            Palette14.copy(0.4f)
+                            MaterialTheme.colorScheme.primary.copy(0.4f)
                         )
                 ) {
                     Icon(
@@ -110,7 +109,7 @@ fun IntroScreenPage(
                             .size(240.dp),
                         imageVector = ImageVector.vectorResource(iconResId),
                         contentDescription = "$iconResId",
-                        tint = Palette14
+                        tint =  MaterialTheme.colorScheme.tertiary
                     )
                 }
                 Text(
@@ -152,7 +151,7 @@ fun IntroScreenPage(
                 ) {
                     PageIndicator(pagerState, this, 12)
                 }
-                if (isLastPage) {
+                if (isLastPage.value) {
                     Button(
                         onClick = {
                             scope.launch(Dispatchers.IO) {
@@ -191,11 +190,7 @@ fun IntroScreenPage(
                                 end.linkTo(nextButton.end)
                             },
                         onClick = {
-                            navHostController.navigate(Navigation.SmsBanking.route) {
-                                popUpTo(Navigation.SmsBanking.route) {
-                                    inclusive = true
-                                }
-                            }
+                            Navigation.goToSmsBanking(navHostController, isFirstLoad = true)
                         }) {
                         Text(
                             Localization.withComposable(R.string.scip_button),
@@ -210,11 +205,7 @@ fun IntroScreenPage(
                 } else {
                     Button(
                         onClick = {
-                            navHostController.navigate(Navigation.SmsBanking.route) {
-                                popUpTo(Navigation.SmsBanking.route) {
-                                    inclusive = true
-                                }
-                            }
+                            Navigation.goToSmsBanking(navHostController, isFirstLoad = true)
                         },
                         modifier = Modifier
                             .fillMaxWidth()

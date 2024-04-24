@@ -4,7 +4,6 @@ import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -26,7 +25,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    @RequiresApi(Build.VERSION_CODES.S)
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -35,7 +34,7 @@ class MainActivity : ComponentActivity() {
     }
 
 
-    @RequiresApi(Build.VERSION_CODES.S)
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     @Composable
     fun AppWrapper(
         themeViewModel: ThemeViewModel = hiltViewModel()
@@ -52,15 +51,13 @@ class MainActivity : ComponentActivity() {
     }
 
 
-
-
-    @RequiresApi(Build.VERSION_CODES.S)
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     @Composable
     fun MainActivityBody(
         themeViewModel: ThemeViewModel,
         uiEffectsViewModel: UiEffectsViewModel = hiltViewModel()
     ) {
-        val navController = rememberNavController()
+        val navHostController = rememberNavController()
         val isVisibleBottomBar = !(uiEffectsViewModel.stateApp.isUnVisibleBottomBar ?: true)
         Scaffold(
             bottomBar = {
@@ -69,15 +66,15 @@ class MainActivity : ComponentActivity() {
                     enter = slideInVertically(initialOffsetY = { it }, animationSpec = tween()),
                     exit = slideOutVertically(targetOffsetY = { it }, animationSpec = tween())
                 ) {
-                    BottomNavigationBar(navController = navController)
+                    BottomNavigationBar(navHostController = navHostController)
                 }
             }
         ) { innerPadding ->
-            MainNavHost(
+            AppNavHost(
                 themeViewModel,
                 uiEffectsViewModel,
                 innerPadding,
-                navHostController = navController,
+                navHostController = navHostController,
             )
 
         }

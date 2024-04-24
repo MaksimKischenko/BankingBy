@@ -21,15 +21,15 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.example.smsbankinganalitics.model.BottomNavBarItem
+import com.example.smsbankinganalitics.view_models.utils.BottomNavBarItem
 import com.example.smsbankinganalitics.view_models.utils.Localization
 
 
 @Composable
 fun BottomNavigationBar(
-    navController: NavController
+    navHostController: NavHostController
 ) {
     val items = remember {
         listOf(
@@ -49,7 +49,7 @@ fun BottomNavigationBar(
         containerColor = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.9f),
         tonalElevation = 10.dp
     ) {
-        val backStackEntry by navController.currentBackStackEntryAsState()
+        val backStackEntry by navHostController.currentBackStackEntryAsState()
         val currentRoute = backStackEntry?.destination?.route
 
         items.forEach { item ->
@@ -63,38 +63,29 @@ fun BottomNavigationBar(
                     indicatorColor = MaterialTheme.colorScheme.secondary,
                 ),
                 onClick = {
-                    if(item.route != currentRoute) {
-                        navController.navigate(item.route)
+                    if (item.route != currentRoute) {
+                        navHostController.navigate(item.route)
                     }
                 },
                 icon = {
-                    BuildIcon(item = item)
+                    Icon(
+                        modifier = Modifier.size(32.dp),
+                        imageVector = ImageVector.vectorResource(id = item.iconId),
+                        contentDescription = item.iconId.toString(),
+                    )
                 },
                 label = {
-                    BuildText(item = item)
+                    Text(
+                        Localization.withComposable(item.resId),
+                        fontSize = 12.sp,
+                        textAlign = TextAlign.Center,
+                    )
                 },
             )
         }
     }
 }
 
-@Composable
-private fun BuildIcon(item: BottomNavBarItem) {
-    return Icon(
-        modifier = Modifier.size(32.dp),
-        imageVector = ImageVector.vectorResource(id = item.iconId),
-        contentDescription = item.iconId.toString(),
-    )
-}
-
-@Composable
-private fun BuildText(item: BottomNavBarItem) {
-    return Text(
-        Localization.withComposable(item.resId),
-        fontSize = 12.sp,
-        textAlign = TextAlign.Center,
-    )
-}
 
 
 
