@@ -8,12 +8,21 @@ import com.example.smsbankinganalitics.model.Currencies
 import com.example.smsbankinganalitics.model.SmsCommonInfo
 import com.example.smsbankinganalitics.model.SmsParsedBody
 import com.example.smsbankinganalitics.model.Terminal
-import com.example.smsbankinganalitics.view_models.utils.AppRegex
 import com.example.smsbankinganalitics.view_models.utils.Localization
 import java.time.LocalDateTime
 import javax.inject.Inject
 
 class SmsBnbParser @Inject constructor(val context: Context) : SmsParser() {
+    private val bynRegex = Regex("""BYN""", RegexOption.IGNORE_CASE)
+    private val usdRegex = Regex("""USD""", RegexOption.IGNORE_CASE)
+    private val eurRegex = Regex("""EUR""", RegexOption.IGNORE_CASE)
+    private val dataRegex = Regex("""(\d{2}\.\d{2}\.\d{4} \d{2}:\d{2}:\d{2})""")
+    private val availableLineRegex= Regex("""Dostupno: (\d+\.\d+)""")
+    private val availableSumRegex= Regex("[^\\d.]")
+    private val sumRegex = Regex("""\d+\.\d{2}""")
+    private val cardMask = Regex("Visa#\\d+")
+    private val actionCategoryRegex = Regex("""(\w+(?:\s+\w+)*)\s+\d+\.\d{2}""", RegexOption.IGNORE_CASE)
+
     override fun toParsedSmsBody(
         noParsedSmsBody: Map.Entry<String, LocalDateTime>,
         makeAssociations: Boolean
@@ -63,7 +72,7 @@ class SmsBnbParser @Inject constructor(val context: Context) : SmsParser() {
 
     override fun parseActionCategory(body: String): ActionCategory {
         var actionCategory = ActionCategory.UNKNOWN
-        val matchCategory = AppRegex.actionCategoryRegex.find(body)?.groupValues?.get(1) ?: ""
+        val matchCategory = actionCategoryRegex.find(body)?.groupValues?.get(1)?.lowercase() ?: ""
         if (matchCategory.isNotEmpty()) {
             actionCategory =
                 ActionCategory.entries.find { it.arrayOfActions.contains(matchCategory) }
@@ -73,37 +82,30 @@ class SmsBnbParser @Inject constructor(val context: Context) : SmsParser() {
     }
 
     override fun parseAmount(body: String): Double {
-        val amount = AppRegex.sumRegex.find(body)?.value
+        val amount = sumRegex.find(body)?.value
         return amount?.toDoubleOrNull() ?: 0.0
     }
 
     override fun parseCardMask(body: String): String {
-        return AppRegex.cardMask.find(body)?.value?:""
+        return cardMask.find(body)?.value?:""
     }
 
     override fun parseAvailableAmount(body: String): Double {
         var sum = 0.0
-        val amountLine = AppRegex.availableLineRegex.find(body)?.value
+        val amountLine = availableLineRegex.find(body)?.value
         if (amountLine != null) {
-            sum =  AppRegex.availableSumRegex.replace(amountLine, "").toDoubleOrNull() ?: 0.0
+            sum =  availableSumRegex.replace(amountLine, "").toDoubleOrNull() ?: 0.0
         }
         return sum
     }
 
-    override fun parseDate(body: String): String? {
-        val dateMatch = AppRegex.dataRegex.find(body)
-        return if (dateMatch != null) {
-            dateMatch.groupValues[1]
-        } else {
-            null
-        }
-    }
+
 
     override fun parseCurrency(body: String): String {
         return when {
-            AppRegex.bynRegex.containsMatchIn(body) -> Currencies.BYN.name
-            AppRegex.usdRegex.containsMatchIn(body) -> Currencies.USD.name
-            AppRegex.eurRegex.containsMatchIn(body) -> Currencies.EUR.name
+            bynRegex.containsMatchIn(body) -> Currencies.BYN.name
+            usdRegex.containsMatchIn(body) -> Currencies.USD.name
+            eurRegex.containsMatchIn(body) -> Currencies.EUR.name
             else -> Localization.withContext(context, R.string.unknown)
         }
     }
@@ -117,5 +119,14 @@ class SmsBnbParser @Inject constructor(val context: Context) : SmsParser() {
             }
         }
         return Localization.withContext(context, AssociationTerminal.OTHER.resId)
+    }
+
+    override fun parseDate(body: String): String? {
+        val dateMatch = dataRegex.find(body)
+        return if (dateMatch != null) {
+            dateMatch.groupValues[1]
+        } else {
+            null
+        }
     }
 }

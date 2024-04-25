@@ -54,20 +54,20 @@ fun SmsBankingScreen(
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val dateState = rememberDatePickerState()
     val openDialog = remember { mutableStateOf(false) }
-    val smsAddressState by remember {
-        mutableStateOf(SmsAddress.BNB_BANK)
+    val smsAddress by remember {
+        mutableStateOf(SmsAddress.ASB_BANK)
     }
     val snackbarHostState = remember { SnackbarHostState() }
     val pullRefreshState =
         rememberPullRefreshState(
             refreshing = smsReceiverViewModel.state.isLoading,
             onRefresh = {
-            onLoad(context, smsAddressState, smsReceiverViewModel)
+            onLoad(context, smsAddress, smsReceiverViewModel)
         })
     val isVisibleAppBar = !(uiEffectsViewModel.stateApp.isUnVisibleBottomBar ?: true)
 
     LaunchedEffect(key1 = true) {
-        onLoad(context, smsAddressState, smsReceiverViewModel)
+        onLoad(context, smsAddress, smsReceiverViewModel)
 
     }
     SideEffect {
@@ -125,7 +125,7 @@ fun SmsBankingScreen(
                     onSelect = {
                         onLoad(
                             context,
-                            smsAddressState,
+                            smsAddress,
                             smsReceiverViewModel,
                             dateState.selectedDateMillis
                         )
@@ -139,19 +139,14 @@ fun SmsBankingScreen(
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 fun onLoad(
     context: Context,
-    smsAddressState: SmsAddress,
+    smsAddress: SmsAddress,
     smsReceiverViewModel: SmsReceiverViewModel,
     dateFrom: Long? = null,
 ) {
-    val labelArray = when (smsAddressState) {
-        SmsAddress.BNB_BANK -> SmsAddress.BNB_BANK.labelArray
-        SmsAddress.BSB_BANK -> SmsAddress.BSB_BANK.labelArray
-        SmsAddress.ASB_BANK -> SmsAddress.ASB_BANK.labelArray
-    }
     smsReceiverViewModel.onEvent(
         SmsReceiverEvent.ByArgs(
             SmsArgs(
-                labelArray, dateFrom, System.currentTimeMillis()
+                smsAddress, dateFrom, System.currentTimeMillis()
             ), context
         )
     )

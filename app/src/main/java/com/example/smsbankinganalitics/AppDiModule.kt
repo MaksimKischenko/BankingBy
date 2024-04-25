@@ -3,17 +3,57 @@ package com.example.smsbankinganalitics
 import android.content.Context
 import android.os.Build
 import androidx.annotation.RequiresApi
+import com.example.smsbankinganalitics.model.SmsAddress
 import com.example.smsbankinganalitics.view_models.data.PreferencesManager
 import com.example.smsbankinganalitics.view_models.data.repositories.SmsRepository
 import com.example.smsbankinganalitics.view_models.services.ChartsMaker
 import com.example.smsbankinganalitics.view_models.services.SmsParsers.SmsBnbParser
 import com.example.smsbankinganalitics.view_models.services.SmsBroadcastReceiver
+import com.example.smsbankinganalitics.view_models.services.SmsParsers.SmsAsbParser
+import com.example.smsbankinganalitics.view_models.services.SmsParsers.SmsParser
+import com.example.smsbankinganalitics.view_models.services.SmsParsers.SmsParserFactory
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ActivityComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Named
 import javax.inject.Singleton
+
+//@Qualifier
+//@Retention(AnnotationRetention.BINARY)
+//annotation class Impl1
+//
+//@Qualifier
+//@Retention(AnnotationRetention.BINARY)
+//annotation class Impl2
+//private const val BNB = "BNB"
+//private const val ASB = "ASB"
+//@Module
+//@InstallIn(ActivityComponent::class)
+//abstract class AnalyticsModule {
+//    @Binds
+//    @Impl1
+//    abstract fun bindAnalyticsService1(analyticsServiceImpl: AnalyticsServiceImpl): AnalyticsService
+//
+//    @Binds
+//    @Impl2
+//    abstract fun bindAnalyticsService2(analyticsServiceImpl: AnalyticsServiceImpl2): AnalyticsService
+//}
+//
+//@HiltViewModel
+//class AnalyticsViewModel @Inject constructor(
+//    @Impl1 private val analyticsService1: AnalyticsService,
+//    @Impl2 private val analyticsService2: AnalyticsService
+//) : ViewModel() {
+//    // Ваш код ViewModel здесь
+//}
+//
+
+
+
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -36,11 +76,27 @@ object AppDiModule {
         return SmsRepository()
     }
 
+//    @Provides
+//    @Singleton
+//    @Named(BNB)
+//    fun provideSmsBnbParser(context: Context): SmsParser {
+//        return SmsBnbParser(context)
+//    }
+//
+//    @Provides
+//    @Singleton
+//    @Named(ASB)
+//    fun provideSmsAsbParser(context: Context): SmsParser {
+//        return SmsAsbParser(context)
+//    }
+
     @Provides
     @Singleton
-    fun provideSmsBnbParser(context: Context): SmsBnbParser {
-        return SmsBnbParser(context)
+    fun provideSmsParserFactory(context: Context): SmsParserFactory {
+        return SmsParserFactory(context)
     }
+
+
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     @Provides
@@ -51,7 +107,7 @@ object AppDiModule {
 
     @Provides
     @Singleton
-    fun provideChartsMaker(context: Context): ChartsMaker {
+    fun provideChartsMaker(): ChartsMaker {
         return ChartsMaker()
     }
 }

@@ -19,7 +19,7 @@ object SMSReceiver {
     //а затем используем  awaitAll()  для дожидания завершения всех асинхронных задач.
     //Результаты каждой задачи объединяются в общий список с помощью  flatten() .
     suspend fun getAllSMSByAddress(smsArgs: SmsArgs, context: Context): Map<String, LocalDateTime> = coroutineScope {
-        val deferredList = smsArgs.addressArray.map { address ->
+        val deferredList = smsArgs.smsAddress.labelArray.map { address ->
             async(Dispatchers.IO) {
                 val tempSmsMap: MutableMap<String, LocalDateTime> = mutableMapOf()
                 formCursor(smsArgs, context, address)?.use { inner ->

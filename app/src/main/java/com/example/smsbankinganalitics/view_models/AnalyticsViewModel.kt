@@ -1,6 +1,7 @@
 package com.example.smsbankinganalitics.view_models
 
 import android.content.Context
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -11,9 +12,13 @@ import co.yml.charts.ui.piechart.models.PieChartData
 import com.example.smsbankinganalitics.R
 import com.example.smsbankinganalitics.view_models.data.repositories.SmsRepository
 import com.example.smsbankinganalitics.model.ActionCategory
+import com.example.smsbankinganalitics.model.SmsAddress
+import com.example.smsbankinganalitics.model.SmsArgs
 import com.example.smsbankinganalitics.model.SmsParsedBody
 import com.example.smsbankinganalitics.view_models.services.ChartsMaker
 import com.example.smsbankinganalitics.view_models.services.SmsParsers.SmsBnbParser
+import com.example.smsbankinganalitics.view_models.services.SmsParsers.SmsParser
+import com.example.smsbankinganalitics.view_models.services.SmsParsers.SmsParserFactory
 import com.example.smsbankinganalitics.view_models.utils.DateUtils
 import com.example.smsbankinganalitics.view_models.utils.Localization.withContext
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -26,13 +31,17 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AnalyticsViewModel @Inject constructor(
-    private val smsParser: SmsBnbParser,
+    smsParserFactory: SmsParserFactory,
+
     private val smsRepository: SmsRepository,
     private val chartsMaker: ChartsMaker,
 
-) : ViewModel() {
+    ) : ViewModel() {
+
 
     var state by mutableStateOf(AnalyticsState())
+    private lateinit var smsParser: SmsParser
+    private val factory = smsParserFactory
 
 
     suspend fun onEvent(event: AnalyticsEvent) {
@@ -45,6 +54,7 @@ class AnalyticsViewModel @Inject constructor(
                                 withContext(event.context, R.string.expenses) to null
                             )
                         )
+                        smsParser = factory.setParserBankType(event.smsAddress)
                         val noParsedSmsMap = smsRepository.getAll()
                         val parsedSmsBodies = filterAndParse(noParsedSmsMap)
                         val dateFrom = findOldestDate(parsedSmsBodies)
@@ -62,7 +72,6 @@ class AnalyticsViewModel @Inject constructor(
                             monthStatisticPieChartData,
                             event
                         )
-
                         state = state.copy(
                             isLoading = false,
                             donutChartConfig = chartsMaker.donutChartConfig,
@@ -111,14 +120,17 @@ class AnalyticsViewModel @Inject constructor(
     }
 
     private fun filterAndParse(noParsedSmsMap: Map<String, LocalDateTime>): List<SmsParsedBody> {
-        return noParsedSmsMap.map { smsEntry -> smsParser.toParsedSmsBody(smsEntry, true) }
+        return noParsedSmsMap.map { smsEntry ->
+            smsParser.toParsedSmsBody(smsEntry, true)
+        }
     }
 }
 
 
 sealed class AnalyticsEvent {
     data class ByActionCategories(
-        val context: Context
+        val context: Context,
+        val smsAddress: SmsAddress
     ) : AnalyticsEvent()
 }
 
