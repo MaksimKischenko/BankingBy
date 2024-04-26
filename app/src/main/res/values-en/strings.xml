@@ -35,6 +35,6 @@
     <string name="introDesc_2">The app will only display useful information from your bank\'s SMS notifications</string>
     <string name="introHeader_3">Expense and Income Analysis</string>
     <string name="introDesc_3">Based on the open and accessible information from the SMS newsletter, a report on your card transactions will be displayed</string>
-
+    <string name="bank_type">Bank type</string>
 
 </resources>

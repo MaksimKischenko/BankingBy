@@ -18,7 +18,7 @@ import androidx.compose.material3.Scaffold
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import com.example.smsbankinganalitics.view.widgets.BottomNavigationBar
-import com.example.smsbankinganalitics.view_models.ThemeViewModel
+import com.example.smsbankinganalitics.view_models.SettingsViewModel
 import com.example.smsbankinganalitics.view_models.UiEffectsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -37,15 +37,15 @@ class MainActivity : ComponentActivity() {
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     @Composable
     fun AppWrapper(
-        themeViewModel: ThemeViewModel = hiltViewModel()
+        settingsViewModel: SettingsViewModel = hiltViewModel()
     ) {
         SmsBankingAnalyticsTheme(
-            appTheme = themeViewModel.stateApp.theme
+            appTheme = settingsViewModel.state.theme
         ) {
             Surface(
                 modifier = Modifier.fillMaxSize(),
             ) {
-                MainActivityBody(themeViewModel)
+                MainActivityBody(settingsViewModel)
             }
         }
     }
@@ -54,7 +54,7 @@ class MainActivity : ComponentActivity() {
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     @Composable
     fun MainActivityBody(
-        themeViewModel: ThemeViewModel,
+        settingsViewModel: SettingsViewModel,
         uiEffectsViewModel: UiEffectsViewModel = hiltViewModel()
     ) {
         val navHostController = rememberNavController()
@@ -71,7 +71,7 @@ class MainActivity : ComponentActivity() {
             }
         ) { innerPadding ->
             AppNavHost(
-                themeViewModel,
+                settingsViewModel,
                 uiEffectsViewModel,
                 innerPadding,
                 navHostController = navHostController,

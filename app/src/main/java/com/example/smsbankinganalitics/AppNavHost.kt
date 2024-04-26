@@ -1,7 +1,6 @@
 package com.example.smsbankinganalitics
 
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
@@ -15,13 +14,13 @@ import com.example.smsbankinganalitics.view.screens.analytics.AnalyticsScreen
 import com.example.smsbankinganalitics.view.screens.intro.IntroScreen
 import com.example.smsbankinganalitics.view.screens.settings.SettingsScreen
 import com.example.smsbankinganalitics.view.screens.sms_banking.SmsBankingScreen
-import com.example.smsbankinganalitics.view_models.ThemeViewModel
+import com.example.smsbankinganalitics.view_models.SettingsViewModel
 import com.example.smsbankinganalitics.view_models.UiEffectsViewModel
 
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
 fun AppNavHost(
-    themeViewModel: ThemeViewModel,
+    settingsViewModel: SettingsViewModel,
     uiEffectsViewModel: UiEffectsViewModel,
     innerPadding: PaddingValues,
     navHostController: NavHostController,
@@ -30,7 +29,6 @@ fun AppNavHost(
         navController = navHostController,
         startDestination = Navigation.Splash.route,
         builder = {
-
             composable(Navigation.Splash.route) {
                 SplashScreen(navHostController)
             }
@@ -38,13 +36,17 @@ fun AppNavHost(
                 IntroScreen(navHostController)
             }
             composable(BottomNavBarItem.SmsBankingItem.route) {
-                SmsBankingScreen(uiEffectsViewModel)
+                SmsBankingScreen(settingsViewModel.state.smsAddress, uiEffectsViewModel)
             }
             composable(BottomNavBarItem.OperationsItem.route) {
-                AnalyticsScreen(navHostController, uiEffectsViewModel)
+                AnalyticsScreen(
+                    settingsViewModel.state.smsAddress,
+                    navHostController,
+                    uiEffectsViewModel
+                )
             }
             composable(BottomNavBarItem.SettingsItem.route) {
-                SettingsScreen(navHostController, themeViewModel)
+                SettingsScreen(navHostController, settingsViewModel)
             }
         }
     )

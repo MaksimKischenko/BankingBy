@@ -17,4 +17,8 @@ class SmsRepository  @Inject constructor() {
     fun addSms(smsEntry: Pair<String, LocalDateTime>) {
         dynamicSmsMap[smsEntry.first] = smsEntry.second
     }
+
+    fun clear() {
+        dynamicSmsMap.clear()
+    }
 }

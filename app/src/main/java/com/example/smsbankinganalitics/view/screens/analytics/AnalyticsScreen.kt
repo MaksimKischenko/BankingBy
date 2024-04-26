@@ -22,14 +22,12 @@ import com.example.smsbankinganalitics.view.widgets.AnalyticsAppBar
 
 @Composable
 fun AnalyticsScreen(
+    smsAddress: SmsAddress,
     navHostController: NavHostController,
     uiEffectsViewModel: UiEffectsViewModel,
     analyticsViewModel: AnalyticsViewModel = hiltViewModel(),
     context: Context = LocalContext.current
 ) {
-    val smsAddress by remember {
-        mutableStateOf(SmsAddress.ASB_BANK)
-    }
 
     val appBarTitleName = remember {
         mutableStateOf("")

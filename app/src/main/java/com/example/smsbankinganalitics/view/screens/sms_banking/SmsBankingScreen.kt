@@ -45,6 +45,7 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
 @Composable
 fun SmsBankingScreen(
+    smsAddress: SmsAddress,
     uiEffectsViewModel: UiEffectsViewModel,
     smsReceiverViewModel: SmsReceiverViewModel = hiltViewModel(),
     context: Context = LocalContext.current
@@ -54,9 +55,9 @@ fun SmsBankingScreen(
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val dateState = rememberDatePickerState()
     val openDialog = remember { mutableStateOf(false) }
-    val smsAddress by remember {
-        mutableStateOf(SmsAddress.ASB_BANK)
-    }
+//    val smsAddress by remember {
+//        mutableStateOf(SmsAddress.ASB_BANK)
+//    }
     val snackbarHostState = remember { SnackbarHostState() }
     val pullRefreshState =
         rememberPullRefreshState(

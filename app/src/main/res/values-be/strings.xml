@@ -35,4 +35,5 @@
     <string name="introDesc_2">Прыкладзенне будзе адлюстроўваць толькі карысную інфармацыю з SMS-рассылкі вашага банка</string>
     <string name="introHeader_3">Аналіз выдаткаў і надходжанняў</string>
     <string name="introDesc_3">Зыходзячы з адкрытай і даступнай інфармацыі з SMS-рассылкі будзе выведзена справаздача па вашых аперацыях з карты</string>
+    <string name="bank_type">Выбар банка</string>
 </resources>

@@ -7,14 +7,18 @@ import javax.inject.Inject
 class SmsParserFactory  @Inject constructor(val context: Context) {
     fun setParserBankType(smsAddress: SmsAddress) : SmsParser {
         return when(smsAddress) {
-            SmsAddress.BNB_BANK -> {
+            SmsAddress.BNB -> {
                 SmsBnbParser(context)
             }
-            SmsAddress.ASB_BANK -> {
+            SmsAddress.ASB -> {
                 SmsAsbParser(context)
             }
-            SmsAddress.BSB_BANK -> {
-                SmsBnbParser(context)
+            SmsAddress.BSB -> {
+                SmsUnknownParser(context)
+            }
+
+            SmsAddress.UNKNOWN -> {
+                SmsUnknownParser(context)
             }
         }
     }

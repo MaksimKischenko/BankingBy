@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">BankingBuy</string>
+    <string name="app_name" translatable="false">BankingBY</string>
     <string name="sms_banking">SMS-банкинг</string>
     <string name="operations">Анализ затрат</string>
     <string name="settings">Настройки</string>
@@ -36,5 +36,5 @@
     <string name="introDesc_2">Приложение будет отображать только полезную информацию из SMS-рассылки вашего банка</string>
     <string name="introHeader_3">Анализ затрат и поступлений</string>
     <string name="introDesc_3">Исходя из открытой и доступной информации из SMS-рассылки будет выведен отчет по вашим операциям с карты</string>
-
+    <string name="bank_type">Выбор банка</string>
 </resources>

@@ -3,6 +3,8 @@ package com.example.smsbankinganalitics.view_models.data
 import android.content.Context
 import android.content.SharedPreferences
 import com.example.smsbankinganalitics.model.AppTheme
+import com.example.smsbankinganalitics.model.LanTags
+import com.example.smsbankinganalitics.model.SmsAddress
 import dagger.hilt.android.qualifiers.ActivityContext
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -66,5 +68,7 @@ class PrefsKeys {
     companion object {
         val firstLoad = TypeStoreKey("firstLoad", defaultValue = true)
         val selectedAppTheme = TypeStoreKey("appTheme", defaultValue = AppTheme.Default.name)
+        val selectedSmsAddress = TypeStoreKey("smsAddress", defaultValue = SmsAddress.UNKNOWN.name)
+        val lang = TypeStoreKey("lang", defaultValue = LanTags.RU.tag)
     }
 }

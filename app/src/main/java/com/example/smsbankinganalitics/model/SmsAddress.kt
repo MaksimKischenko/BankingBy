@@ -1,8 +1,11 @@
 package com.example.smsbankinganalitics.model
 
+import com.example.smsbankinganalitics.R
 
-enum class SmsAddress(val labelArray: Array<String>) {
-    BNB_BANK(arrayOf("BNB-BANK","BNB-Bank")),
-    ASB_BANK(arrayOf("ASB.BY")),
-    BSB_BANK(arrayOf(""))
+
+enum class SmsAddress(val labelArray: Array<String>, val resId:Int) {
+    BNB(arrayOf("BNB-BANK","BNB-Bank"), R.drawable.bnb_logo),
+    ASB(arrayOf("ASB.BY"), R.drawable.asb_logo),
+    BSB(arrayOf("BSB-Bank"), R.drawable.bsb_logo),
+    UNKNOWN(arrayOf(""), 0)
 }

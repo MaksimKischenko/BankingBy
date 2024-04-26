@@ -45,7 +45,6 @@ fun BottomNavigationBar(
             .clip(
                 RoundedCornerShape(10)
             ),
-
         containerColor = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.9f),
         tonalElevation = 10.dp
     ) {
