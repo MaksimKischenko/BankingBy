@@ -68,7 +68,7 @@ class SettingsViewModel @Inject constructor(
             SmsAddress.BNB.name -> return SmsAddress.BNB
             SmsAddress.ASB.name -> return SmsAddress.ASB
             SmsAddress.BSB.name -> return SmsAddress.BSB
-            else -> SmsAddress.BNB
+            else -> SmsAddress.NO
         }
     }
 

@@ -16,10 +16,10 @@ class SmsBnbParser @Inject constructor(val context: Context) : SmsParser() {
     private val bynRegex = Regex("""BYN""", RegexOption.IGNORE_CASE)
     private val usdRegex = Regex("""USD""", RegexOption.IGNORE_CASE)
     private val eurRegex = Regex("""EUR""", RegexOption.IGNORE_CASE)
-    private val dataRegex = Regex("""(\d{2}\.\d{2}\.\d{4} \d{2}:\d{2}:\d{2})""")
+//    private val dataRegex = Regex("""(\d{2}\.\d{2}\.\d{4} \d{2}:\d{2}:\d{2})""")
     private val availableLineRegex= Regex("""Dostupno: (\d+\.\d+)""")
-    private val availableSumRegex= Regex("[^\\d.]")
-    private val sumRegex = Regex("""\d+\.\d{2}""")
+//    private val availableSumRegex= Regex("[^\\d.]")
+    private val sumRegex = Regex("""\d+(\.\d{2})?""")
     private val cardMask = Regex("Visa#\\d+")
     private val actionCategoryRegex = Regex("""(\w+(?:\s+\w+)*)\s+\d+\.\d{2}""", RegexOption.IGNORE_CASE)
 
@@ -39,8 +39,9 @@ class SmsBnbParser @Inject constructor(val context: Context) : SmsParser() {
 
     override fun toSmsCommonInfo(body: String): SmsCommonInfo {
         return SmsCommonInfo(
-            cardMask = parseCardMask(body),
+            cardMask = "",
             availableAmount = parseAvailableAmount(body),
+            resId = 0
         )
     }
 
@@ -91,12 +92,8 @@ class SmsBnbParser @Inject constructor(val context: Context) : SmsParser() {
     }
 
     override fun parseAvailableAmount(body: String): Double {
-        var sum = 0.0
-        val amountLine = availableLineRegex.find(body)?.value
-        if (amountLine != null) {
-            sum =  availableSumRegex.replace(amountLine, "").toDoubleOrNull() ?: 0.0
-        }
-        return sum
+        val sum = availableLineRegex.find(body)?.groupValues?.get(1)
+        return sum?.toDoubleOrNull() ?: 0.0
     }
 
 
@@ -121,12 +118,12 @@ class SmsBnbParser @Inject constructor(val context: Context) : SmsParser() {
         return Localization.withContext(context, AssociationTerminal.OTHER.resId)
     }
 
-    override fun parseDate(body: String): String? {
-        val dateMatch = dataRegex.find(body)
-        return if (dateMatch != null) {
-            dateMatch.groupValues[1]
-        } else {
-            null
-        }
-    }
+//    override fun parseDate(body: String): String? {
+//        val dateMatch = dataRegex.find(body)
+//        return if (dateMatch != null) {
+//            dateMatch.groupValues[1]
+//        } else {
+//            null
+//        }
+//    }
 }

@@ -12,7 +12,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.smsbankinganalitics.R
 import com.example.smsbankinganalitics.view_models.data.repositories.SmsRepository
-import com.example.smsbankinganalitics.model.ActionCategory
+import com.example.smsbankinganalitics.model.SmsAddress
 import com.example.smsbankinganalitics.model.SmsArgs
 import com.example.smsbankinganalitics.model.SmsCommonInfo
 import com.example.smsbankinganalitics.model.SmsParsedBody
@@ -38,8 +38,10 @@ class SmsReceiverViewModel @Inject constructor(
     private val smsRepository: SmsRepository,
 ) : ViewModel() {
     var state by mutableStateOf(SmsReceiverState())
+    private lateinit var smsAddress: SmsAddress
     private lateinit var smsParser: SmsParser
     private val factory = smsParserFactory
+
 
     init {
         smsBroadcastReceiver.setSmsReceiverViewModel(this)
@@ -58,6 +60,7 @@ class SmsReceiverViewModel @Inject constructor(
                                 smsParser = factory.setParserBankType(event.smsArgs.smsAddress)
                                 val noParsedSmsMap =
                                     smsReceiver.getAllSMSByAddress(event.smsArgs, event.context)
+                                smsAddress = event.smsArgs.smsAddress
                                 if (noParsedSmsMap.isNotEmpty()) {
                                     makeSmsBankingListIfExists(noParsedSmsMap, event)
                                 } else {
@@ -65,7 +68,6 @@ class SmsReceiverViewModel @Inject constructor(
                                 }
                             }
                         }
-
                         is SmsReceiverEvent.ByBroadcast -> {
                             state = state.copy(isLoading = true)
                             val smsEntry: Pair<String, LocalDateTime> =
@@ -80,7 +82,9 @@ class SmsReceiverViewModel @Inject constructor(
                                     DateUtils.fromLocalDateTimeToStringDate(
                                         it
                                     )
-                                }
+                                },
+                                resId = smsAddress.resId
+
                             )
                             state.smsReceivedList?.add(0, parsedSmsBody)
                             state = state.copy(
@@ -109,6 +113,7 @@ class SmsReceiverViewModel @Inject constructor(
         val parsedSmsBodies = filterAndParse(sortedNoParsedSmsMap)
         var smsCommonInfo = smsParser.toSmsCommonInfo(noParsedSmsMap.keys.first())
         smsCommonInfo = smsCommonInfo.copy(
+            resId = event.smsArgs.smsAddress.resId,
             dateFrom = parsedSmsBodies.lastOrNull()?.paymentDate?.let {
                 DateUtils.fromLocalDateTimeToStringDate(
                     it
@@ -127,7 +132,8 @@ class SmsReceiverViewModel @Inject constructor(
     private fun notExistsAction(event: SmsReceiverEvent.ByArgs) {
         val smsCommonInfo = SmsCommonInfo(
             cardMask = Localization.withContext(event.context, R.string.unknown),
-            availableAmount = 0.0
+            availableAmount = 0.0,
+            resId = event.smsArgs.smsAddress.resId,
         )
         state = state.copy(
             isLoading = false,
@@ -142,7 +148,7 @@ class SmsReceiverViewModel @Inject constructor(
     private fun filterAndParse(noParsedSmsMap: Map<String, LocalDateTime>): List<SmsParsedBody> {
         return noParsedSmsMap.map { smsEntry ->
             smsParser.toParsedSmsBody(smsEntry)
-        }.filter { item -> item.actionCategory != ActionCategory.UNKNOWN }
+        } //.filter { item -> item.actionCategory != ActionCategory.UNKNOWN } //TODO
     }
 
     private fun showInfoToast(context: Context) {

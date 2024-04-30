@@ -45,7 +45,6 @@ fun SettingsThemeItem(
 
     ElevatedCard(
         modifier = Modifier.padding(
-            vertical = 4.dp,
             horizontal = 2.dp
         ),
         elevation = CardDefaults.cardElevation(

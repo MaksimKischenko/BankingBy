@@ -30,10 +30,8 @@ fun SmsAppBar(
 ) {
     CenterAlignedTopAppBar(
         modifier = Modifier
-            .fillMaxWidth()
-            .clip(
-                RoundedCornerShape(0, 0, 10, 10)
-            ),
+            .fillMaxWidth(),
+
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = MaterialTheme.colorScheme.primary
         ),

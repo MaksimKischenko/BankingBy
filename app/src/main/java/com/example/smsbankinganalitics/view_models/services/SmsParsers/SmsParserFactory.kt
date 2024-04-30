@@ -14,10 +14,9 @@ class SmsParserFactory  @Inject constructor(val context: Context) {
                 SmsAsbParser(context)
             }
             SmsAddress.BSB -> {
-                SmsUnknownParser(context)
+                SmsBsbParser(context)
             }
-
-            SmsAddress.UNKNOWN -> {
+            SmsAddress.NO -> {
                 SmsUnknownParser(context)
             }
         }

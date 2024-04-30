@@ -58,7 +58,7 @@ class MainActivity : ComponentActivity() {
         uiEffectsViewModel: UiEffectsViewModel = hiltViewModel()
     ) {
         val navHostController = rememberNavController()
-        val isVisibleBottomBar = !(uiEffectsViewModel.stateApp.isUnVisibleBottomBar ?: true)
+        val isVisibleBottomBar = !(uiEffectsViewModel.state.isUnVisibleBottomBar ?: true)
         Scaffold(
             bottomBar = {
                 AnimatedVisibility(

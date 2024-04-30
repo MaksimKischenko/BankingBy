@@ -32,7 +32,8 @@ class SmsUnknownParser @Inject constructor(val context: Context) : SmsParser() {
     override fun toSmsCommonInfo(body: String): SmsCommonInfo {
         return SmsCommonInfo(
             Localization.withContext(context, R.string.unknown),
-            0.0,
+            resId = 0,
+            availableAmount = 0.0,
         )
     }
 
@@ -62,10 +63,6 @@ class SmsUnknownParser @Inject constructor(val context: Context) : SmsParser() {
 
     override fun parseAvailableAmount(body: String): Double {
         return 0.0
-    }
-
-    override fun parseDate(body: String): String {
-       return Localization.withContext(context, R.string.unknown)
     }
 
     override fun parseCurrency(body: String): String {

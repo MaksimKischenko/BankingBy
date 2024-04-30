@@ -14,7 +14,7 @@ abstract class SmsParser {
     protected abstract fun parseAmount(body: String): Double
     protected abstract fun parseCardMask(body: String): String
     protected abstract fun parseAvailableAmount(body: String): Double
-    protected abstract fun parseDate(body: String): String?
+//    protected abstract fun parseDate(body: String): String?
     protected abstract fun parseCurrency(body: String): String
     protected abstract fun parseTerminalAssociations(noAssociatedName: String): String
 }

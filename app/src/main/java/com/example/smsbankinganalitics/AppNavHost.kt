@@ -46,7 +46,11 @@ fun AppNavHost(
                 )
             }
             composable(BottomNavBarItem.SettingsItem.route) {
-                SettingsScreen(navHostController, settingsViewModel)
+                SettingsScreen(
+                    navHostController,
+                    settingsViewModel,
+                    uiEffectsViewModel
+                )
             }
         }
     )

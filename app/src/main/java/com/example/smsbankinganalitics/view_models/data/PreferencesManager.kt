@@ -68,7 +68,7 @@ class PrefsKeys {
     companion object {
         val firstLoad = TypeStoreKey("firstLoad", defaultValue = true)
         val selectedAppTheme = TypeStoreKey("appTheme", defaultValue = AppTheme.Default.name)
-        val selectedSmsAddress = TypeStoreKey("smsAddress", defaultValue = SmsAddress.UNKNOWN.name)
+        val selectedSmsAddress = TypeStoreKey("smsAddress", defaultValue = SmsAddress.NO.name)
         val lang = TypeStoreKey("lang", defaultValue = LanTags.RU.tag)
     }
 }

@@ -21,7 +21,6 @@ import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -55,9 +54,6 @@ fun SmsBankingScreen(
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val dateState = rememberDatePickerState()
     val openDialog = remember { mutableStateOf(false) }
-//    val smsAddress by remember {
-//        mutableStateOf(SmsAddress.ASB_BANK)
-//    }
     val snackbarHostState = remember { SnackbarHostState() }
     val pullRefreshState =
         rememberPullRefreshState(
@@ -65,7 +61,7 @@ fun SmsBankingScreen(
             onRefresh = {
             onLoad(context, smsAddress, smsReceiverViewModel)
         })
-    val isVisibleAppBar = !(uiEffectsViewModel.stateApp.isUnVisibleBottomBar ?: true)
+    val isVisibleAppBar = !(uiEffectsViewModel.state.isUnVisibleBottomBar ?: true)
 
     LaunchedEffect(key1 = true) {
         onLoad(context, smsAddress, smsReceiverViewModel)

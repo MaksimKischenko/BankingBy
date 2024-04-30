@@ -1,5 +1,6 @@
 package com.example.smsbankinganalitics.view.widgets
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -14,6 +15,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
@@ -48,10 +50,11 @@ import com.example.smsbankinganalitics.view_models.utils.Localization
 fun SmsBodyItem(
     smsBody: SmsParsedBody?,
 ) {
-    ElevatedCard(
+    Log.d("MyLog", "SmsBodyItem")
+    Card(
         modifier = Modifier.padding(
             vertical = 4.dp,
-            horizontal = 14.dp
+            horizontal = 4.dp
         ),
         elevation = CardDefaults.cardElevation(
             defaultElevation = 10.dp,
@@ -62,9 +65,9 @@ fun SmsBodyItem(
             modifier = Modifier
                 .fillMaxSize()
                 .background(
-                    MaterialTheme.colorScheme.tertiary.copy(alpha = 0.9f)
+                    MaterialTheme.colorScheme.tertiary.copy(alpha = 0.8f)
                 )
-                .padding(16.dp),
+                .padding(horizontal = 16.dp, vertical = 8.dp),
             horizontalAlignment = Alignment.Start,
         ) {
             ActionCategoryRow(smsBody)
@@ -95,7 +98,8 @@ fun ActionCategoryRow(smsBody: SmsParsedBody?) {
     Row(
         modifier = Modifier
             .fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Box(
             modifier = Modifier
@@ -113,8 +117,8 @@ fun ActionCategoryRow(smsBody: SmsParsedBody?) {
                 modifier = Modifier
                     .size(48.dp)
                     .padding(4.dp),
-                imageVector = ImageVector.vectorResource(id = R.drawable.dollar_circle),
-                contentDescription = "dollar_circle",
+                imageVector = ImageVector.vectorResource(R.drawable.dollar_circle),
+                contentDescription = R.drawable.dollar_circle.toString(),
                 tint = actionCategoryColor(
                     smsBody?.actionCategory ?: ActionCategory.UNKNOWN
                 ),
@@ -122,22 +126,19 @@ fun ActionCategoryRow(smsBody: SmsParsedBody?) {
         }
         Text(
             Localization.withComposable(smsBody?.actionCategory?.resId ?: 0),
-            modifier = Modifier.padding(horizontal = 6.dp),
             style = TextStyle(
                 color = actionCategoryColor(
                     smsBody?.actionCategory ?: ActionCategory.UNKNOWN
                 ),
-                fontWeight = FontWeight.Thin,
+                fontWeight = FontWeight.Medium
             ),
-            fontSize = 18.sp,
+            fontSize = 22.sp,
         )
         Text(
             text = smsBody?.paymentDate?.let {
                 DateUtils.fromLocalDateTimeToStringDate(it)
             } ?: "",
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(start = 32.dp),
+
             style = TextStyle(
                 fontWeight = FontWeight.Medium,
                 color = MaterialTheme.colorScheme.onTertiary

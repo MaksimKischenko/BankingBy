@@ -59,7 +59,6 @@ android {
 }
 
 dependencies {
-    implementation("androidx.compose.ui:ui-graphics")
     implementation (libs.androidx.constraintlayout.compose)
     implementation(libs.ycharts)
     implementation(libs.androidx.datastore.preferences)
@@ -85,4 +84,5 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+    implementation("androidx.compose.ui:ui-graphics")
 }

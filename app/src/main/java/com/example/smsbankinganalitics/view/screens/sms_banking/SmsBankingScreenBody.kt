@@ -1,5 +1,6 @@
 package com.example.smsbankinganalitics.view.screens.sms_banking
 
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,11 +17,14 @@ import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.key
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
+
 import co.yml.charts.common.extensions.isNotNull
+import com.example.smsbankinganalitics.view.widgets.EmptyShimmerBrushCardList
 import com.example.smsbankinganalitics.view_models.SmsReceiverState
 import com.example.smsbankinganalitics.view_models.UiEffectsEvent
 import com.example.smsbankinganalitics.view_models.UiEffectsViewModel
@@ -37,10 +41,12 @@ fun SmsBankingScreenBody(
 ) {
 
     val lazyListState = rememberLazyListState()
-    val snapshotFlow = snapshotFlow {
-        lazyListState.firstVisibleItemIndex
+
+    val snapshotFlow = remember {
+        snapshotFlow {
+            lazyListState.firstVisibleItemIndex
+        }
     }
-    val smsList = smsReceiverViewModelState.smsReceivedList ?: emptyList()
 
     LaunchedEffect(Unit) {
         uiEffectsViewModel.onEvent(
@@ -58,17 +64,30 @@ fun SmsBankingScreenBody(
         contentAlignment = Alignment.TopCenter,
         ) {
         Column(
-            modifier = Modifier.padding(vertical = 4.dp),
+            modifier = Modifier.fillMaxSize()
+
         ) {
             if(smsReceiverViewModelState.smsCommonInfo.isNotNull()) {
-                SmsHeaderItem(smsReceiverViewModelState)
+                SmsHeaderItem(
+                    smsReceiverViewModelState,
+                    uiEffectsViewModel
+                )
             }
-            LazyColumn(
-                state = lazyListState
-            ) {
-                itemsIndexed(smsList) { _, sms ->
-                    SmsBodyItem(sms)
+            if(smsReceiverViewModelState.smsReceivedList?.isNotEmpty() != false) {
+                LazyColumn(
+                    state = lazyListState
+                ) {
+//                    itemsIndexed(smsReceiverViewModelState.smsReceivedList?: emptyList()) { _, sms ->
+//                        SmsBodyItem(sms)
+//                    }
+                    items(smsReceiverViewModelState.smsReceivedList?.size?:0) { index ->
+                        key(index) {
+                            SmsBodyItem(smsReceiverViewModelState.smsReceivedList?.get(index))
+                        }
+                    }
                 }
+            } else {
+                EmptyShimmerBrushCardList(uiEffectsViewModel)
             }
         }
         PullRefreshIndicator(
@@ -78,6 +97,8 @@ fun SmsBankingScreenBody(
             backgroundColor = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.9f),
             contentColor = MaterialTheme.colorScheme.primary
         )
-
     }
 }
+
+
+

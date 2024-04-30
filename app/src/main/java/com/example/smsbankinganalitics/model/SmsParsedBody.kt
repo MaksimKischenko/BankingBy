@@ -2,6 +2,7 @@ package com.example.smsbankinganalitics.model
 
 import java.time.LocalDateTime
 
+
 data class SmsParsedBody(
     val paymentSum: Double,
     val paymentCurrency: String,

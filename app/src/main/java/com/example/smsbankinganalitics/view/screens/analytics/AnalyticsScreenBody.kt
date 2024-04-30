@@ -18,9 +18,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
+import com.example.smsbankinganalitics.R
 import com.example.smsbankinganalitics.view_models.AnalyticsState
 import com.example.smsbankinganalitics.view_models.AnalyticsViewModel
 import com.example.smsbankinganalitics.view.widgets.DonutPiePage
+import com.example.smsbankinganalitics.view.widgets.EmptyScreenInfo
 import com.example.smsbankinganalitics.view.widgets.PageIndicator
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -56,33 +58,38 @@ fun AnalyticsScreenBody(
         contentAlignment = Alignment.Center,
     ) {
         LoadingBody(analyticsViewModel)
-        HorizontalPager(
-            state = pagerState,
-            pageSpacing = 24.dp,
-            contentPadding = PaddingValues(8.dp)
-        ) { pageIndex ->
-            analyticsViewModel.state.paymentPieChartDataMap.values.toList()[pageIndex]?.let { data ->
-                analyticsViewModel.state.donutChartConfig?.let { config ->
-                    DonutPiePage(
-                        pieChartData = data,
-                        dateFrom = dateFromAnalyzer(analyticsViewModel.state, pageIndex),
-                        donutChartConfig = config.copy(
-                            labelColor = MaterialTheme.colorScheme.primary,
-                            backgroundColor = MaterialTheme.colorScheme.tertiary
-                        ),
-                        graphicsLayer = {
-                            val pageOffset =
-                                ((pagerState.currentPage - pageIndex) + pagerState.currentPageOffsetFraction).absoluteValue
-                            alpha = lerp(
-                                start = 0.5f,
-                                stop = 1f,
-                                fraction = 1f - pageOffset.coerceIn(0f, 1f)
-                            )
-                        }
-                    )
+        if(analyticsViewModel.state.paymentPieChartDataMap.values.isNotEmpty()) {
+            HorizontalPager(
+                state = pagerState,
+                pageSpacing = 24.dp,
+                contentPadding = PaddingValues(8.dp)
+            ) { pageIndex ->
+                analyticsViewModel.state.paymentPieChartDataMap.values.toList()[pageIndex]?.let { data ->
+                    analyticsViewModel.state.donutChartConfig?.let { config ->
+                        DonutPiePage(
+                            pieChartData = data,
+                            dateFrom = dateFromAnalyzer(analyticsViewModel.state, pageIndex),
+                            donutChartConfig = config.copy(
+                                labelColor = MaterialTheme.colorScheme.primary,
+                                backgroundColor = MaterialTheme.colorScheme.tertiary
+                            ),
+                            graphicsLayer = {
+                                val pageOffset =
+                                    ((pagerState.currentPage - pageIndex) + pagerState.currentPageOffsetFraction).absoluteValue
+                                alpha = lerp(
+                                    start = 0.5f,
+                                    stop = 1f,
+                                    fraction = 1f - pageOffset.coerceIn(0f, 1f)
+                                )
+                            }
+                        )
+                    }
                 }
             }
+        } else {
+            EmptyScreenInfo(R.drawable.analytics_search)
         }
+
         PageIndicator(pagerState, this)
     }
 }

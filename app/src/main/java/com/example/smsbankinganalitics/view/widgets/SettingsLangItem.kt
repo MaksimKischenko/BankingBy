@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.ElevatedCard
@@ -34,6 +35,7 @@ import com.example.smsbankinganalitics.R
 import com.example.smsbankinganalitics.model.LanTags
 import com.example.smsbankinganalitics.view_models.SettingsEvent
 import com.example.smsbankinganalitics.view_models.SettingsViewModel
+import com.example.smsbankinganalitics.view_models.UiEffectsViewModel
 
 @Composable
 fun SettingsLangItem(
@@ -45,9 +47,8 @@ fun SettingsLangItem(
         mutableStateOf(settingsViewModel.state.selectedLang.tag)
     }
 
-    ElevatedCard(
+    Card(
         modifier = Modifier.padding(
-            vertical = 4.dp,
             horizontal = 2.dp
         ),
         elevation = CardDefaults.cardElevation(
@@ -100,7 +101,9 @@ fun SettingsLangItem(
                     }) {
                     Text(
                         it.name,
-                        modifier = Modifier.padding(horizontal = 4.dp, vertical = 2.dp),
+                        modifier = Modifier
+                            .padding(horizontal = 4.dp, vertical = 2.dp)
+                        ,
                         style = TextStyle(
                             fontWeight = FontWeight.Bold,
                             color = MaterialTheme.colorScheme.onTertiary
@@ -112,3 +115,4 @@ fun SettingsLangItem(
         }
     }
 }
+
