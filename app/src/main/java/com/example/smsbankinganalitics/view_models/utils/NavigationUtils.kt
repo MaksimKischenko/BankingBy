@@ -52,10 +52,17 @@ sealed class Navigation(val route: String) {
                 }
             }
         }
-        fun goToSettings(navHostController: NavHostController) {
+        fun goToSettings(navHostController: NavHostController, isFirstLoad: Boolean) {
             navHostController.navigate(Settings.route) {
-                popUpTo(Settings.route) {
-                    inclusive = true
+                if (isFirstLoad) {
+                    popUpTo(0) {
+                        inclusive = false
+                    }
+                } else {
+                    popUpTo(Settings.route) {
+                        inclusive = true
+                    }
+                    launchSingleTop = true
                 }
             }
         }

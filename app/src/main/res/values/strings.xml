@@ -30,11 +30,20 @@
     <string name="next_button">Далее</string>
     <string name="scip_button">Пропустить</string>
     <string name="start_button">Начать</string>
-    <string name="introHeader_1">Выбор вашего банка</string>
-    <string name="introDesc_1">Выберете банк от которого вы получаете SMS-рассылку по текущим затратам и поступлениям с карты</string>
-    <string name="introHeader_2">Отображение полезной информации</string>
-    <string name="introDesc_2">Приложение будет отображать только полезную информацию из SMS-рассылки вашего банка</string>
-    <string name="introHeader_3">Анализ затрат и поступлений</string>
-    <string name="introDesc_3">Исходя из открытой и доступной информации из SMS-рассылки будет выведен отчет по вашим операциям с карты</string>
+
+    <string name="introHeader_1">Есть ли SMS-рассылка?</string>
+    <string name="introDesc_1">У вас подключена SMS-рассылка затрат и поступлений денежных средств одного из основных банков в Республики Беларусь? Отлично! Тогда это приложение для Вас!</string>
+
+
+    <string name="introHeader_2">Выбор вашего банка</string>
+    <string name="introDesc_2">Вы сможете выбрать один из банков, предложенных в настройках. Вся история SMS-рассылки автоматически загрузится в приложение</string>
+
+
+    <string name="introHeader_3">Отображение информации</string>
+    <string name="introDesc_3">Приложение будет отображать только полезную информацию из SMS-рассылки (оплата, списание, поступление)</string>
+
+    <string name="introHeader_4">Анализ затрат и поступлений</string>
+    <string name="introDesc_4">Исходя из открытой информации SMS-рассылки будет произведен анализ по вашим операциям с карты. Вы сможете увидеть подробные графики, которые помогут вам вести учет ваших денежных средств</string>
+
     <string name="bank_type">Выбор банка</string>
 </resources>

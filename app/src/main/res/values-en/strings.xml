@@ -29,12 +29,19 @@
     <string name="next_button">Next</string>
     <string name="scip_button">Skip</string>
     <string name="start_button">Get started</string>
-    <string name="introHeader_1">Choose Your Bank</string>
-    <string name="introDesc_1">Select the bank from which you receive SMS notifications on current expenses and card receipts</string>
-    <string name="introHeader_2">Display Useful Information</string>
-    <string name="introDesc_2">The app will only display useful information from your bank\'s SMS notifications</string>
-    <string name="introHeader_3">Expense and Income Analysis</string>
-    <string name="introDesc_3">Based on the open and accessible information from the SMS newsletter, a report on your card transactions will be displayed</string>
+    <string name="introHeader_1">Is there an SMS newsletter?</string>
+    <string name="introDesc_1">Do you have SMS-mailing of expenses and receipts of funds from one of the main banks in the Republic of Belarus enabled? Great! Then this application is for you!</string>
+
+    <string name="introHeader_2">Select your bank</string>
+    <string name="introDesc_2">You can choose one of the banks offered in the settings. The entire SMS history will be automatically downloaded to the application</string>
+
+
+    <string name="introHeader_3">Information display</string>
+    <string name="introDesc_3">The application will display only useful information from the SMS newsletter (payment, debit, receipt)</string>
+
+    <string name="introHeader_4">Cost and Revenue Analysis</string>
+    <string name="introDesc_4">Based on the open information of the SMS mailing, an analysis will be made of your card transactions. You will be able to see detailed charts that will help you keep track of your funds</string>
+
     <string name="bank_type">Bank type</string>
 
 </resources>

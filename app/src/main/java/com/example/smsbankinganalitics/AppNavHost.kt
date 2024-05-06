@@ -27,13 +27,13 @@ fun AppNavHost(
 ) {
     NavHost(
         navController = navHostController,
-        startDestination = Navigation.Splash.route,
+        startDestination = Navigation.Intro.route,
         builder = {
             composable(Navigation.Splash.route) {
                 SplashScreen(navHostController)
             }
             composable(Navigation.Intro.route) {
-                IntroScreen(navHostController)
+                IntroScreen(navHostController, settingsViewModel)
             }
             composable(BottomNavBarItem.SmsBankingItem.route) {
                 SmsBankingScreen(settingsViewModel.state.smsAddress, uiEffectsViewModel)

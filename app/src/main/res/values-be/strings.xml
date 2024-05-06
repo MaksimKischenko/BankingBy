@@ -29,11 +29,19 @@
     <string name="next_button">Далей</string>
     <string name="scip_button">Прапусціць</string>
     <string name="start_button">Пачаць</string>
-    <string name="introHeader_1">Выберыце Ваш Банк</string>
-    <string name="introDesc_1">Выберыце банк ад якога вы атрымліваеце SMS-рассылку па бягучых затратах і паступленнях з карты</string>
-    <string name="introHeader_2">Адлюстраванне карыснай інфармацыі</string>
-    <string name="introDesc_2">Прыкладзенне будзе адлюстроўваць толькі карысную інфармацыю з SMS-рассылкі вашага банка</string>
-    <string name="introHeader_3">Аналіз выдаткаў і надходжанняў</string>
-    <string name="introDesc_3">Зыходзячы з адкрытай і даступнай інфармацыі з SMS-рассылкі будзе выведзена справаздача па вашых аперацыях з карты</string>
+    <string name="introHeader_1">Ці ёсць SMS-рассыланне?</string>
+    <string name="introDesc_1">У вас падключана SMS-рассыланне затрат і паступленняў грашовых сродкаў аднаго з асноўных банкаў у Рэспубліцы Беларусь? Выдатна! Тады гэта дадатак для Вас!</string>
     <string name="bank_type">Выбар банка</string>
+
+    <string name="introHeader_2">Выбар вашага банка</string>
+    <string name="introDesc_2">Вы зможаце абраць адзін з банкаў, прапанаваных у наладах. Уся гісторыя SMS-рассыланні аўтаматычна загрузіцца ў дадатак.</string>
+
+
+    <string name="introHeader_3">Адлюстраванне інфармацыі</string>
+    <string name="introDesc_3">Дадатак будзе адлюстроўваць толькі карысную інфармацыю з SMS-рассылкі (аплата, спісанне, паступленне)</string>
+
+    <string name="introHeader_4">Аналіз затрат і паступленняў</string>
+    <string name="introDesc_4">Зыходзячы з адкрытай інфармацыі SMS-рассыланні будзе праведзены аналіз па вашых аперацыях з карты. Вы зможаце ўбачыць падрабязныя графікі, якія дапамогуць вам весці ўлік вашых грашовых сродкаў.</string>
+
+
 </resources>

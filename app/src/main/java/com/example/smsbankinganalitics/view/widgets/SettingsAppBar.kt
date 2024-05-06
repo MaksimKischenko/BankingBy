@@ -23,7 +23,7 @@ import com.example.smsbankinganalitics.R
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsAppBar(
-    navController: NavHostController
+    navHostController: NavHostController
 ) {
 
     CenterAlignedTopAppBar(
@@ -47,12 +47,12 @@ fun SettingsAppBar(
             Icon(
                 modifier = Modifier
                     .clickable {
-                        navController.popBackStack()
+                        navHostController.popBackStack()
                     }
                     .size(24.dp),
                 imageVector = ImageVector.vectorResource(id = R.drawable.arrow_back),
-                contentDescription = "bluetoothSearching"
+                contentDescription = "arrow_back"
             )
-        },
+        }
     )
 }

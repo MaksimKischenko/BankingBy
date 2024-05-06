@@ -59,7 +59,7 @@ fun AnalyticsAppBar(
                 modifier = Modifier
                     .clickable {
                         uiEffectsViewModel.onEvent(UiEffectsEvent.HideBottomBar(false))
-                        Navigation.goToSettings(navHostController)
+                        Navigation.goToSettings(navHostController, isFirstLoad = false)
                     }
                     .size(24.dp),
                 imageVector = ImageVector.vectorResource(id = R.drawable.settings_gear),
