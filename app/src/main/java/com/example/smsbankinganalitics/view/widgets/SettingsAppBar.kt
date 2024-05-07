@@ -19,6 +19,7 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.smsbankinganalitics.R
+import com.example.smsbankinganalitics.view_models.utils.Localization
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -38,7 +39,7 @@ fun SettingsAppBar(
                 shape = RoundedCornerShape(0, 0, 16, 16)
             ),
         title = {
-            Text(text = "Настройки")
+            Text(Localization.withComposable(R.string.settings))
         },
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = MaterialTheme.colorScheme.primary

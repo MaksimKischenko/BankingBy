@@ -4,10 +4,13 @@ import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material3.Card
@@ -75,18 +78,7 @@ fun DonutPiePage(
                     6
                 )
             }.let {
-                Legends(
-                    legendsConfig = LegendsConfig(
-                        colorBoxSize = 20.dp,
-                        textStyle = TextStyle(
-                            color = MaterialTheme.colorScheme.tertiary,
-                            fontSize = 12.sp,
-                            fontWeight = FontWeight.Medium
-                        ),
-                        legendLabelList = it.legendLabelList,
-                        legendsArrangement = Arrangement.Start
-                    )
-                )
+                LegendsContent(it)
             }
             ElevatedCard(
                 modifier = Modifier
@@ -108,7 +100,46 @@ fun DonutPiePage(
                     Toast.makeText(context, slice.label, Toast.LENGTH_SHORT).show()
                 }
             }
-
-        }                // Card content
+        }
     }
+}
+
+@Composable
+fun LegendsContent(config: LegendsConfig) {
+    if (config.legendLabelList.size == 1)
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 12.dp)
+        ) {
+            Box(
+                modifier = Modifier
+                    .size(22.dp)
+                    .background(config.legendLabelList.first().color)
+            )
+            Text(
+                text = config.legendLabelList.first().name,
+                modifier = Modifier.padding(horizontal = 12.dp),
+                style = TextStyle(
+                    color = MaterialTheme.colorScheme.tertiary,
+                    fontSize = 12.sp,
+                    fontWeight = FontWeight.Medium
+                ),
+            )
+        }
+    Legends(
+        legendsConfig = LegendsConfig(
+            colorBoxSize = 20.dp,
+            gridColumnCount = 2,
+            textStyle = TextStyle(
+                color = MaterialTheme.colorScheme.tertiary,
+                fontSize = 12.sp,
+                fontWeight = FontWeight.Medium
+            ),
+            legendLabelList = config.legendLabelList,
+            legendsArrangement = Arrangement.Start
+        )
+    )
 }

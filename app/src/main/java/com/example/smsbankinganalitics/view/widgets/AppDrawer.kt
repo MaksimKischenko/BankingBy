@@ -1,5 +1,7 @@
 package com.example.smsbankinganalitics.view.widgets
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -21,6 +23,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
 fun AppDrawer(
     smsReceiverState: SmsReceiverState,
@@ -55,8 +58,8 @@ fun AppDrawer(
                         modifier = Modifier
                             .height(6.dp)
                     )
+                    DrawerBottom()
                 }
-
             }
         },
         content = content

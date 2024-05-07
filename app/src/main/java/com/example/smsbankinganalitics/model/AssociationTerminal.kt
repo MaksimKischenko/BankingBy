@@ -4,20 +4,41 @@ import com.example.smsbankinganalitics.R
 
 
 enum class AssociationTerminal(val noAssociatedArray: Array<String>, val resId: Int) {
-
-    PRODUCT_SHOPS(
+    MARKETS(
         arrayOf(
+            "almi",
+            "akd",
+            "belmarket",
+            "brt",
             "gippo",
+            "ganna",
+            "groshyk",
             "belvillesden",
+            "dobronom",
+            "kopeechka",
             "santa",
+            "spar",
+            "svetofor",
+            "centraln",
+            "green",
             "evroopt",
-            "sosedy",
+            "khit",
+            "vitalur",
+            "sosedi",
+            "martinn",
+            "mila",
+            "prostore",
+            "prodtovary",
+            "perekrestok",
+            "korona",
             "zorina",
             "gipermarket",
+            "tri tseny"
         ), R.string.product_shops
     ),
     INTERNET_SHOPS(
         arrayOf(
+            "goldapple",
             "wildberries",
             "ozon",
             "21 vek",
@@ -25,7 +46,15 @@ enum class AssociationTerminal(val noAssociatedArray: Array<String>, val resId: 
             "aliexpress",
         ), R.string.internet_shops
     ),
-    OTHER(arrayOf(), R.string.other),
+    REST(
+        arrayOf(
+            "food",
+            "kafe",
+            "bar",
+            "restoran",
+            "coff",
+        ), R.string.rest
+    ),
     TRANSPORT(
         arrayOf(
             "uber",
@@ -35,6 +64,17 @@ enum class AssociationTerminal(val noAssociatedArray: Array<String>, val resId: 
             "zapravka",
             "azs"
         ), R.string.transport
-    );
+    ),
+    HEALTH(
+        arrayOf(
+            "apteka",
+            "doktor",
+            "sinevo",
+            "farm",
+            "lode",
+            "med",
+        ), R.string.health
+    ),
+    OTHER(arrayOf(), R.string.other);
 }
 

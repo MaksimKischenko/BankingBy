@@ -1,6 +1,7 @@
 package com.example.smsbankinganalitics.view.widgets
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -26,6 +27,8 @@ fun IntroScreenSettingsPage(
         ),
         shape = RoundedCornerShape(10.dp),
     ) {
-        SettingsBankItem(settingsViewModel)
+        SettingsBankItem(
+            settingsViewModel, paddingValues = PaddingValues()
+        )
     }
 }

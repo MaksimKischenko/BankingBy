@@ -73,7 +73,7 @@ sealed class Navigation(val route: String) {
 
 
 sealed class BottomNavBarItem(val resId: Int, val iconId:Int, val route: String) {
-    data object SmsBankingItem: BottomNavBarItem(R.string.sms_banking, R.drawable.sms, Navigation.SmsBanking.route)
+    data object SmsBankingItem: BottomNavBarItem(R.string.sms_banking, R.drawable.sms_search, Navigation.SmsBanking.route)
     data object OperationsItem: BottomNavBarItem(R.string.operations, R.drawable.money_cash, Navigation.Analytics.route)
     data object SettingsItem: BottomNavBarItem(R.string.settings, R.drawable.settings_gear, Navigation.Settings.route)
 }

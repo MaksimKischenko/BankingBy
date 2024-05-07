@@ -70,7 +70,7 @@ fun AnalyticsScreenBody(
                             pieChartData = data,
                             dateFrom = dateFromAnalyzer(analyticsViewModel.state, pageIndex),
                             donutChartConfig = config.copy(
-                                labelColor = MaterialTheme.colorScheme.primary,
+                                labelColor = MaterialTheme.colorScheme.secondary,
                                 backgroundColor = MaterialTheme.colorScheme.tertiary
                             ),
                             graphicsLayer = {

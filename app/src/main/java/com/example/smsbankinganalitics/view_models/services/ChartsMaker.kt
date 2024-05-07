@@ -9,13 +9,13 @@ import co.yml.charts.ui.piechart.models.PieChartData
 import com.example.smsbankinganalitics.model.ActionCategory
 import com.example.smsbankinganalitics.model.Currencies
 import com.example.smsbankinganalitics.model.SmsParsedBody
-import com.example.smsbankinganalitics.view.theme.Palette1
+import com.example.smsbankinganalitics.view.theme.Palette10
 import com.example.smsbankinganalitics.view.theme.Palette11
-import com.example.smsbankinganalitics.view.theme.Palette12
 import com.example.smsbankinganalitics.view.theme.Palette13
+import com.example.smsbankinganalitics.view.theme.Palette15
 import com.example.smsbankinganalitics.view.theme.Palette5
-import com.example.smsbankinganalitics.view.theme.Palette6
 import com.example.smsbankinganalitics.view.theme.Palette7
+import com.example.smsbankinganalitics.view.theme.Palette9
 import com.example.smsbankinganalitics.view_models.utils.mapIndexed
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Dispatchers
@@ -30,7 +30,7 @@ class ChartsMaker @Inject constructor() {
 
     private val colorsPalette by lazy {
         listOf(
-            Palette6, Palette7, Palette1, Palette5, Palette11, Palette12, Palette13
+            Palette10, Palette7, Palette9, Palette5, Palette11, Palette15, Palette13
         )
     }
 
@@ -108,7 +108,7 @@ class ChartsMaker @Inject constructor() {
         }
         val slices = deferredSlices.await()
         return@coroutineScope if (slices.isEmpty()) null
-        else PieChartData(slices = slices, plotType = PlotType.Donut)
+        else PieChartData(slices = slices, plotType = PlotType.Wave)
     }
 
     private fun makeSlicesByActionCategories(

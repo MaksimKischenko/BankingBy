@@ -69,7 +69,7 @@ fun BottomNavigationBar(
                 icon = {
                     Icon(
                         modifier = Modifier.size(32.dp),
-                        imageVector = ImageVector.vectorResource(id = item.iconId),
+                        imageVector = ImageVector.vectorResource(item.iconId),
                         contentDescription = item.iconId.toString(),
                     )
                 },

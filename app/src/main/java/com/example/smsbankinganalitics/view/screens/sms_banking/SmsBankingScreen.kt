@@ -158,6 +158,5 @@ fun onError(
         val errorArgs = ErrorArgs(smsReceiverViewModelState.errorMessage!!, true)
         uiEffectsViewModel.onEvent(UiEffectsEvent.ShowingError(errorArgs, snackbarHostState))
     }
-
 }
 

@@ -3,6 +3,7 @@ package com.example.smsbankinganalitics.view.widgets
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -34,6 +35,10 @@ import com.example.smsbankinganalitics.view_models.utils.Localization
 @Composable
 fun SettingsBankItem(
     settingsViewModel: SettingsViewModel,
+    paddingValues: PaddingValues = PaddingValues(
+        vertical = 6.dp,
+        horizontal = 2.dp
+    )
 ) {
     val selectedBank = remember {
         mutableStateOf(settingsViewModel.state.smsAddress)
@@ -41,10 +46,8 @@ fun SettingsBankItem(
     Card(
         modifier = Modifier
             .padding(
-                vertical = 6.dp,
-                horizontal = 2.dp
+                paddingValues
             ),
-//            .fillMaxHeight(0.7f),
         elevation = CardDefaults.cardElevation(
             defaultElevation = 10.dp,
         ),

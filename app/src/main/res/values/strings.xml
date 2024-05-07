@@ -3,8 +3,11 @@
     <string name="sms_banking">SMS-банкинг</string>
     <string name="operations">Анализ затрат</string>
     <string name="settings">Настройки</string>
+    <string name="version">Версия приложения:</string>
     <string name="unknown">Неизвестно</string>
-    <string name="product_shops">Супермаркеты</string>
+    <string name="product_shops">Маркеты</string>
+    <string name="health">Здоровье</string>
+    <string name="rest">Отдых</string>
     <string name="internet_shops">Интернет магазины</string>
     <string name="transport">Транспорт</string>
     <string name="other">Иное</string>

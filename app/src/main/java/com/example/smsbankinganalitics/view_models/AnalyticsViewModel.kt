@@ -54,7 +54,7 @@ class AnalyticsViewModel @Inject constructor(
                                 withContext(event.context, R.string.expenses) to null
                             )
                         )
-                        smsParser = factory.setParserBankType(event.smsAddress)!!
+                        smsParser = factory.setParserBankType(event.smsAddress)
                         val noParsedSmsMap = smsRepository.getAll()
                         val parsedSmsBodies = filterAndParse(noParsedSmsMap)
                         val dateFrom = findOldestDate(parsedSmsBodies)
