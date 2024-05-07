@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.smsbankinganalitics"
+    namespace = "com.production.smsbankinganalitics"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.smsbankinganalitics"
+        applicationId = "com.production.smsbankinganalitics"
         minSdk = 26
         targetSdk = 34
         versionCode = 1
