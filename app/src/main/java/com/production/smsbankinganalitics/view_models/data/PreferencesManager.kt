@@ -14,34 +14,61 @@ private const val PREFS = "MyPrefs"
 @Singleton
 class PreferencesManager @Inject constructor(
     @ActivityContext private val context: Context,
-)  {
+) {
 
     private val sharedPreferences: SharedPreferences =
-        context.getSharedPreferences(PREFS, Context.MODE_PRIVATE) // только наше приложение получает доступ
+        context.getSharedPreferences(
+            PREFS,
+            Context.MODE_PRIVATE
+        ) // только наше приложение получает доступ
 
     fun contains(key: String): Boolean {
-       return sharedPreferences.contains(key)
+        return sharedPreferences.contains(key)
     }
 
-    fun <T> read(typedStoreKey: TypeStoreKey<T>) : Any? {
+    fun clear() {
+        sharedPreferences.edit().clear().apply()
+    }
+
+    fun <T> read(typedStoreKey: TypeStoreKey<T>): Any? {
         @Suppress("UNCHECKED_CAST")
         return when (typedStoreKey.defaultValue as T) {
-            is Int ->  sharedPreferences.getInt(typedStoreKey.key, typedStoreKey.defaultValue as Int)
-            is Long -> sharedPreferences.getLong(typedStoreKey.key, typedStoreKey.defaultValue as Long)
-            is String -> sharedPreferences.getString(typedStoreKey.key, typedStoreKey.defaultValue as String)
-            is Float -> sharedPreferences.getFloat(typedStoreKey.key, typedStoreKey.defaultValue as Float)
-            is Boolean -> sharedPreferences.getBoolean(typedStoreKey.key, typedStoreKey.defaultValue as Boolean)
+            is Int -> sharedPreferences.getInt(typedStoreKey.key, typedStoreKey.defaultValue as Int)
+            is Long -> sharedPreferences.getLong(
+                typedStoreKey.key,
+                typedStoreKey.defaultValue as Long
+            )
+
+            is String -> sharedPreferences.getString(
+                typedStoreKey.key,
+                typedStoreKey.defaultValue as String
+            )
+
+            is Float -> sharedPreferences.getFloat(
+                typedStoreKey.key,
+                typedStoreKey.defaultValue as Float
+            )
+
+            is Boolean -> sharedPreferences.getBoolean(
+                typedStoreKey.key,
+                typedStoreKey.defaultValue as Boolean
+            )
+
             is List<*> -> {
                 @Suppress("UNCHECKED_CAST")
-                sharedPreferences.getStringSet(typedStoreKey.key, typedStoreKey.defaultValue as Set<String>)
+                sharedPreferences.getStringSet(
+                    typedStoreKey.key,
+                    typedStoreKey.defaultValue as Set<String>
+                )
             }
+
             else -> {
 
             }
         }
     }
 
-     fun <T> write(typedStoreKey: TypeStoreKey<T>, value: T?) {
+    fun <T> write(typedStoreKey: TypeStoreKey<T>, value: T?) {
         val editor = sharedPreferences.edit()
         if (value == null) {
             editor.remove(typedStoreKey.key)
@@ -62,7 +89,7 @@ class PreferencesManager @Inject constructor(
     }
 }
 
-data class TypeStoreKey<T>(val key:String, var defaultValue: T?) {}
+data class TypeStoreKey<T>(val key: String, var defaultValue: T?) {}
 
 class PrefsKeys {
     companion object {
