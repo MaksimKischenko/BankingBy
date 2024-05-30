@@ -35,6 +35,7 @@ import com.production.smsbankinganalitics.view_models.SmsReceiverViewModel
 import com.production.smsbankinganalitics.view_models.UiEffectsEvent
 import com.production.smsbankinganalitics.view_models.UiEffectsViewModel
 import com.production.smsbankinganalitics.view.widgets.AppDrawer
+import com.production.smsbankinganalitics.view.widgets.InfoDialog
 import com.production.smsbankinganalitics.view.widgets.SmsAppBar
 import com.production.smsbankinganalitics.view.widgets.SmsFilterDialog
 import kotlinx.coroutines.launch
@@ -53,7 +54,8 @@ fun SmsBankingScreen(
     val scope = rememberCoroutineScope()
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val dateState = rememberDatePickerState()
-    val openDialog = remember { mutableStateOf(false) }
+    val openDatePickerDialog = remember { mutableStateOf(false) }
+    val openInfoDialog = remember { mutableStateOf(false) }
     val snackbarHostState = remember { SnackbarHostState() }
     val pullRefreshState =
         rememberPullRefreshState(
@@ -65,6 +67,9 @@ fun SmsBankingScreen(
 
     LaunchedEffect(key1 = true) {
         onLoad(context, smsAddress, smsReceiverViewModel)
+        if(smsAddress == SmsAddress.NO) {
+            openInfoDialog.value = true
+        }
 
     }
     SideEffect {
@@ -99,7 +104,7 @@ fun SmsBankingScreen(
                                 }
                             },
                             onFilterClick = {
-                                openDialog.value = true
+                                openDatePickerDialog.value = true
                             }
                         )
                     }
@@ -126,7 +131,11 @@ fun SmsBankingScreen(
                             smsReceiverViewModel,
                             dateState.selectedDateMillis
                         )
-                    }, dateState, openDialog = openDialog
+                    },
+                    dateState, openDialog = openDatePickerDialog
+                )
+                InfoDialog(
+                    openDialog = openInfoDialog,
                 )
             }
         }

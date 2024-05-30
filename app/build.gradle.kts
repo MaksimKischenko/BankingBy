@@ -13,8 +13,8 @@ android {
         applicationId = "com.production.smsbankinganalitics"
         minSdk = 26
         targetSdk = 34
-        versionCode = 1
-        versionName = "1.4"
+        versionCode = 4
+        versionName = "1.6"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true

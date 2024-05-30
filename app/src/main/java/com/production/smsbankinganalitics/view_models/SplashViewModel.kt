@@ -32,12 +32,12 @@ class SplashViewModel @Inject constructor(
             if (result.all { it.value }) {
                 onFirstLoad(navHostController)
             } else {
-                setPermissionsByDetailSettings(context)
+                setPermissionsByDetailsSettings(context)
             }
         }
     }
 
-    private fun setPermissionsByDetailSettings(context: Context) {
+    private fun setPermissionsByDetailsSettings(context: Context) {
         val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
         val uri = Uri.fromParts("package", context.packageName, null)
         intent.setData(uri)

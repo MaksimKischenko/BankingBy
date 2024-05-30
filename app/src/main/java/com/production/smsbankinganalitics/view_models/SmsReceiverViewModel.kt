@@ -16,10 +16,12 @@ import com.production.smsbankinganalitics.model.SmsAddress
 import com.production.smsbankinganalitics.model.SmsArgs
 import com.production.smsbankinganalitics.model.SmsCommonInfo
 import com.production.smsbankinganalitics.model.SmsParsedBody
+import com.production.smsbankinganalitics.view_models.data.repositories.ExampleSmsRepository
 import com.production.smsbankinganalitics.view_models.services.SMSReceiver
 import com.production.smsbankinganalitics.view_models.services.SmsBroadcastReceiver
 import com.production.smsbankinganalitics.view_models.services.SmsParsers.SmsParser
 import com.production.smsbankinganalitics.view_models.services.SmsParsers.SmsParserFactory
+import com.production.smsbankinganalitics.view_models.services.SmsParsers.SmsUnknownParser
 import com.production.smsbankinganalitics.view_models.utils.DateUtils
 import com.production.smsbankinganalitics.view_models.utils.Localization
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -50,15 +52,23 @@ class SmsReceiverViewModel @Inject constructor(
     fun onEvent(event: SmsReceiverEvent) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
+                val noParsedSmsMap: Map<String, LocalDateTime>
+
                 when (event) {
                     is SmsReceiverEvent.ByArgs -> {
                         if ((event.smsArgs.dateFrom ?: 0) < System.currentTimeMillis()) {
                             state = state.copy(isLoading = true)
                             val smsReceiver = SMSReceiver
                             smsParser = factory.setParserBankType(event.smsArgs.smsAddress)
-                            val noParsedSmsMap =
+
+                            noParsedSmsMap = if(smsParser is SmsUnknownParser) {
+                                ExampleSmsRepository.noParsedSmsMap
+                            } else {
                                 smsReceiver.getAllSMSByAddress(event.smsArgs, event.context)
+                            }
+
                             smsAddress = event.smsArgs.smsAddress
+
                             if (noParsedSmsMap.isNotEmpty()) {
                                 makeSmsBankingListIfExists(noParsedSmsMap, event)
                             } else {

@@ -1,5 +1,7 @@
 package com.production.smsbankinganalitics.view.widgets
 
+import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.DatePicker
@@ -10,6 +12,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.production.smsbankinganalitics.R
 import com.production.smsbankinganalitics.view_models.utils.Localization
