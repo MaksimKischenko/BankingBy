@@ -33,6 +33,7 @@
     <string name="scip_button">Skip</string>
     <string name="start_button">Get started</string>
     <string name="info_dialog_example">You have not selected the suggested banks from the list. This SMS newsletter is presented as an example for visualizing analytics</string>
+    <string name="empty_screen">There is no SMS sending of the bank number on the device</string>
 
     <string name="introHeader_1">Is there an SMS newsletter?</string>
     <string name="introDesc_1">Do you have SMS-mailing of expenses and receipts of funds from one of the main banks in the Republic of Belarus enabled? Great! Then this application is for you!</string>

@@ -34,7 +34,7 @@
     <string name="scip_button">Пропустить</string>
     <string name="start_button">Начать</string>
     <string name="info_dialog_example">Вы не выбрали предложенные банки из списка. Данная SMS-рассылка представлена как пример для визуализации аналитики</string>
-
+    <string name="empty_screen">SMS-рассылка выбранного банка отсутствует на устройстве</string>
     <string name="introHeader_1">Есть ли SMS-рассылка?</string>
     <string name="introDesc_1">У вас подключена SMS-рассылка затрат и поступлений денежных средств одного из основных банков в Республики Беларусь? Отлично! Тогда это приложение для Вас!</string>
 

@@ -23,6 +23,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 
 import co.yml.charts.common.extensions.isNotNull
+import com.production.smsbankinganalitics.R
+import com.production.smsbankinganalitics.view.widgets.EmptyScreenInfo
 import com.production.smsbankinganalitics.view.widgets.EmptyShimmerBrushCardList
 import com.production.smsbankinganalitics.view_models.SmsReceiverState
 import com.production.smsbankinganalitics.view_models.UiEffectsEvent
@@ -54,6 +56,7 @@ fun SmsBankingScreenBody(
             )
         )
     }
+
     Box(
         modifier = Modifier
             .background(color = MaterialTheme.colorScheme.onTertiary)
@@ -76,9 +79,6 @@ fun SmsBankingScreenBody(
                 LazyColumn(
                     state = lazyListState
                 ) {
-//                    itemsIndexed(smsReceiverViewModelState.smsReceivedList?: emptyList()) { _, sms ->
-//                        SmsBodyItem(sms)
-//                    }
                     items(smsReceiverViewModelState.smsReceivedList?.size?:0) { index ->
                         key(index) {
                             SmsBodyItem(smsReceiverViewModelState.smsReceivedList?.get(index))
@@ -86,7 +86,11 @@ fun SmsBankingScreenBody(
                     }
                 }
             } else {
-                EmptyShimmerBrushCardList(uiEffectsViewModel)
+                if(smsReceiverViewModelState.isLoading) {
+                    EmptyShimmerBrushCardList(uiEffectsViewModel)
+                } else {
+                    EmptyScreenInfo(R.drawable.analytics_search)
+                }
             }
         }
         PullRefreshIndicator(

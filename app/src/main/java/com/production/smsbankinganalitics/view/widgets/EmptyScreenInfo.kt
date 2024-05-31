@@ -13,6 +13,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.key
 import androidx.compose.ui.Alignment
@@ -21,22 +22,38 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.production.smsbankinganalitics.R
 import com.production.smsbankinganalitics.view_models.UiEffectsViewModel
+import com.production.smsbankinganalitics.view_models.utils.Localization
 
 @Composable
 fun EmptyScreenInfo(resId: Int) {
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier.fillMaxSize().padding(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
         Icon(
             modifier = Modifier
-                .size(320.dp),
+                .size(180.dp),
             imageVector = ImageVector.vectorResource(resId),
             contentDescription = "no data",
             tint = MaterialTheme.colorScheme.secondary.copy(0.7f)
+        )
+        Text(
+            text = Localization.withComposable(R.string.empty_screen),
+            modifier = Modifier.padding(vertical = 8.dp),
+            style = TextStyle(
+                textAlign = TextAlign.Center,
+                fontWeight = FontWeight.Normal,
+                color = MaterialTheme.colorScheme.secondary
+            ),
+            fontSize = 20.sp,
         )
     }
 }

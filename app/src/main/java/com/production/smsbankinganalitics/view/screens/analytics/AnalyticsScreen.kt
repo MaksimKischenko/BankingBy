@@ -32,7 +32,7 @@ fun AnalyticsScreen(
     }
 
     LaunchedEffect(Unit) {
-        uiEffectsViewModel.onEvent(UiEffectsEvent.HideBottomBar(true))
+//        uiEffectsViewModel.onEvent(UiEffectsEvent.HideBottomBar(true))
         analyticsViewModel.onEvent(AnalyticsEvent.ByActionCategories(context, smsAddress))
     }
 

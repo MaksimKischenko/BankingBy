@@ -89,7 +89,6 @@ fun AnalyticsScreenBody(
         } else {
             EmptyScreenInfo(R.drawable.analytics_search)
         }
-
         PageIndicator(pagerState, this)
     }
 }
