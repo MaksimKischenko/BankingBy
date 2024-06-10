@@ -20,7 +20,7 @@ class SmsAsbParser @Inject constructor(val context: Context) : SmsParser() {
     private val availableLineRegex= Regex("""OSTATOK (\d+\.\d+)""")
     private val sumRegex = Regex("""\d+(\.\d{2})?""")
     private val cardMaskRegex = Regex("KARTA #\\d+")
-    private val noAssociatedNameRegex = Regex("DATA [0-9]{2}.[0-9]{2}.[0-9]{4} [0-9]{2}:[0-9]{2}:[0-9]{2} (.*?)>MINSK>BY")
+    private val noAssociatedNameRegex = Regex("DATA [0-9]{2}.[0-9]{2}.[0-9]{4} [0-9]{2}:[0-9]{2}:[0-9]{2} (.*?)>[A-Z\\-]+>BY")
 
     override fun toParsedSmsBody(
         noParsedSmsBody: Map.Entry<String, LocalDateTime>,

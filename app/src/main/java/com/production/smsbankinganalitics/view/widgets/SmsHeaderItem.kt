@@ -121,7 +121,7 @@ fun AvailableBalanceRow() {
         }
         Text(
             Localization.withComposable(R.string.available ?: 0),
-            modifier = Modifier.padding(horizontal = 6.dp),
+            modifier = Modifier.padding(horizontal = 6.dp).fillMaxWidth(),
             style = TextStyle(
                 color = MaterialTheme.colorScheme.tertiary.copy(0.7f),
 
